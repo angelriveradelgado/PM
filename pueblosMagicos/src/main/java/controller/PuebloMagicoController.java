@@ -195,8 +195,7 @@ public class PuebloMagicoController
 	@RequestMapping(value = "/puebloMagico", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<?> insertPuebloMagico( @FormParam("nombre") String nombre,
 			@FormParam("latitud") double latitud, @FormParam("longitud") double longitud,
-			@FormParam("descripcion") String descripcion, @FormParam("idMunicipio") int idMunicipio,
-			@FormParam("idEstado") int idEstado )
+			@FormParam("descripcion") String descripcion, @FormParam("idMunicipio") int idMunicipio)
 	{
 		ResponseEntity<?> result = null;
 		Pueblomagico pm = new Pueblomagico();
@@ -208,6 +207,7 @@ public class PuebloMagicoController
 			pm.setLatitud(latitud);
 			pm.setLongitud(longitud);
 			pm.setDescripcion(descripcion);
+			pm.setEpmIdestadoPuebloMagico(1);
 			pm.setMIdMunicipio(idMunicipio);
 			respuesta = puebloMagicoDAO.create(pm);
 
@@ -231,7 +231,6 @@ public class PuebloMagicoController
 		try
 		{
 			pm.setIdPuebloMagico(idPuebloMagico);
-			// pm.setNombre("s");
 			respuesta = puebloMagicoDAO.delete(pm);
 			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
 		} catch (Exception e)
@@ -247,6 +246,7 @@ public class PuebloMagicoController
 	public ResponseEntity<?> updatePuebloMagico( @FormParam("idPuebloMagico") int idPuebloMagico,
 			@FormParam("nombre") String nombre, @FormParam("latitud") double latitud,
 			@FormParam("longitud") double longitud, @FormParam("descripcion") String descripcion,
+			@FormParam("idEstadoPubloMagico") int idEstadoPubloMagico,
 			@FormParam("idMunicipio") int idMunicipio )
 	{
 		ResponseEntity<?> result = null;
@@ -260,6 +260,7 @@ public class PuebloMagicoController
 			pm.setLatitud(latitud);
 			pm.setLongitud(longitud);
 			pm.setDescripcion(descripcion);
+			pm.setEpmIdestadoPuebloMagico(idEstadoPubloMagico);
 			pm.setMIdMunicipio(idMunicipio);
 
 			respuesta = puebloMagicoDAO.update(pm);

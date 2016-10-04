@@ -58,7 +58,7 @@ public class TuristaController
 											@FormParam("apellidoMaterno")String apellidoMaterno,
 											@FormParam("correo")String correo,
 											@FormParam("fechaNacimiento")Date fechaNacimiento,
-											@FormParam("genero")String genero)
+											@FormParam("idGenero")int idGenero)
 	{
 		ResponseEntity<?> result = null;
 		Usuario u = new Usuario();		
@@ -74,7 +74,7 @@ public class TuristaController
 			u.setApellidoMaterno(apellidoMaterno);
 			u.setCorreo(correo);
 			u.setTipoUsuarioIdtipoUsuario( tipoUsuarioDAO.getId("Turista") );
-			t.setGIdgenero( generoDAO.getId(genero) );
+			t.setGIdgenero( idGenero );
 			t.setFechaNacimiento( fechaNacimiento );
 			
 			respuesta = turistaDAO.create(t, u);
