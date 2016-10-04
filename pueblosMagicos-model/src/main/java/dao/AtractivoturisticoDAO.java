@@ -9,14 +9,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import dto.Atractivoturistico;
-import dto.Estado;
-import dto.Pueblomagico;
 
 @Repository
 public class AtractivoturisticoDAO{
