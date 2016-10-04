@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>PueblosMagicos</title>
+
+
+<meta charset="UTF-8">
+<!-- GOOGLE FONTS -->
+<link
+	href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700'
+	rel='stylesheet' type='text/css'>
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600'
+	rel='stylesheet' type='text/css'>
+<!-- /GOOGLE FONTS -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/icomoon.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/mystyles.css">
+<script src="js/modernizr.js"></script>
+
+
+
+</head>
+
+<body ng-app="magicApp">
+
+	<div class="global-wrap" ng-cloak>
+		<header id="main-header" ng-controller="NavegationController as nController">
+			<div class="header-top">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2">
+							<a class="logo" href="#/"> 
+								<img src="img/pueblos-magicos.png" alt="Pueblos Mágicos"
+								title="Pueblos Magicos" />
+							</a>
+						</div>
+						<div class="col-md-5 col-md-offset-0">
+							<form class="main-header-search">
+								<div class="input-group">
+
+									<div class="input-group-btn search-panel">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<span id="search_concept" translate="filtrar_por"></span> 
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a href="" transale="pueblos_magicos"></a></li>
+											<li><a href="" translate="atractivos_turisticos"></a></li>
+											<li><a href="" translate="servicios_turisticos"></a></li>
+											<li><a href="" translate="servicios_de_emergencias"></a></li>
+											<li class="divider"></li>
+											<li><a href="" translate="todos"></a></li>
+										</ul>
+									</div>
+
+									<input type="hidden" name="search_param" value="all"
+										id="search_param"> <input type="text"
+										class="form-control" translate translate-attr-placeholder="buscar"> <span
+										class="input-group-btn">
+										<button class="btn btn-default" type="button">
+											<i class="fa fa-search input-icon"></i>
+										</button>
+									</span>
+								</div>
+							</form>
+						</div>
+						<div class="col-md-5">
+							<div class="top-user-area clearfix">
+								<ul class="top-user-area-list list list-horizontal list-border">
+									<li class="top-user-area-avatar" hidden="true">
+										<a	
+											href="user-profile.html"> <img height="40" width="40"
+												class="origin round" src="img/lupe.jpg"
+												alt="Image Alternative text" title="AMaze" />Guadalupe
+										</a>
+									</li>
+									<li ng-show="!authenticated">
+										<a href="#/login" translate="iniciar_sesion"></a>
+									</li>
+									<li ng-show="authenticated">
+										<a href="" ng-click="nController.logout()" translate="cerrar_sesion"></a>
+									</li>
+									
+									<li class="top-user-area-lang nav-drop">
+										<a href="#"> 
+											<img src="img/icons/languages-icon.png" alt="Español" /><i class="fa fa-angle-down"></i>
+											<i class="fa fa-angle-up"></i>
+										</a>
+										<ul id="idioma" class="list nav-drop-menu" ng-controller="LanguageController as lctrl">
+										
+											<li>
+												<a title="Español" href="" ng-click="lctrl.changeLanguage('es')"> 
+													<img src="img/flags/32/mx.png" alt="español"/><span class="right">ESP</span>
+												</a>
+											</li>
+											<li>
+												<a title="Deutsch" href="" ng-click="lctrl.changeLanguage('de')"> 
+													<img src="img/flags/32/de.png" alt="Image Alternative text"/><span class="right">GER</span>
+												</a>
+											</li>
+											<li>
+												<a title="русский" href="" ng-click="lctrl.changeLanguage('ru')"> 
+													<img src="img/flags/32/ru.png" alt="Image Alternative text"/><span class="right">RUS</span>
+												</a>
+											</li>
+											<li>
+												<a title="English" href="" ng-click="lctrl.changeLanguage('en')"> 
+													<img src="img/flags/32/uk.png" alt="Image Alternative text"/><span class="right">ENG</span>
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</header>
+
+
+	<div ng-view></div>
+
+
+	</div>
+
+	<footer id="main-footer">
+		<div class="container">
+			<div class="row row-wrap">
+				<div class="col-md-4">
+					<a class="logo" href="index.html"> <img
+						src="img/pueblos-magicos.png" alt="Image Alternative text"
+						title="Pueblos" />
+					</a>
+					<p class="mb20">Servicios turisticos, atractivos simbólicos,
+						servicios de emergencias en Pueblos Mágicos de México!</p>
+
+				</div>
+
+				<div class="col-md-3">
+					<ul class="list list-footer">
+						<li><a href="#">Acerca de nosotros</a></li>
+						<li><a href="#">Noticias</a></li>
+						<li><a href="#">Politica de privacidad</a></li>
+						<li><a href="#">Terminos de uso</a></li>
+					</ul>
+				</div>
+				<div class="col-md-5">
+					<h4>Contacto</h4>
+					<h4>
+						<a href="#" class="text-color">magia@traveler.com</a>
+					</h4>
+				</div>
+
+			</div>
+		</div>
+	</footer>
+
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/slimmenu.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/bootstrap-timepicker.js"></script>
+	<script src="js/nicescroll.js"></script>
+	<script src="js/dropit.js"></script>
+	<script src="js/ionrangeslider.js"></script>
+	<script src="js/icheck.js"></script>
+	<script src="js/fotorama.js"></script>
+	
+  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+  	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhPZjqnoLmIpGEpEEwWJXJNMJMbjEAjj4"></script>
+  	
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular-cookies.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.10.0/angular-translate.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-cookie/2.10.0/angular-translate-storage-cookie.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-local/2.10.0/angular-translate-storage-local.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-url/2.10.0/angular-translate-loader-url.js"></script>
+  
+  
+  	<script src="scripts/app.js"></script>  	
+  	<script src="scripts/controllers/language/LanguageController.js"></script>
+  	<script src="scripts/controllers/maps/MapController.js"></script>
+  	<script src="scripts/services/PuebloMagicoService.js"></script>
+  	<script src="scripts/controllers/login/Login.js"></script>
+  	
+  	
+	<script src="js/typeahead.js"></script>
+	<script src="js/card-payment.js"></script>
+	<script src="js/magnific.js"></script>
+	<script src="js/owl-carousel.js"></script>
+	<script src="js/fitvids.js"></script>
+	<script src="js/tweet.js"></script>
+	<script src="js/countdown.js"></script>
+	<script src="js/gridrotator.js"></script>
+	<script src="js/custom.js"></script>
+	
+	<!--Función para el selector de la busqueda -->
+	<script>
+		$(document).ready(function(e) {
+			$('.search-panel .dropdown-menu').find('a').click(function(e) {
+				e.preventDefault();
+				var param = $(this).attr("href").replace("#", "");
+				var concept = $(this).text();
+				$('.search-panel span#search_concept').text(concept);
+				$('.input-group #search_param').val(param);
+			});
+		});
+	</script>
+
+	
+</body>
+
+</html>
+
+

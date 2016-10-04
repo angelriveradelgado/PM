@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration xmlns="urn:jboss:hibernate-deployer:1.0">
+<session-factory name="hibernateJNDI" bean="jboss.har:service=Hibernate">
+java:/hibernateJNDI
+org.hibernate.dialect.SQLServerDialect
+</session-factory>
+</hibernate-configuration>

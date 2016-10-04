@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Horario" table="horario" catalog="pueblosMagicos">
+        <id name="idHorario" type="java.lang.Integer">
+            <column name="idHorario" />
+            <generator class="identity" />
+        </id>
+        <property name="inicioTemporada" type="date">
+            <column name="inicioTemporada" length="0" />
+        </property>
+        <property name="finTemporada" type="date">
+            <column name="finTemporada" length="0" />
+        </property>
+        <property name="horaInicioLunes" type="time">
+            <column name="horaInicioLunes" length="0" />
+        </property>
+        <property name="horaFinLunes" type="time">
+            <column name="horaFinLunes" length="0" />
+        </property>
+        <property name="horaInicioMartes" type="time">
+            <column name="horaInicioMartes" length="0" />
+        </property>
+        <property name="horaFinMartes" type="time">
+            <column name="horaFinMartes" length="0" />
+        </property>
+        <property name="horaInicioMiercoles" type="time">
+            <column name="horaInicioMiercoles" length="0" />
+        </property>
+        <property name="horaFinMiercoles" type="time">
+            <column name="horaFinMiercoles" length="0" />
+        </property>
+        <property name="horaInicioJueves" type="time">
+            <column name="horaInicioJueves" length="0" />
+        </property>
+        <property name="horaFinJueves" type="time">
+            <column name="horaFinJueves" length="0" />
+        </property>
+        <property name="horaInicioViernes" type="time">
+            <column name="horaInicioViernes" length="0" />
+        </property>
+        <property name="horaFinViernes" type="time">
+            <column name="horaFinViernes" length="0" />
+        </property>
+        <property name="horaInicioSabado" type="time">
+            <column name="horaInicioSabado" length="0" />
+        </property>
+        <property name="horaFinSabado" type="time">
+            <column name="horaFinSabado" length="0" />
+        </property>
+        <property name="horaInicioDomingo" type="time">
+            <column name="horaInicioDomingo" length="0" />
+        </property>
+        <property name="horaFinDomingo" type="time">
+            <column name="horaFinDomingo" length="0" />
+        </property>
+        <property name="atIdAtractivoTuristico" type="java.lang.Integer">
+            <column name="aT_idAtractivoTuristico" />
+        </property>
+        <property name="stIdServicioTuristico" type="java.lang.Integer">
+            <column name="sT_idServicioTuristico" />
+        </property>
+    </class>
+</hibernate-mapping>

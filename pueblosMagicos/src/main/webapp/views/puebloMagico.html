@@ -1,0 +1,328 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <title>Traveler - Activities</title>
+
+
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta name="keywords" content="Template, html, premium, themeforest" />
+        <meta name="description" content="Traveler - Premium template for travel companies">
+        <meta name="author" content="Tsoy">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- GOOGLE FONTS -->
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'>
+        <!-- /GOOGLE FONTS -->
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
+        <link rel="stylesheet" href="css/icomoon.css">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/mystyles.css">
+        <script src="js/modernizr.js"></script>
+
+
+    </head>
+
+    <body>
+
+        <!-- FACEBOOK WIDGET -->
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "https://connect.facebook.net/en_US/all.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <!-- /FACEBOOK WIDGET -->
+        <div class="global-wrap">
+            <header id="main-header">
+                <div class="header-top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a class="logo" href="index.html">
+                                    <img src="img/pueblos-magicos.png" alt="Image Alternative text" title="Image Title" />
+                                </a>
+                            </div>
+                            <div class="col-md-5 col-md-offset-0">
+                                <form class="main-header-search">
+                                    <div class="input-group">
+
+                                        <div class="input-group-btn search-panel">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                <span id="search_concept">Filtrar por</span> <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#contains">Pueblos Mágicos</a></li>
+                                                <li><a href="#its_equal">Servicios turísticos</a></li>
+                                                <li><a href="#greather_than">Atractivos turísticos</a></li>
+                                                <li><a href="#less_than">Servicios de emergencia</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#all">Cualquiera</a></li>
+                                            </ul>                                            
+                                        </div>
+
+                                        <input type="hidden" name="search_param" value="all" id="search_param">   
+                                        <input type="text" class="form-control" placeholder="Buscar" >
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><i class="fa fa-search input-icon"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="top-user-area clearfix">
+                                    <ul class="top-user-area-list list list-horizontal list-border">
+                                        <li class="top-user-area-avatar">
+                                            <a href="user-profile.html">
+                                                <img style="max-height: 100px; max-width: 100px;"  class="origin round" src="img/lupe.jpg" alt="Image Alternative text" title="AMaze" />Guadalupe</a>
+                                        </li>
+                                        <li><a href="#">Cerrar sesión</a>
+                                        </li>
+                                        <li class="top-user-area-lang nav-drop">
+                                            <a href="#">
+                                                <img src="img/flags/32/mx.png" alt="Image Alternative text" title="Image Title" />ESP<i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i>
+                                            </a>
+                                            <ul class="list nav-drop-menu">
+                                                <li>
+                                                    <a title="German" href="#">
+                                                        <img src="img/flags/32/de.png" alt="Image Alternative text" title="Image Title" /><span class="right">GER</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a title="Japanise" href="#">
+                                                        <img src="img/flags/32/jp.png" alt="Image Alternative text" title="Image Title" /><span class="right">JAP</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a title="Italian" href="#">
+                                                        <img src="img/flags/32/it.png" alt="Image Alternative text" title="Image Title" /><span class="right">ITA</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a title="French" href="#">
+                                                        <img src="img/flags/32/fr.png" alt="Image Alternative text" title="Image Title" /><span class="right">FRE</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a title="Russian" href="#">
+                                                        <img src="img/flags/32/ru.png" alt="Image Alternative text" title="Image Title" /><span class="right">RUS</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a title="Korean" href="#">
+                                                        <img src="img/flags/32/uk.png" alt="Image Alternative text" title="Image Title" /><span class="right">ENG</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="container">
+                    <div class="nav">
+                        <ul class="slimmenu" id="slimmenu">
+                            <li><a href="index.html">Home</a>
+                                <ul>
+                                    <li><a href="index.html">Default</a>
+                                    </li>
+                                    <li><a href="index-1.html">Layout 1</a>
+                                    </li>
+                                    <li><a href="index-2.html">Layout 2</a>
+                                    </li>
+                                    <li><a href="index-3.html">Layout 3</a>
+                                    </li>
+                                    <li><a href="index-4.html">Layout 4</a>
+                                    </li>
+                                    <li><a href="index-5.html">Layout 5</a>
+                                    </li>
+                                    <li><a href="index-6.html">Layout 6</a>
+                                    </li>
+                                    <li><a href="index-7.html">Layout 7</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>-->
+            </header>
+
+
+            <div class="container">
+                <div class="container">
+                    <h1 class="page-title">Valle de Bravo</h1>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <aside class="sidebar-left">
+                            <ul class="nav nav-pills nav-stacked nav-side mb30">
+                                <li class="active"><a  href="informacion.html">Información</a>
+                                </li>
+                                <li><a href="serviciosTuristicos.html">Servicios turísticos</a>
+                                </li>
+                                <li ><a href="atractivosSimbolicos.html">Atractivos turísticos</a>
+                                </li>
+                                <li><a href="ServiciosEmergencias.html">Servicios de emergencias</a>
+                                </li>                            
+                            </ul>
+                        </aside>
+                    </div>
+                    <div class="col-md-10">
+                        <p>Se incorporó al programa Pueblos Mágicos en el año 2005.</p>
+                        <p>Su clima es templado todo el año y está rodeado de hermosos paisajes boscosos que en sus cercanías también son el refugio invernal de la mariposa monarca.</p>
+                        <p>Su nombre original era Pameje, de origen mazahua, el cual cambió durante los primeros años de la Colonia cuando recibió el título de San Francisco del Valle de Temascaltepec, para que años después, durante la segunda mitad del siglo XIX, adoptara el sencillo nombre con que ahora lo conocemos en honor al general Nicolás Bravo.​​​</p>
+                        <div class="gap"></div>
+                        <h4>Ubicación</h4>
+                        <div id="googleMap" style="height: 400px"></div>
+
+
+                    </div>
+                </div>
+
+                <div class="gap"></div>
+            </div>
+
+
+
+            <footer id="main-footer">
+                <div class="container">
+                    <div class="row row-wrap">
+                        <div class="col-md-4">
+                            <a class="logo" href="index.html">
+                                <img src="img/pueblos-magicos.png" alt="Image Alternative text" title="Pueblos" />
+                            </a>
+                            <p class="mb20">Servicios turisticos, atractivos turísticos, servicios de emergencias en Pueblos Mágicos de México!</p>
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <ul class="list list-footer">
+                                <li><a href="#">Acerca de nosotros</a>
+                                </li>  
+                                <li><a href="#">Noticias</a>
+                                </li>
+                                <li><a href="#">Politica de privacidad</a>
+                                </li>
+                                <li><a href="#">Terminos de uso</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5">
+                            <h4>Contacto</h4>
+                            <h4><a href="#" class="text-color">magia@traveler.com</a></h4>
+                        </div>
+
+                    </div>
+                </div>
+            </footer>
+
+            <script src="js/jquery.js"></script>
+            <script src="js/bootstrap.js"></script>
+            <script src="js/slimmenu.js"></script>
+            <script src="js/bootstrap-datepicker.js"></script>
+            <script src="js/bootstrap-timepicker.js"></script>
+            <script src="js/nicescroll.js"></script>
+            <script src="js/dropit.js"></script>
+            <script src="js/ionrangeslider.js"></script>
+            <script src="js/icheck.js"></script>
+            <script src="js/fotorama.js"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+            <script src="js/typeahead.js"></script>
+            <script src="js/card-payment.js"></script>
+            <script src="js/magnific.js"></script>
+            <script src="js/owl-carousel.js"></script>
+            <script src="js/fitvids.js"></script>
+            <script src="js/tweet.js"></script>
+            <script src="js/countdown.js"></script>
+            <script src="js/gridrotator.js"></script>
+            <script src="js/custom.js"></script>
+        </div>
+        <script type='text/javascript'>
+
+            $(document).ready(function () {
+
+                /* activate sidebar */
+                $('#sidebar').affix({
+                    offset: {
+                        top: 235
+                    }
+                });
+
+                /* activate scrollspy menu */
+                var $body = $(document.body);
+                var navHeight = $('.navbar').outerHeight(true) + 10;
+
+                $body.scrollspy({
+                    target: '#leftCol',
+                    offset: navHeight
+                });
+
+                /* smooth scrolling sections */
+                $('a[href*=#]:not([href=#])').click(function () {
+                    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                        var target = $(this.hash);
+                        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                        if (target.length) {
+                            $('html,body').animate({
+                                scrollTop: target.offset().top - 50
+                            }, 1000);
+                            return false;
+                        }
+                    }
+                });
+
+            });
+
+        </script>
+
+        <!--Función para el selector de la busqueda -->
+        <script>
+            $(document).ready(function (e) {
+                $('.search-panel .dropdown-menu').find('a').click(function (e) {
+                    e.preventDefault();
+                    var param = $(this).attr("href").replace("#", "");
+                    var concept = $(this).text();
+                    $('.search-panel span#search_concept').text(concept);
+                    $('.input-group #search_param').val(param);
+                });
+            });
+        </script>
+
+        <!--Función para inicializar el mapa -->
+        <script>
+            function initialize() 
+            {
+                var myLatLng = {lat: 19.195065, lng: -100.133534};
+                
+                var mapProp = {
+                    center: myLatLng,
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    scrollwheel: false
+                };
+                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Valle de Bravo'
+              });
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    </body>
+
+</html>
+
+

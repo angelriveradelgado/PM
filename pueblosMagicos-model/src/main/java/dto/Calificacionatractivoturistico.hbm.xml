@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Calificacionatractivoturistico" table="calificacionatractivoturistico" catalog="pueblosMagicos">
+        <id name="idCalificacionAtractivoTuristico" type="java.lang.Integer">
+            <column name="idCalificacionAtractivoTuristico" />
+            <generator class="identity" />
+        </id>
+        <property name="calificacion" type="java.lang.Integer">
+            <column name="calificacion" />
+        </property>
+        <property name="comentario" type="string">
+            <column name="comentario" length="65535" />
+        </property>
+        <property name="atIdatractivoTuristico" type="int">
+            <column name="aT_idatractivoTuristico" not-null="true" />
+        </property>
+        <property name="TIdusuario" type="int">
+            <column name="t_idusuario" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

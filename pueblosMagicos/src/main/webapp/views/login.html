@@ -1,0 +1,36 @@
+
+<div class="container">
+<div class="gap"></div>
+	<div class="row" data-gutter="60">
+		<div class="col-md-6">
+			<h3 translate="bienvenida"></h3>
+			<p translate="mensaje_bienvenida"></p>
+		</div>
+		<div class="col-md-6" >
+			<h3 translate="iniciar_sesion"></h3>
+			
+			<form ng-submit="nController.login()">
+				<div class="form-group form-group-icon-left">
+					<i class="fa fa-user input-icon input-icon-show"></i> 
+					<label translate="usuario"></label> 
+					<input class="form-control" placeholder="e.g. johndoe@gmail.com" type="text" ng-model="nController.credentials.username"/>
+				</div>
+				<div class="form-group form-group-icon-left">
+					<i class="fa fa-lock input-icon input-icon-show">
+					</i> <label translate="contraseña"></label>
+					<input class="form-control" type="password" placeholder="e.g. mi contraseña" ng-model="nController.credentials.password"/>
+				</div>
+				<input class="btn btn-primary" type="submit" translate translate-attr-value="iniciar_sesion" />
+			</form>
+			<p>{{'sin_cuenta' | translate}}
+				<a href="#" >{{'registrese' | translate}}</a>
+			</p>
+			<p>
+				<a href="#" translate="olvido_contraseña"></a>
+			</p>
+			<p>{{'es_PST' | translate}}
+				<a href="registro.jsp">{{'registresePST' | translate}}</a>
+			</p>
+		</div>
+	</div>
+</div>

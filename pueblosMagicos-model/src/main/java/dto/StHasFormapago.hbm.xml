@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.StHasFormapago" table="st_has_formapago" catalog="pueblosMagicos">
+        <composite-id name="id" class="dto.StHasFormapagoId">
+            <key-property name="stIdServicio" type="int">
+                <column name="sT_idServicio" />
+            </key-property>
+            <key-property name="fpIdformaPago" type="int">
+                <column name="fP_idformaPago" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

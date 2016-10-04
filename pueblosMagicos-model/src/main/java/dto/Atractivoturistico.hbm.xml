@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Atractivoturistico" table="atractivoturistico" catalog="pueblosMagicos">
+        <id name="idAtractivoTuristico" type="java.lang.Integer">
+            <column name="idAtractivoTuristico" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="100" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="65535" />
+        </property>
+        <property name="latitud" type="java.lang.Double">
+            <column name="latitud" precision="22" scale="0" />
+        </property>
+        <property name="longitud" type="java.lang.Double">
+            <column name="longitud" precision="22" scale="0" />
+        </property>
+        <property name="TIdUsuario" type="java.lang.Integer">
+            <column name="t_idUsuario" />
+        </property>
+        <property name="taIdtipoAtractivo" type="int">
+            <column name="tA_idtipoAtractivo" not-null="true" />
+        </property>
+        <property name="AIdUsuario" type="java.lang.Integer">
+            <column name="a_idUsuario" />
+        </property>
+        <property name="AIdAsentamiento" type="int">
+            <column name="a_idAsentamiento" not-null="true" />
+        </property>
+        <property name="erIdEstadoRegistro" type="int">
+            <column name="eR_idEstadoRegistro" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

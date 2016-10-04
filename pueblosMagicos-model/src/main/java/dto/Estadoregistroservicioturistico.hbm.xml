@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 4/09/2016 01:21:53 PM by Hibernate Tools 5.1.0.Beta1 -->
+<hibernate-mapping>
+    <class name="dto.Estadoregistroservicioturistico" table="estadoregistroservicioturistico" catalog="pueblosMagicos" optimistic-lock="version">
+        <id name="idestadoRegistroServicioTuristico" type="java.lang.Integer">
+            <column name="idestadoRegistroServicioTuristico" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

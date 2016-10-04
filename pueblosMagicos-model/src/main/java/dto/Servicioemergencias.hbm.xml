@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Servicioemergencias" table="servicioemergencias" catalog="pueblosMagicos">
+        <id name="idservicioEmergencias" type="java.lang.Integer">
+            <column name="idservicioEmergencias" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="100" />
+        </property>
+        <property name="pmIdPuebloMagico" type="int">
+            <column name="pM_idPuebloMagico" not-null="true" />
+        </property>
+        <property name="longitud" type="java.lang.Double">
+            <column name="longitud" precision="22" scale="0" />
+        </property>
+        <property name="latitud" type="java.lang.Double">
+            <column name="latitud" precision="22" scale="0" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="65535" />
+        </property>
+        <property name="horaInicio" type="time">
+            <column name="horaInicio" length="0" />
+        </property>
+        <property name="horaFin" type="time">
+            <column name="horaFin" length="0" />
+        </property>
+    </class>
+</hibernate-mapping>

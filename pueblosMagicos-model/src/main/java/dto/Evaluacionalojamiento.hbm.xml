@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Evaluacionalojamiento" table="evaluacionalojamiento" catalog="pueblosMagicos">
+        <id name="EIdevaluacion" type="int">
+            <column name="e_idevaluacion" />
+            <generator class="assigned" />
+        </id>
+        <property name="instalacionesRecepcion" type="java.lang.Integer">
+            <column name="instalacionesRecepcion" />
+        </property>
+        <property name="servicioPortero" type="java.lang.Integer">
+            <column name="servicioPortero" />
+        </property>
+        <property name="servicioMaletero" type="java.lang.Integer">
+            <column name="servicioMaletero" />
+        </property>
+        <property name="registroEntrada" type="java.lang.Integer">
+            <column name="registroEntrada" />
+        </property>
+        <property name="iluminacionHabitacion" type="java.lang.Integer">
+            <column name="iluminacionHabitacion" />
+        </property>
+        <property name="confortCama" type="java.lang.Integer">
+            <column name="confortCama" />
+        </property>
+        <property name="limpiezaBano" type="java.lang.Integer">
+            <column name="limpiezaBano" />
+        </property>
+        <property name="mobiliario" type="java.lang.Integer">
+            <column name="mobiliario" />
+        </property>
+        <property name="equipamientoElectronicos" type="java.lang.Integer">
+            <column name="equipamientoElectronicos" />
+        </property>
+        <property name="servicioLavadoPlanchado" type="java.lang.Integer">
+            <column name="servicioLavadoPlanchado" />
+        </property>
+    </class>
+</hibernate-mapping>

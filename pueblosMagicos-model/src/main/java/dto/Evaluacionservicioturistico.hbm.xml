@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Evaluacionservicioturistico" table="evaluacionservicioturistico" catalog="pueblosMagicos">
+        <id name="idEvaluacion" type="java.lang.Integer">
+            <column name="idEvaluacion" />
+            <generator class="identity" />
+        </id>
+        <property name="comentario" type="string">
+            <column name="comentario" length="65535" />
+        </property>
+        <property name="TIdUsuario" type="int">
+            <column name="t_idUsuario" not-null="true" />
+        </property>
+        <property name="teIdEvaluacion" type="int">
+            <column name="tE_idEvaluacion" not-null="true" />
+        </property>
+        <property name="aspectoEstablecimiento" type="java.lang.Integer">
+            <column name="aspectoEstablecimiento" />
+        </property>
+        <property name="atencionCliente" type="java.lang.Integer">
+            <column name="atencionCliente" />
+        </property>
+        <property name="eficienciaServicio" type="java.lang.Integer">
+            <column name="eficienciaServicio" />
+        </property>
+        <property name="higieneEstablecimiento" type="java.lang.Integer">
+            <column name="higieneEstablecimiento" />
+        </property>
+        <property name="relacionPrecioCalidad" type="java.lang.Integer">
+            <column name="relacionPrecioCalidad" />
+        </property>
+        <property name="accesibilidad" type="java.lang.Integer">
+            <column name="accesibilidad" />
+        </property>
+        <property name="comunicacion" type="java.lang.Integer">
+            <column name="comunicacion" />
+        </property>
+        <property name="manejoIdiomas" type="java.lang.Integer">
+            <column name="manejoIdiomas" />
+        </property>
+        <property name="senalamientoInterno" type="java.lang.Integer">
+            <column name="senalamientoInterno" />
+        </property>
+        <property name="senalamientoExterno" type="java.lang.Integer">
+            <column name="senalamientoExterno" />
+        </property>
+        <property name="sTIdServicioTuristico" type="int">
+            <column name="sT_idServicioTuristico" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

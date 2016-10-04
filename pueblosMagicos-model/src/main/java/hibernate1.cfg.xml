@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">pass</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/pueblosMagicos</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.search.autoregister_listeners">true</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <mapping class="dto.Tipoasentamiento" />
+        <mapping class="dto.Validador" />
+        <mapping class="dto.Fotoservicioturistico" />
+        <mapping class="dto.Estado" />
+        <mapping class="dto.Tipousuario" />
+        <mapping class="dto.Turista" />
+        <mapping class="dto.Evaluacionaventura" />
+        <mapping class="dto.Tipohabitacion" />
+        <mapping class="dto.Tipoatractivo" />
+        <mapping class="dto.Asociacion" />
+        <mapping class="dto.Servicioturisticoaventura" />
+        <mapping class="dto.Fotopueblomagico" />
+        <mapping class="dto.Fotoatractivoturistico" />
+        <mapping class="dto.ListaHasServicioturistico" />
+        <mapping class="dto.Tipoevaluacion" />
+        <mapping class="dto.Estadoregistropst" />
+        <mapping class="dto.StHasFormapago" />
+        <mapping class="dto.StaHasServicioadicional" />
+        <mapping class="dto.Servicioturisticoalojamiento" />
+        <mapping class="dto.Tipoalojamiento" />
+        <mapping class="dto.Pst" />
+        <mapping class="dto.Formapago" />
+        <mapping class="dto.StaHasAsociacion" />
+        <mapping class="dto.Evaluacionalojamiento" />
+        <mapping class="dto.Calificacionpueblomagico" />
+        <mapping class="dto.Municipio" />
+        <mapping class="dto.Genero" />
+        <mapping class="dto.Servicioemergencias" />
+        <mapping class="dto.Atractivoturistico" />
+        <mapping class="dto.Asentamiento" />
+        <mapping class="dto.TipoturismoHasTiposervicioturistico" />
+        <mapping class="dto.Estadoregistroestablecimiento" />
+        <mapping class="dto.Fotoservicioemergencias" />
+        <mapping class="dto.Servicioturisticorestauracion" />
+        <mapping class="dto.TipoatractivoHasTipoturismo" />
+        <mapping class="dto.Estadoregistroservicioturistico" />
+        <mapping class="dto.Tipooperacionalojamiento" />
+        <mapping class="dto.Tiposerviciorestauracion" />
+        <mapping class="dto.Evaluacionservicioturistico" />
+        <mapping class="dto.Servicioadicional" />
+        <mapping class="dto.Administrador" />
+        <mapping class="dto.Tipoturismo" />
+        <mapping class="dto.Tiposervicioturistico" />
+        <mapping class="dto.Calificacionatractivoturistico" />
+        <mapping class="dto.Establecimiento" />
+        <mapping class="dto.Servicioturistico" />
+        <mapping class="dto.Registrovisita" />
+        <mapping class="dto.StaHasTipohabitacion" />
+        <mapping class="dto.Usuario" />
+        <mapping class="dto.Tiposervicioalojamiento" />
+        <mapping class="dto.Pueblomagico" />
+        <mapping class="dto.ListaHasAtractivoturistico" />
+        <mapping class="dto.Tipovialidad" />
+        <mapping resource="Usuario.hbm.xml"/>  
+    </session-factory>
+</hibernate-configuration>

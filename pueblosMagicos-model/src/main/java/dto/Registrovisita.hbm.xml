@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Registrovisita" table="registrovisita" catalog="pueblosMagicos">
+        <id name="idregistroVisita" type="java.lang.Integer">
+            <column name="idregistroVisita" />
+            <generator class="identity" />
+        </id>
+        <property name="TIdUsuario" type="int">
+            <column name="t_idUsuario" not-null="true" />
+        </property>
+        <property name="EIdEstablecimiento" type="java.lang.Integer">
+            <column name="e_idEstablecimiento" />
+        </property>
+        <property name="pmIdPuebloMagico" type="java.lang.Integer">
+            <column name="pM_idPuebloMagico" />
+        </property>
+        <property name="atIdAtractivoTuristico" type="java.lang.Integer">
+            <column name="aT_idAtractivoTuristico" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="0" />
+        </property>
+    </class>
+</hibernate-mapping>

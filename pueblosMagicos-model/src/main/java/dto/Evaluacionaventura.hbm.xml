@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="dto.Evaluacionaventura" table="evaluacionaventura" catalog="pueblosMagicos">
+        <id name="EIdevaluacion" type="int">
+            <column name="e_idevaluacion" />
+            <generator class="assigned" />
+        </id>
+        <property name="senalizacionInstalaciones" type="java.lang.Integer">
+            <column name="senalizacionInstalaciones" />
+        </property>
+        <property name="equipamientoYMaterial" type="java.lang.Integer">
+            <column name="equipamiento_y_material" />
+        </property>
+        <property name="informacionActividad" type="java.lang.Integer">
+            <column name="informacionActividad" />
+        </property>
+        <property name="informacionRiesgos" type="java.lang.Integer">
+            <column name="informacionRiesgos" />
+        </property>
+        <property name="condicionEquipo" type="java.lang.Integer">
+            <column name="condicionEquipo" />
+        </property>
+        <property name="informacionRequisitos" type="java.lang.Integer">
+            <column name="informacionRequisitos" />
+        </property>
+        <property name="servicioMedico" type="java.lang.Integer">
+            <column name="servicioMedico" />
+        </property>
+        <property name="seguroVida" type="java.lang.Integer">
+            <column name="seguroVida" />
+        </property>
+        <property name="acuerdoRiesgos" type="java.lang.Integer">
+            <column name="acuerdoRiesgos" />
+        </property>
+        <property name="supervision" type="java.lang.Integer">
+            <column name="supervision" />
+        </property>
+        <property name="asistencia" type="java.lang.Integer">
+            <column name="asistencia" />
+        </property>
+        <property name="informacionReservaLugar" type="java.lang.Integer">
+            <column name="informacionReservaLugar" />
+        </property>
+    </class>
+</hibernate-mapping>
