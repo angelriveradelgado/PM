@@ -62,8 +62,7 @@ public class PuebloMagicoController
 		return result;
 	}
 
-	// WS que devuelve una lista de pueblos mágicos en un rango de resultados
-	@ResponseBody
+
 	@RequestMapping(value = "/puebloMagico/{first}/{max}", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<?> getSomePuebloMagico( @PathVariable("first") int first, @PathVariable("max") int max )
 	{
