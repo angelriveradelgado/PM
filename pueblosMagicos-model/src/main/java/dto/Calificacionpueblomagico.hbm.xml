@@ -4,12 +4,12 @@
 <!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="dto.Calificacionpueblomagico" table="calificacionpueblomagico" catalog="pueblosMagicos">
-        <id name="idCalificaci&#243;n" type="java.lang.Integer">
-            <column name="idCalificaci&#243;n" />
+        <id name="idCalificacion" type="java.lang.Integer">
+            <column name="idCalificacion" />
             <generator class="identity" />
         </id>
-        <property name="calificaci&#243;n" type="java.lang.Integer">
-            <column name="calificaci&#243;n" />
+        <property name="calificacion" type="java.lang.Integer">
+            <column name="calificacion" />
         </property>
         <property name="comentario" type="string">
             <column name="comentario" length="65535" />

@@ -16,8 +16,8 @@ import javax.persistence.Table;
 public class Calificacionpueblomagico implements java.io.Serializable
 {
 
-	private Integer idCalificación;
-	private Integer calificación;
+	private Integer idCalificacion;
+	private Integer calificacion;
 	private String comentario;
 	private int TIdUsuario;
 	private int pmIdPuebloMagico;
@@ -32,9 +32,9 @@ public class Calificacionpueblomagico implements java.io.Serializable
 		this.pmIdPuebloMagico = pmIdPuebloMagico;
 	}
 
-	public Calificacionpueblomagico(Integer calificación, String comentario, int TIdUsuario, int pmIdPuebloMagico)
+	public Calificacionpueblomagico(Integer calificacion, String comentario, int TIdUsuario, int pmIdPuebloMagico)
 	{
-		this.calificación = calificación;
+		this.calificacion = calificacion;
 		this.comentario = comentario;
 		this.TIdUsuario = TIdUsuario;
 		this.pmIdPuebloMagico = pmIdPuebloMagico;
@@ -43,26 +43,26 @@ public class Calificacionpueblomagico implements java.io.Serializable
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "idCalificación", unique = true, nullable = false)
-	public Integer getIdCalificación( )
+	@Column(name = "idCalificacion", unique = true, nullable = false)
+	public Integer getIdCalificacion( )
 	{
-		return this.idCalificación;
+		return this.idCalificacion;
 	}
 
-	public void setIdCalificación( Integer idCalificación )
+	public void setIdCalificacion( Integer idCalificacion )
 	{
-		this.idCalificación = idCalificación;
+		this.idCalificacion = idCalificacion;
 	}
 
-	@Column(name = "calificación")
-	public Integer getCalificación( )
+	@Column(name = "calificacion")
+	public Integer getCalificacion( )
 	{
-		return this.calificación;
+		return this.calificacion;
 	}
 
-	public void setCalificación( Integer calificación )
+	public void setCalificacion( Integer calificacion )
 	{
-		this.calificación = calificación;
+		this.calificacion = calificacion;
 	}
 
 	@Column(name = "comentario", length = 65535)

@@ -47,7 +47,7 @@ public class UsuarioController
 		return result;
 	}
 	
-	@RequestMapping(value = "/usuario/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+	@RequestMapping(value = "/usuario/id/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<?> getPuebloMagico(@PathVariable int id) 
 	{
 		ResponseEntity<?> result = null;
