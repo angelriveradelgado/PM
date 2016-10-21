@@ -31,6 +31,7 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 	private Integer senalamientoInterno;
 	private Integer senalamientoExterno;
 	private Integer sTIdServicioTuristico;
+	private float promedio;
 
 	public Evaluacionservicioturistico()
 	{
@@ -46,7 +47,7 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 	public Evaluacionservicioturistico(String comentario, int TIdUsuario, int teIdEvaluacion,
 			Integer aspectoEstablecimiento, Integer atencionCliente, Integer eficienciaServicio,
 			Integer higieneEstablecimiento, Integer relacionPrecioCalidad, Integer accesibilidad, Integer comunicacion,
-			Integer manejoIdiomas, Integer senalamientoInterno, Integer senalamientoExterno , int sTIdServicioTuristico)
+			Integer manejoIdiomas, Integer senalamientoInterno, Integer senalamientoExterno , int sTIdServicioTuristico, float promedio)
 	{
 		this.comentario = comentario;
 		this.TIdUsuario = TIdUsuario;
@@ -62,6 +63,7 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 		this.senalamientoInterno = senalamientoInterno;
 		this.senalamientoExterno = senalamientoExterno;
 		this.sTIdServicioTuristico = sTIdServicioTuristico;
+		this.promedio = promedio;
 	}
 
 	@Id
@@ -230,5 +232,16 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 	public void setSTIdServicioTuristico( int sTIdServicioTuristico )
 	{
 		this.sTIdServicioTuristico = sTIdServicioTuristico;
+	}
+	
+	@Column(name = "promedio")
+	public float getPromedio( )
+	{
+		return this.promedio;
+	}
+
+	public void setPromedio( float promedio )
+	{
+		this.promedio = promedio;
 	}
 }

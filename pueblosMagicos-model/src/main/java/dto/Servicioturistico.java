@@ -30,6 +30,7 @@ public class Servicioturistico implements java.io.Serializable
 	private int erIdEstadoRegistro;
 	private String telefono;
 	private String extensionTelefono;
+	private float promedio;
 
 	public Servicioturistico()
 	{
@@ -46,7 +47,7 @@ public class Servicioturistico implements java.io.Serializable
 
 	public Servicioturistico(int EIdEstablecimiento, String nombre, Integer aforo, int tstIdtSt, int VIdUsuario,
 			Double precioMinimo, Double precioMaximo, Double precioMedio, String descripcion,
-			String sitioWeb, int erIdEstadoRegistro, String telefono, String extensionTelefono)
+			String sitioWeb, int erIdEstadoRegistro, String telefono, String extensionTelefono, float promedio)
 	{
 		this.EIdEstablecimiento = EIdEstablecimiento;
 		this.nombre = nombre;
@@ -61,6 +62,7 @@ public class Servicioturistico implements java.io.Serializable
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 		this.telefono = telefono;
 		this.extensionTelefono = extensionTelefono;
+		this.promedio = promedio;
 	}
 
 	@Id
@@ -220,4 +222,14 @@ public class Servicioturistico implements java.io.Serializable
 		this.extensionTelefono = extensionTelefono;
 	}
 
+	@Column(name = "promedio")
+	public float getPromedio( )
+	{
+		return this.promedio;
+	}
+
+	public void setPromedio( float promedio )
+	{
+		this.promedio = promedio;
+	}
 }

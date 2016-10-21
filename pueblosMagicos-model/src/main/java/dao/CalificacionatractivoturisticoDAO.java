@@ -5,16 +5,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dto.Atractivoturistico;
 import dto.Calificacionatractivoturistico;
+import dto.Estado;
 
 @Repository
 public class CalificacionatractivoturisticoDAO {
@@ -180,6 +185,27 @@ public class CalificacionatractivoturisticoDAO {
 			throw re;
 		}
 		return results;
+	}
+	
+	public float getPromedio(int id) 
+	{
+		float result = 0;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query q = session.createSQLQuery("select AVG(calificacion) from calificacionAtractivoTuristico "
+					+ "where aT_idatractivoTuristico=:id")
+					.setParameter("id", id);
+		
+			
+			result = (float)q.list().get(0);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
 	}
 	
 	

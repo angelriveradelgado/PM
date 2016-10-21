@@ -10,8 +10,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ListaHasAtractivoturisticoId implements java.io.Serializable
 {
-
-	private int listaIdlista;
 	private int atractivoTuristicoIdAtractivoTuristico;
 	private int turistaIdUsuario;
 
@@ -19,24 +17,13 @@ public class ListaHasAtractivoturisticoId implements java.io.Serializable
 	{
 	}
 
-	public ListaHasAtractivoturisticoId(int listaIdlista, int atractivoTuristicoIdAtractivoTuristico,
+	public ListaHasAtractivoturisticoId(int atractivoTuristicoIdAtractivoTuristico,
 			int turistaIdUsuario)
 	{
-		this.listaIdlista = listaIdlista;
 		this.atractivoTuristicoIdAtractivoTuristico = atractivoTuristicoIdAtractivoTuristico;
 		this.turistaIdUsuario = turistaIdUsuario;
 	}
 
-	@Column(name = "lista_idlista", nullable = false)
-	public int getListaIdlista( )
-	{
-		return this.listaIdlista;
-	}
-
-	public void setListaIdlista( int listaIdlista )
-	{
-		this.listaIdlista = listaIdlista;
-	}
 
 	@Column(name = "AtractivoTuristico_idAtractivoTuristico", nullable = false)
 	public int getAtractivoTuristicoIdAtractivoTuristico( )
@@ -70,8 +57,7 @@ public class ListaHasAtractivoturisticoId implements java.io.Serializable
 			return false;
 		ListaHasAtractivoturisticoId castOther = (ListaHasAtractivoturisticoId) other;
 
-		return (this.getListaIdlista() == castOther.getListaIdlista())
-				&& (this.getAtractivoTuristicoIdAtractivoTuristico() == castOther
+		return (this.getAtractivoTuristicoIdAtractivoTuristico() == castOther
 						.getAtractivoTuristicoIdAtractivoTuristico())
 				&& (this.getTuristaIdUsuario() == castOther.getTuristaIdUsuario());
 	}
@@ -80,7 +66,6 @@ public class ListaHasAtractivoturisticoId implements java.io.Serializable
 	{
 		int result = 17;
 
-		result = 37 * result + this.getListaIdlista();
 		result = 37 * result + this.getAtractivoTuristicoIdAtractivoTuristico();
 		result = 37 * result + this.getTuristaIdUsuario();
 		return result;

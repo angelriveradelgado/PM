@@ -9,18 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "fotopueblomagico", catalog = "pueblosMagicos")
-public class FotoSimple implements java.io.Serializable
+@Table(name = "fotoServicioEmergencias", catalog = "pueblosMagicos")
+public class FotoServicioEmergenciasSimple
 {
-	private Integer idfotoPuebloMagico;
+	private Integer idfotoServicioEmergencias;
 	private String descripcion;
 
-	public FotoSimple()
+	public FotoServicioEmergenciasSimple()
 	{
 	}
 
 
-	public FotoSimple(String urlfoto, String descripcion, int pmIdPuebloMagico)
+	public FotoServicioEmergenciasSimple(String urlfoto, String descripcion, int pmIdPuebloMagico)
 	{
 		this.descripcion = descripcion;
 	}
@@ -29,14 +29,14 @@ public class FotoSimple implements java.io.Serializable
 	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "idfotoPuebloMagico", unique = true, nullable = false)
-	public Integer getIdfotoPuebloMagico( )
+	public Integer getIdfotoServicioEmergencias( )
 	{
-		return this.idfotoPuebloMagico;
+		return this.idfotoServicioEmergencias;
 	}
 
-	public void setIdfotoPuebloMagico( Integer idfotoPuebloMagico )
+	public void setIdfotoServicioEmergencias( Integer idfotoServicioEmergencias )
 	{
-		this.idfotoPuebloMagico = idfotoPuebloMagico;
+		this.idfotoServicioEmergencias = idfotoServicioEmergencias;
 	}
 
 	@Column(name = "descripcion", length = 65535)

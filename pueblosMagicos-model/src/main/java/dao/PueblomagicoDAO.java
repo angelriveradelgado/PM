@@ -9,12 +9,17 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.BigDecimalType;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.FloatType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import dto.FotoSimple;
 import dto.Pueblomagico;
 
 @Repository
@@ -155,8 +160,10 @@ public class PueblomagicoDAO {
 		log.debug("finding Pueblomagico instance by example");
 		Session session = sessionFactory.openSession();
 		try {
-			List<Pueblomagico> results = session.createCriteria(Pueblomagico.class).add( Restrictions.like("nombrePueblomagico", n) ).list();
+			List<Pueblomagico> results = session.createCriteria(Pueblomagico.class).add( Restrictions.like("nombre", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
+			if(results.isEmpty())
+				return null;
 			return results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
@@ -188,11 +195,22 @@ public class PueblomagicoDAO {
 		List<Pueblomagico> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select pm.* from pueblomagico pm, municipio m, estado e "
+		Query q = session.createSQLQuery("select pm.idPuebloMagico, pm.nombre, pm.latitud, pm.longitud, pm.descripcion, "
+				+ " pm.epm_IdestadoPuebloMagico as epmIdestadoPuebloMagico, pm.m_idMunicipio as MIdMunicipio, pm.promedio"
+				+ " from pueblomagico pm, municipio m, estado e "
 				+ "where pm.m_idMunicipio=m.idMunicipio and m.e_idEstado=e.idEstado and e.idEstado=:idE")
+				.addScalar("idPuebloMagico", new IntegerType())
+				.addScalar("nombre", new StringType())
+				.addScalar("latitud", new DoubleType())
+				.addScalar("longitud", new DoubleType())
+				.addScalar("descripcion", new StringType())
+				.addScalar("epmIdestadoPuebloMagico", new IntegerType())
+				.addScalar("MIdMunicipio", new IntegerType())	
+				.addScalar("promedio", new FloatType())		
+				.setResultTransformer(Transformers.aliasToBean(Pueblomagico.class))
 				.setParameter("idE", id);
 		
-		result = (List<Pueblomagico>) query.list();
+		result = q.list();
 		session.close();
 		return result;
 	}

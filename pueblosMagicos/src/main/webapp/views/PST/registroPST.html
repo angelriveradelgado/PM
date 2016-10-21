@@ -1,0 +1,57 @@
+<div class="container">
+
+     <div class="row" data-gutter="60">
+         <div class="col-md-6">
+             <h3>Bienvenido al Sistema de Gestión de Pueblos Mágicos</h3>
+             <p>Al crear una cuenta como Proveedor de Servicios Turisticos podrás registrar y promover tus negocios.</p>
+             <p>Praesent est semper massa lobortis quisque lectus ridiculus hac eget</p>
+         </div>
+         <div class="col-md-6" ng-controller="RegistroPSTController as registroPSTController">
+             <h3>Registro PST</h3>
+             <form ng-submit="submit()">
+                 <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                     <label>Nombre*</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.nombre"/>
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                     <label>Apellido Paterno*</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.apellidoPaterno"/>
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                     <label>Apellido materno*</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.apellidoMaterno" />
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                     <label>Nombre de usuario*</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.nombreUsuario"/>
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-envelope input-icon input-icon-show"></i>
+                     <label>Correo electrónico*</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.correo"/>
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                     <label>Número RNT</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.numeroRNT"/>
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                     <label>Teléfono*</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.telefono"/>
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon input-icon-show"></i>
+                     <label>Razón social de la empresa</label>
+                     <input class="form-control" placeholder="" type="text" ng-model="usuario.razonSocialEmpresa"/>
+                 </div>
+                 <div class="form-group form-group-icon-left"><i class="fa fa-lock input-icon input-icon-show"></i>
+                     <label>Contraseña*</label>
+                     <input class="form-control" type="password" placeholder="" ng-model="usuario.contrasena" />
+                 </div> <div class="form-group form-group-icon-left"><i class="fa fa-lock input-icon input-icon-show"></i>
+                     <label>Contraseña*</label>
+                     <input class="form-control" type="password" placeholder="" ng-model="contrasenaConfirmar"/>
+                 </div>
+                 <p>{{msgContrasena}}</p>
+                 <input class="btn btn-primary" type="submit" value="Registrarme" />
+             </form>
+             <p>¿Ya tienes una cuenta?<a href="login.jsp"> Inicia sesión</a></p>
+         </div>
+     </div>
+ </div>

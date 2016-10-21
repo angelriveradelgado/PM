@@ -8,9 +8,6 @@
             <column name="e_idevaluacion" />
             <generator class="assigned" />
         </id>
-        <property name="senalizacionInstalaciones" type="java.lang.Integer">
-            <column name="senalizacionInstalaciones" />
-        </property>
         <property name="equipamientoYMaterial" type="java.lang.Integer">
             <column name="equipamiento_y_material" />
         </property>

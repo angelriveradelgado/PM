@@ -9,6 +9,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -156,21 +158,128 @@ public class ServicioturisticoDAO {
 		return results;
 	}
 	
+	public List<Servicioturistico> getServicioturisticoBiPMByLimit(int id, int first, int numRegistros) 
+	{
+		List<Servicioturistico> result = null;
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createSQLQuery("select st.idServicioTuristico, "
+				+ "	st.e_idEstablecimiento as EIdEstablecimiento, "
+				+ "	st.nombre, "
+				+ "	st.aforo, "
+				+ "	st.tST_idtST as tstIdtSt, "
+				+ "	st.v_idUsuario as VIdUsuario, "
+				+ "	st.precioMinimo, "
+				+ "	st.precioMaximo, "
+				+ "	st.precioMedio, "
+				+ "	st.descripcion, "
+				+ "	st.sitioWeb, "
+				+ "	st.eR_idEstadoRegistro as erIdEstadoRegistro, "
+				+ "	st.telefono, "
+				+ "	st.extensionTelefono, "
+				+ "	st.promedio  "
+				+ "from servicioTuristico st, establecimiento e, asentamiento a, municipio m, pueblomagico pm "
+				+ "where st.e_idEstablecimiento=e.idEstablecimiento "
+				+ "and e.a_idAsentamiento=a.idAsentamiento  "
+				+ "and a.m_idMunicipio=m.idMunicipio "
+				+ "and m.idMunicipio=pm.m_idMunicipio "
+				+ "and pm.idPuebloMagico=:idPM limit :first, :numRegistros")
+		.addScalar("idServicioTuristico", new IntegerType())
+		.addScalar("EIdEstablecimiento", new IntegerType())
+		.addScalar("nombre", new IntegerType())
+		.addScalar("aforo", new IntegerType())
+		.addScalar("tstIdtSt", new IntegerType())
+		.addScalar("VIdUsuario", new IntegerType())
+		.addScalar("precioMinimo", new IntegerType())
+		.addScalar("precioMaximo", new IntegerType())
+		.addScalar("precioMedio", new IntegerType())
+		.addScalar("descripcion", new IntegerType())
+		.addScalar("sitioWeb", new IntegerType())
+		.addScalar("erIdEstadoRegistro", new IntegerType())
+		.addScalar("telefono", new IntegerType())
+		.addScalar("extensionTelefono", new IntegerType())
+		.addScalar("promedio", new IntegerType())
+		.setResultTransformer(Transformers.aliasToBean(Servicioturistico.class))
+		.setParameter("idPM", id)
+		.setParameter("first", first)
+		.setParameter("numRegistros", numRegistros);
+		
+		result = (List<Servicioturistico>) query.list();
+		session.close();
+		return result;
+	}
+	
 	public List<Servicioturistico> findByIdPuebloMagico(int id) 
 	{
 		List<Servicioturistico> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select st.* from servicioTuristico st, establecimiento e, asentamiento a, pueblomagico pm "
+		Query query = session.createSQLQuery("select st.idServicioTuristico, "
+				+ "	st.e_idEstablecimiento as EIdEstablecimiento, "
+				+ "	st.nombre, "
+				+ "	st.aforo, "
+				+ "	st.tST_idtST as tstIdtSt, "
+				+ "	st.v_idUsuario as VIdUsuario, "
+				+ "	st.precioMinimo, "
+				+ "	st.precioMaximo, "
+				+ "	st.precioMedio, "
+				+ "	st.descripcion, "
+				+ "	st.sitioWeb, "
+				+ "	st.eR_idEstadoRegistro as erIdEstadoRegistro, "
+				+ "	st.telefono, "
+				+ "	st.extensionTelefono, "
+				+ "	st.promedio  "
+				+ "from servicioTuristico st, establecimiento e, asentamiento a, municipio m, pueblomagico pm "
 				+ "where st.e_idEstablecimiento=e.idEstablecimiento "
 				+ "and e.a_idAsentamiento=a.idAsentamiento  "
 				+ "and a.m_idMunicipio=m.idMunicipio "
 				+ "and m.idMunicipio=pm.m_idMunicipio "
-				+ "and pm.idPuebloMagico:=idPM")
+				+ "and pm.idPuebloMagico=:idPM")
+		.addScalar("idServicioTuristico", new IntegerType())
+		.addScalar("EIdEstablecimiento", new IntegerType())
+		.addScalar("nombre", new IntegerType())
+		.addScalar("aforo", new IntegerType())
+		.addScalar("tstIdtSt", new IntegerType())
+		.addScalar("VIdUsuario", new IntegerType())
+		.addScalar("precioMinimo", new IntegerType())
+		.addScalar("precioMaximo", new IntegerType())
+		.addScalar("precioMedio", new IntegerType())
+		.addScalar("descripcion", new IntegerType())
+		.addScalar("sitioWeb", new IntegerType())
+		.addScalar("erIdEstadoRegistro", new IntegerType())
+		.addScalar("telefono", new IntegerType())
+		.addScalar("extensionTelefono", new IntegerType())
+		.addScalar("promedio", new IntegerType())
+		.setResultTransformer(Transformers.aliasToBean(Servicioturistico.class))
 		.setParameter("idPM", id);
 		
 		result = (List<Servicioturistico>) query.list();
 		session.close();
 		return result;
+	}
+	
+	public String getNombrePuebloMagico(int idServicioTuristico)
+	{
+		String nombre = null;
+		
+		try
+		{
+			Session session = sessionFactory.openSession();
+			
+			Query query = session.createSQLQuery("select pm.nombre "
+					+ "from servicioTuristico st, establecimiento e, asentamiento a, municipio m, pueblomagico pm "
+					+ "where st.e_idEstablecimiento=e.idEstablecimiento "
+					+ "and e.a_idAsentamiento=a.idAsentamiento  "
+					+ "and a.m_idMunicipio=pm.m_idMunicipio "
+					+ "and st.idServicioTuristico=:id")
+					.setParameter("id", idServicioTuristico); 
+			nombre = (String) query.uniqueResult();
+			session.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return nombre;
 	}
 }

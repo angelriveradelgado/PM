@@ -47,28 +47,53 @@ public class TuristaDAO {
 		log.debug("creating Turista instance");
 		Session session = sessionFactory.openSession();
 		boolean conf = false; 
-		
+		Transaction tx = null;
 		try
 		{
+			tx = session.beginTransaction();
+			
 			Query query = session.createSQLQuery(
-			        "CALL sp_InsertTurista(:nombreUsuario, :contrasena, :foto, :nombre, :apellidoPat, :apellidoMat, :correo, :fechaNacimiento, :idGenero)")
+			        "insert into usuario(nombreUsuario,contrasena,URLfotografia,nombre,apellidoPaterno,apellidoMaterno,correo,tipousuario_idtipoUsuario)"
+			        + " values(:nombreUsuario,:contrasena,:foto,:nombre,:apellidoPat,:apellidoMat,:correo,1)")
 			        .setParameter("nombreUsuario", u.getNombreUsuario())
 			        .setParameter("contrasena", u.getContrasena())
 			        .setParameter("foto", u.getUrlfotografia())
 			        .setParameter("nombre", u.getNombre())
-			        .setParameter("apellidoPat", u.getApellidoPaterno())
+			        .setParameter("apellidoPat", u.getApellidoPaterno() )
 			        .setParameter("apellidoMat", u.getApellidoMaterno())
-			        .setParameter("correo", u.getCorreo())
-			        .setParameter("fechaNacimiento", t.getFechaNacimiento())
-			        .setParameter("idGenero", t.getGIdgenero() );
+			        .setParameter("correo", u.getCorreo());
 			
-			if(query.executeUpdate() != 0)
+			Query query1 = session.createSQLQuery(
+			        "insert into turista(idUsuario,fechaNacimiento,g_idGenero) "
+			        + " values((select idUsuario from usuario order by idUsuario desc limit 1),:fechaNacimiento,:idGenero)")
+			        .setParameter("fechaNacimiento", t.getFechaNacimiento())
+			        .setParameter("idGenero", t.getGIdgenero());
+			
+//			Query query = session.createSQLQuery(
+//			        "CALL sp_InsertTurista(:nombreUsuario, :contrasena, :foto, :nombre, :apellidoPat, :apellidoMat, :correo, :fechaNacimiento, :idGenero)")
+//			        .setParameter("nombreUsuario", u.getNombreUsuario())
+//			        .setParameter("contrasena", u.getContrasena())
+//			        .setParameter("foto", u.getUrlfotografia())
+//			        .setParameter("nombre", u.getNombre())
+//			        .setParameter("apellidoPat", u.getApellidoPaterno())
+//			        .setParameter("apellidoMat", u.getApellidoMaterno())
+//			        .setParameter("correo", u.getCorreo())
+//			        .setParameter("fechaNacimiento", t.getFechaNacimiento())
+//			        .setParameter("idGenero", t.getGIdgenero() );
+			
+			if(query.executeUpdate() != 0 && query1.executeUpdate() != 0)
+			{
 				conf = true;
-			conf = false;
-		}catch(Exception e)
-		{
-			e.printStackTrace();
+				tx.commit();
+			}else
+			{
+				conf = false;
+			}
+		}catch (HibernateException e) {
+			if (tx!=null) 
+				tx.rollback();
 		}
+		session.close();
 		
 		return conf;
 	}

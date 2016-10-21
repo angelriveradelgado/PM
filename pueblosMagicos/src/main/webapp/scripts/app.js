@@ -3,9 +3,14 @@
 var App = angular.module
 (	'magicApp', 
 	['ngRoute',
+	 'infinite-scroll',
 	 'ngCookies',
 	 'pascalprecht.translate']
-);
+).constant("CONFIG", 
+{
+	"urlWebService":"http://localhost:8080/pueblosMagicos"
+//	"urlWebService":"http://148.204.86.18:8080/pueblosMagicos"
+});
 
 App.config( function ($routeProvider, $httpProvider) 
 {
@@ -17,6 +22,18 @@ App.config( function ($routeProvider, $httpProvider)
     .when('/login', 
 	{
       templateUrl: 'views/login.html'
+    })
+    .when('/registro', 
+	{
+      templateUrl: 'views/registro.html'
+    })
+    .when('/registroPST', 
+	{
+      templateUrl: 'views/PST/registroPST.html'
+    })
+    .when('/pueblo/:nombrePuebloMagico', 
+	{
+      templateUrl: 'views/puebloMagico.html'
     })
     .when('/puebloMagico', 
 	{
@@ -38,6 +55,10 @@ App.config( function ($routeProvider, $httpProvider)
 	{
       templateUrl: '/prueba.html'
     })
+    .when('/upload', 
+	{
+      templateUrl: 'views/upload.html'
+    })
     .otherwise(
 	{
       redirectTo: '/'
@@ -46,10 +67,12 @@ App.config( function ($routeProvider, $httpProvider)
     
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 });
+//$locationProvider
+//.html5Mode(true);
 
-App.config(['$translateProvider',function ($translateProvider) 
+App.config(['$translateProvider','CONFIG',function ($translateProvider, CONFIG) 
 {
-    $translateProvider.useUrlLoader('http://localhost:8080/pueblosMagicos/messageBundle');
+    $translateProvider.useUrlLoader( 'http://localhost:8080/pueblosMagicos' + '/messageBundle');
 //    $translateProvider.useStorage('UrlLanguageStorage');
     $translateProvider.preferredLanguage('es');
     $translateProvider.fallbackLanguage('es');

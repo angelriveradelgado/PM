@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,10 +10,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import dto.FotoSimple;
+import dto.FotoServicioEmergenciasSimple;
+import dto.FotoServicioTuristicoSimple;
 import dto.Fotoservicioemergencias;
 
 @Repository
@@ -137,15 +142,18 @@ public class FotoservicioemergenciasDAO{
 		return u;
 	}
 
-	public List<FotoSimple> readAllSimpleByIdServicioEmergencias(int id) 
+	public List<FotoServicioEmergenciasSimple> readAllSimpleByIdServicioEmergencias(int id) 
 	{
-		List<FotoSimple> result = null;
+		List<FotoServicioEmergenciasSimple> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select idFotoServicioEmergencias from FotoServicioEmergencias where sDE_idservicioDeEmergencias=:idSE")
+		Query query = session.createSQLQuery("select idfotoServicioEmergencias from fotoServicioEmergencias where sDE_idservicioDeEmergencias=:idSE")
+				.addScalar("idfotoServicioEmergencias", new IntegerType())
+				.addScalar("descripcion", new StringType())
+				.setResultTransformer(Transformers.aliasToBean(FotoServicioEmergenciasSimple.class))
 				.setParameter("idSE", id);
 		
-		result = (List<FotoSimple>) query.list();
+		result = (List<FotoServicioEmergenciasSimple>) query.list();
 		session.close();
 		return result;
 	}
@@ -163,5 +171,25 @@ public class FotoservicioemergenciasDAO{
 		}
 	}
 	
+	public Integer getAutoIncrementValue()
+	{
+		Integer result=0;
+		Session session = sessionFactory.openSession();
+		try
+		{
+		//Query query = session.createSQLQuery("select idfotoPuebloMagico from fotoPuebloMagico order by idfotoPuebloMagico desc limit 1");
+		Query query = session.createSQLQuery("SELECT AUTO_INCREMENT "
+				+ "FROM  INFORMATION_SCHEMA.TABLES "
+				+ "WHERE TABLE_SCHEMA = \"pueblosmagicos\" "
+				+ "AND TABLE_NAME = \"fotoServicioEmergencias\"");
+		result = ((BigInteger) query.uniqueResult()).intValue();
+		session.close();
+		}catch(Exception e )
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 }

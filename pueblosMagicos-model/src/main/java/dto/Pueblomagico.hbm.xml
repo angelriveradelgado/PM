@@ -26,5 +26,8 @@
         <property name="epmIdestadoPuebloMagico" type="java.lang.Integer">
             <column name="ePM_idestadoPuebloMagico" />
         </property>
+        <property name="promedio" type="java.lang.Float">
+            <column name="promedio" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -1,0 +1,33 @@
+
+ <div class="container" ng-controller="PuebloMagicoController as puebloMagicoController">
+     <div class="container">
+         <h1 class="page-title">{{nombrePuebloMagico}}</h1>
+     </div>
+
+     <div class="row">
+         <div class="col-md-2">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+                     <li ><a  href="informacion.html">Información</a>
+                     </li>
+                     <li><a href="serviciosTuristicos.html">Servicios turísticos</a>
+                     </li>
+                     <li class="active"><a href="atractivosSimbolicos.html">Atractivos turísticos</a>
+                     </li>
+                     <li><a href="ServiciosEmergencias.html">Servicios de emergencias</a>
+                     </li>                            
+                 </ul>
+             </aside>
+         </div>
+         <div class="col-md-10">
+             <p>{{descripcion}}</p>
+             <div class="gap"></div>
+             <h4>Ubicación</h4>
+             <div id="map" style="height: 400px"></div>
+
+
+         </div>
+     </div>
+
+     <div class="gap"></div>
+ </div>

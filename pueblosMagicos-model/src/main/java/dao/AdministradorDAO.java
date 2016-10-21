@@ -69,7 +69,17 @@ public class AdministradorDAO  {
 	public List<Administrador> readAll() {
 		List<Administrador> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Administrador.class).list();
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			result = session.createCriteria(Administrador.class).list();
+			tx.commit();
+			log.debug("persist successful");
+		} catch (HibernateException e) {
+			if (tx!=null) 
+				tx.rollback();
+		}
 		session.close();
 		return result;
 	}
@@ -138,14 +148,19 @@ public class AdministradorDAO  {
 	public Administrador findByNombreAdministrador(String n) {
 		log.debug("finding Administrador instance by example");
 		Session session = sessionFactory.openSession();
+		Transaction tx = null;
 		try {
+			tx = session.getTransaction();
 			List<Administrador> results = session.createCriteria(Administrador.class).add( Restrictions.like("nombreAdministrador", n) ).list();
+			tx.commit();
+			session.close();
 			log.debug("find by example successful, result size: " + results.size());
 			return results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;
 		}
+		
 	}
 	
 	

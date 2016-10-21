@@ -5,6 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,7 +13,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dto.Evaluacionalojamiento;
 import dto.Evaluacionaventura;
+import dto.Evaluacionservicioturistico;
 import dto.Pueblomagico;
 
 @Repository
@@ -31,22 +34,66 @@ public class EvaluacionaventuraDAO{
 	this.sessionFactory = sessionFactory;
 	}
 
-	public boolean create(Evaluacionaventura transientInstance) {
-		log.debug("creating Evaluacionaventura instance");
+	public boolean create(Evaluacionservicioturistico est, Evaluacionaventura ea) {
+		log.debug("creating PST instance");
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		boolean conf = false; 
-		try {
+		
+		try
+		{
 			tx = session.beginTransaction();
-			session.save(transientInstance);
-			tx.commit();
-			conf = true;
-			log.debug("persist successful");
-		} catch (HibernateException e) {
+			Query query = session.createSQLQuery(
+			        "insert into evaluacionservicioturistico(comentario,t_idUsuario,aspectoEstablecimiento, "
+			        + "	atencionCliente,eficienciaServicio,higieneEstablecimiento,relacionPrecioCalidad, "
+			        + "	accesibilidad,comunicacion,manejoIdiomas,senalamientoInterno,senalamientoExterno,sT_idServicioTuristico,tE_idEvaluacion) "
+			        + "	values(:comentario,:idUsuario,:aspectoEstablecimiento, "
+			        + "	:atencionCliente,:eficienciaServicio,:higieneEstablecimiento,:relacionPrecioCalidad, "
+			        + "	:accesibilidad,:comunicacion,:manejoIdiomas,:senalamientoInterno,:senalamientoExterno,:idServicioTuristico"
+			        + "(select idEvaluacion from tipoevaluacion where nombre like '%AVENTURA%'))")
+			        .setParameter("comentario", est.getComentario())
+			        .setParameter("idUsuario", est.getTIdUsuario())
+			        .setParameter("aspectoEstablecimiento", est.getAspectoEstablecimiento())
+			        .setParameter("atencionCliente", est.getAtencionCliente())
+			        .setParameter("eficienciaServicio", est.getEficienciaServicio() )
+			        .setParameter("higieneEstablecimiento", est.getHigieneEstablecimiento())
+			        .setParameter("relacionPrecioCalidad", est.getRelacionPrecioCalidad())
+			        .setParameter("accesibilidad", est.getAccesibilidad())
+			        .setParameter("comunicacion", est.getComunicacion())
+			        .setParameter("manejoIdiomas", est.getManejoIdiomas())
+			        .setParameter("senalamientoInterno", est.getSenalamientoInterno() )
+			        .setParameter("senalamientoExterno", est.getSenalamientoExterno())
+			        .setParameter("idServicioTuristico", est.getSTIdServicioTuristico());
+			
+			Query query1 = session.createSQLQuery(
+			        "insert into evaluacionaventura values(((select idEvaluacion from evaluacionservicioturistico order by idEvaluacion desc limit 1)), "
+			        + ":equipamiento, :infoActividad, :infoRiesgos, :condicionEquipo, :inforequisitos, "
+			        + ":serviciomedico, :segurovida, :acuerdo, :supervision, :asistencia, :inforeserva)")
+			        .setParameter("equipamiento", ea.getEquipamientoYMaterial())
+			        .setParameter("infoActividad", ea.getInformacionActividad())
+			        .setParameter("infoRiesgos", ea.getInformacionRiesgos())
+			        .setParameter("condicionEquipo", ea.getCondicionEquipo())
+			        .setParameter("inforequisitos", ea.getInformacionRequisitos())
+			        .setParameter("serviciomedico", ea.getServicioMedico())
+			        .setParameter("segurovida", ea.getSeguroVida())
+			        .setParameter("acuerdo", ea.getAcuerdoRiesgos())
+			        .setParameter("supervision", ea.getSupervision())
+			        .setParameter("asistencia", ea.getAsistencia())
+			        .setParameter("inforeserva", ea.getInformacionReservaLugar());
+			
+			
+			
+			if(query.executeUpdate() != 0 && query1.executeUpdate() != 0)
+			{
+				tx.commit();
+				conf = true;
+			}
+			conf = false;
+		}catch (HibernateException e) {
 			if (tx!=null) 
 				tx.rollback();
 		}
-		session.close();
+		
 		return conf;
 	}
 	

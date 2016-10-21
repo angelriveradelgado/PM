@@ -5,13 +5,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dto.Atractivoturistico;
+import dto.FotoServicioTuristicoSimple;
 import dto.Pueblomagico;
 import dto.Registrovisita;
 
@@ -166,5 +174,30 @@ public class RegistrovisitaDAO{
 			throw re;
 		}
 		return results;
+	}
+	
+	public List<Registrovisita> getRegistrosByIdTurista(int id) 
+	{
+		List<Registrovisita> result = null;
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
+				+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
+				+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
+				+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, r.fecha "
+				+ "from registroVisita r, turista t "
+				+ "where r.t_idUsuario=t.idUsuario "
+				+ "and t.idUsuario=:id")
+		.addScalar("idregistroVisita", new IntegerType())
+		.addScalar("TIdUsuario", new IntegerType())
+		.addScalar("EIdEstablecimiento", new IntegerType())
+		.addScalar("pmIdPuebloMagico", new IntegerType())
+		.addScalar("fecha", new DateType())
+		.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
+		.setParameter("id", id);
+		
+		result = (List<Registrovisita>) query.list();
+		session.close();
+		return result;
 	}
 }

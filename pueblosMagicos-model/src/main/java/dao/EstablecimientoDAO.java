@@ -148,5 +148,18 @@ public class EstablecimientoDAO {
 		}
 	}
 	
+	public List<Establecimiento> findByIdPST(Integer id) {
+		log.debug("finding Establecimiento instance by example");
+		Session session = sessionFactory.openSession();
+		try {
+			List<Establecimiento> results = session.createCriteria(Establecimiento.class).add( Restrictions.like("PST_idUsuario", id) ).list();
+			log.debug("find by example successful, result size: " + results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+	
 	
 }

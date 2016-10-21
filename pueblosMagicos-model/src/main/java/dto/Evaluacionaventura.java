@@ -15,7 +15,6 @@ public class Evaluacionaventura implements java.io.Serializable
 {
 
 	private int EIdevaluacion;
-	private Integer senalizacionInstalaciones;
 	private Integer equipamientoYMaterial;
 	private Integer informacionActividad;
 	private Integer informacionRiesgos;
@@ -37,13 +36,12 @@ public class Evaluacionaventura implements java.io.Serializable
 		this.EIdevaluacion = EIdevaluacion;
 	}
 
-	public Evaluacionaventura(int EIdevaluacion, Integer senalizacionInstalaciones, Integer equipamientoYMaterial,
+	public Evaluacionaventura(int EIdevaluacion, Integer equipamientoYMaterial,
 			Integer informacionActividad, Integer informacionRiesgos, Integer condicionEquipo,
 			Integer informacionRequisitos, Integer servicioMedico, Integer seguroVida, Integer acuerdoRiesgos,
 			Integer supervision, Integer asistencia, Integer informacionReservaLugar)
 	{
 		this.EIdevaluacion = EIdevaluacion;
-		this.senalizacionInstalaciones = senalizacionInstalaciones;
 		this.equipamientoYMaterial = equipamientoYMaterial;
 		this.informacionActividad = informacionActividad;
 		this.informacionRiesgos = informacionRiesgos;
@@ -70,17 +68,7 @@ public class Evaluacionaventura implements java.io.Serializable
 		this.EIdevaluacion = EIdevaluacion;
 	}
 
-	@Column(name = "senalizacionInstalaciones")
-	public Integer getSenalizacionInstalaciones( )
-	{
-		return this.senalizacionInstalaciones;
-	}
-
-	public void setSenalizacionInstalaciones( Integer senalizacionInstalaciones )
-	{
-		this.senalizacionInstalaciones = senalizacionInstalaciones;
-	}
-
+	
 	@Column(name = "equipamiento_y_material")
 	public Integer getEquipamientoYMaterial( )
 	{

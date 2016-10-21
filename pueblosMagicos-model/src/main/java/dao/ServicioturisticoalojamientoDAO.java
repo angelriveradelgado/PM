@@ -5,13 +5,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dto.Evaluacionalojamiento;
+import dto.Evaluacionaventura;
+import dto.Evaluacionservicioturistico;
 import dto.Pueblomagico;
+import dto.Servicioturistico;
 import dto.Servicioturisticoalojamiento;
 
 @Repository
@@ -30,22 +35,54 @@ public class ServicioturisticoalojamientoDAO {
 	this.sessionFactory = sessionFactory;
 	}
 
-	public boolean create(Servicioturisticoalojamiento transientInstance) {
-		log.debug("creating Servicioturisticoalojamiento instance");
+	public boolean create(Servicioturistico st, Servicioturisticoalojamiento sta) {
+		log.debug("creating PST instance");
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		boolean conf = false; 
-		try {
+		
+		try
+		{
 			tx = session.beginTransaction();
-			session.save(transientInstance);
-			tx.commit();
-			conf = true;
-			log.debug("persist successful");
-		} catch (HibernateException e) {
+			Query query = session.createSQLQuery(
+			        "insert into servicioturistico(e_idEstablecimiento, nombre, aforo, tST_idtST, "
+			        + "precioMinimo, precioMaximo, precioMedio, descripcion, sitioWEB, "
+			        + "eR_estadoRegistro, telefono, extensionTelefono) values(:idEstablecimiento, :nombreServ, :aforo, :tipoServ, "
+			        + ":precioMinimo, :precioMaximo, :precioMedio, :descripcion, :sitioWEB, "
+			        + ":edoRegistro, :telefono, :extensionTelefono)")
+			        .setParameter("idEstablecimiento", st.getEIdEstablecimiento())
+			        .setParameter("nombreServ", st.getNombre())
+			        .setParameter("aforo", st.getAforo())
+			        .setParameter("tipoServ", st.getIdServicioTuristico())
+			        .setParameter("precioMinimo", st.getPrecioMinimo() )
+			        .setParameter("precioMaximo", st.getPrecioMaximo())
+			        .setParameter("precioMedio", st.getPrecioMedio())
+			        .setParameter("descripcion", st.getDescripcion())
+			        .setParameter("sitioWEB", st.getSitioWeb())
+			        .setParameter("edoRegistro", st.getErIdEstadoRegistro())
+			        .setParameter("telefono", st.getTelefono() )
+			        .setParameter("extensionTelefono", st.getExtensionTelefono());
+			
+			Query query1 = session.createSQLQuery(
+			        "insert into servicioturisticoaventura (tO_idtipoOperacion, tA_idtipoAlojamiento, tSA_idtipoServicioAlojamiento) values((select idServicioTuristico from servicioturistico order by idServicioTuristico desc limit 1), "
+			        + ":tipoOperacion,:tipoAlojamiento,:tipoServicioAlojamiento)")
+			        .setParameter("tipoOperacion", sta.getToIdtipoOperacion())
+			        .setParameter("tipoAlojamiento", sta.getTaIdtipoAlojamiento())
+			        .setParameter("tipoServicioAlojamiento", sta.getTsaIdtipoServicioAlojamiento());
+			
+			
+			
+			if(query.executeUpdate() != 0 && query1.executeUpdate() != 0)
+			{
+				tx.commit();
+				conf = true;
+			}
+			conf = false;
+		}catch (HibernateException e) {
 			if (tx!=null) 
 				tx.rollback();
 		}
-		session.close();
+		
 		return conf;
 	}
 	

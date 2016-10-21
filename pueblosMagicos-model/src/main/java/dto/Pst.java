@@ -25,10 +25,9 @@ public class Pst implements java.io.Serializable
 	{
 	}
 
-	public Pst(int idUsuario, int VIdUsuario, int erIdEstadoRegistro)
+	public Pst(int idUsuario, int erIdEstadoRegistro)
 	{
 		this.idUsuario = idUsuario;
-		this.VIdUsuario = VIdUsuario;
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
 
@@ -89,7 +88,7 @@ public class Pst implements java.io.Serializable
 		this.razonSocialEmpresa = razonSocialEmpresa;
 	}
 
-	@Column(name = "v_idUsuario", nullable = false)
+	@Column(name = "v_idUsuario")
 	public int getVIdUsuario( )
 	{
 		return this.VIdUsuario;

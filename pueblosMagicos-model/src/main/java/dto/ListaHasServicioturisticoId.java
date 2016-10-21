@@ -11,7 +11,6 @@ import javax.persistence.Embeddable;
 public class ListaHasServicioturisticoId implements java.io.Serializable
 {
 
-	private int listaIdlista;
 	private int servicioTuristicoIdServicio;
 	private int turistaIdUsuario;
 
@@ -19,23 +18,13 @@ public class ListaHasServicioturisticoId implements java.io.Serializable
 	{
 	}
 
-	public ListaHasServicioturisticoId(int listaIdlista, int servicioTuristicoIdServicio, int turistaIdUsuario)
+	public ListaHasServicioturisticoId(int servicioTuristicoIdServicio, int turistaIdUsuario)
 	{
-		this.listaIdlista = listaIdlista;
 		this.servicioTuristicoIdServicio = servicioTuristicoIdServicio;
 		this.turistaIdUsuario = turistaIdUsuario;
 	}
 
-	@Column(name = "lista_idlista", nullable = false)
-	public int getListaIdlista( )
-	{
-		return this.listaIdlista;
-	}
-
-	public void setListaIdlista( int listaIdlista )
-	{
-		this.listaIdlista = listaIdlista;
-	}
+	
 
 	@Column(name = "servicioTuristico_idServicio", nullable = false)
 	public int getServicioTuristicoIdServicio( )
@@ -69,8 +58,7 @@ public class ListaHasServicioturisticoId implements java.io.Serializable
 			return false;
 		ListaHasServicioturisticoId castOther = (ListaHasServicioturisticoId) other;
 
-		return (this.getListaIdlista() == castOther.getListaIdlista())
-				&& (this.getServicioTuristicoIdServicio() == castOther.getServicioTuristicoIdServicio())
+		return (this.getServicioTuristicoIdServicio() == castOther.getServicioTuristicoIdServicio())
 				&& (this.getTuristaIdUsuario() == castOther.getTuristaIdUsuario());
 	}
 
@@ -78,7 +66,6 @@ public class ListaHasServicioturisticoId implements java.io.Serializable
 	{
 		int result = 17;
 
-		result = 37 * result + this.getListaIdlista();
 		result = 37 * result + this.getServicioTuristicoIdServicio();
 		result = 37 * result + this.getTuristaIdUsuario();
 		return result;

@@ -18,7 +18,7 @@
             <column name="razonSocialEmpresa" length="80" />
         </property>
         <property name="VIdUsuario" type="int">
-            <column name="v_idUsuario" not-null="true" />
+            <column name="v_idUsuario" />
         </property>
         <property name="erIdEstadoRegistro" type="int">
             <column name="eR_idEstadoRegistro" not-null="true" />

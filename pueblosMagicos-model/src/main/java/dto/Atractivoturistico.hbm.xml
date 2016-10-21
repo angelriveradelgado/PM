@@ -30,10 +30,13 @@
             <column name="a_idUsuario" />
         </property>
         <property name="AIdAsentamiento" type="int">
-            <column name="a_idAsentamiento" not-null="true" />
+            <column name="a_idAsentamiento" />
         </property>
         <property name="erIdEstadoRegistro" type="int">
             <column name="eR_idEstadoRegistro" not-null="true" />
+        </property>
+        <property name="promedio" type="java.lang.Float">
+            <column name="promedio" />
         </property>
     </class>
 </hibernate-mapping>

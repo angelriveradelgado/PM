@@ -94,7 +94,6 @@ App.controller('MapController', ['$scope', 'PuebloMagicoService', function ($sco
 				
 				
 				var pms = d;
-			    
 			    var x;
 			    /*for(x in pms)
 				{

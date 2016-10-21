@@ -5,9 +5,7 @@
 <hibernate-mapping>
     <class name="dto.ListaHasServicioturistico" table="lista_has_servicioturistico" catalog="pueblosMagicos">
         <composite-id name="id" class="dto.ListaHasServicioturisticoId">
-            <key-property name="listaIdlista" type="int">
-                <column name="lista_idlista" />
-            </key-property>
+           
             <key-property name="servicioTuristicoIdServicio" type="int">
                 <column name="servicioTuristico_idServicio" />
             </key-property>

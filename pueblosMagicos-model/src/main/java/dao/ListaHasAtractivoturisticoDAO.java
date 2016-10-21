@@ -136,11 +136,11 @@ public class ListaHasAtractivoturisticoDAO{
 		return u;
 	}
 
-	public List<ListaHasAtractivoturistico> findByIdUsuario(int n) {
+	public List<ListaHasAtractivoturisticoId> findByIdUsuario(int id) {
 		log.debug("finding ListaHasServicioturistico instance by example");
 		Session session = sessionFactory.openSession();
 		try {
-			List<ListaHasAtractivoturistico> results = session.createCriteria(ListaHasAtractivoturistico.class).add( Restrictions.like("Turista_idUsuario", n) ).list();
+			List<ListaHasAtractivoturisticoId> results = session.createCriteria(ListaHasAtractivoturisticoId.class).add( Restrictions.like("Turista_idUsuario", id) ).list();
 			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {

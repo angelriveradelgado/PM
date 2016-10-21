@@ -15,7 +15,9 @@ import dao.ListaHasAtractivoturisticoDAO;
 import dao.ListaHasServicioturisticoDAO;
 import dao.UsuarioDAO;
 import dto.ListaHasAtractivoturistico;
+import dto.ListaHasAtractivoturisticoId;
 import dto.ListaHasServicioturistico;
+import dto.ListaHasServicioturisticoId;
 import dto.Pueblomagico;
 import dto.Usuario;
 
@@ -32,8 +34,8 @@ public class UsuarioController
 	@Autowired 
 	private ListaHasAtractivoturisticoDAO listaHasAtractivoturisticoDAO;
 
-	@RequestMapping(value = "/usuario/{nombreUsuario}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getPuebloMagico(@PathVariable String nombreUsuario) 
+	@RequestMapping(value = "/usuario/nombre/{nombreUsuario}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<?> getUsuarioByNombre(@PathVariable String nombreUsuario) 
 	{
 		ResponseEntity<?> result = null;
 		Usuario u = null;
@@ -48,7 +50,7 @@ public class UsuarioController
 	}
 	
 	@RequestMapping(value = "/usuario/id/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getPuebloMagico(@PathVariable int id) 
+	public ResponseEntity<?> getUsuarioById(@PathVariable int id) 
 	{
 		ResponseEntity<?> result = null;
 		Usuario u = null;
@@ -66,10 +68,10 @@ public class UsuarioController
 	public ResponseEntity<?> getListaServicios(@PathVariable int id) 
 	{
 		ResponseEntity<?> result = null;
-		List<ListaHasServicioturistico> lista = null;
+		List<ListaHasServicioturisticoId> lista = null;
 		try {
 			lista = listaHasServicioturistico.findByIdUsuario(id);
-			result = new ResponseEntity<List<ListaHasServicioturistico>>(lista, HttpStatus.OK);
+			result = new ResponseEntity<List<ListaHasServicioturisticoId>>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,10 +83,10 @@ public class UsuarioController
 	public ResponseEntity<?> getListaAtractivos(@PathVariable int id) 
 	{
 		ResponseEntity<?> result = null;
-		List<ListaHasAtractivoturistico> lista = null;
+		List<ListaHasAtractivoturisticoId> lista = null;
 		try {
 			lista = listaHasAtractivoturisticoDAO.findByIdUsuario(id);
-			result = new ResponseEntity<List<ListaHasAtractivoturistico>>(lista, HttpStatus.OK);
+			result = new ResponseEntity<List<ListaHasAtractivoturisticoId>>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);

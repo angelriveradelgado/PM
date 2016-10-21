@@ -5,14 +5,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dto.Pueblomagico;
 import dto.Servicioemergencias;
+import dto.Servicioturistico;
 
 @Repository
 public class ServicioemergenciasDAO {
@@ -152,6 +156,57 @@ public class ServicioemergenciasDAO {
 			throw re;
 		}
 		return results;
+	}
+	
+	public List<Servicioemergencias> findByIdPuebloMagico(int id) 
+	{
+		List<Servicioemergencias> result = null;
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createSQLQuery("select s.idservicioEmergencias, s.nombre, s.longitud, s.latitud, "
+				+ "s.descripcion, s.horaInicio, s.horaFin, s.a_idAsentamiento as aIdAsentamiento "
+				+ "from servicioEmergencias s, asentamiento a, pueblomagico pm "
+				+ "where s.a_idAsentamiento=a.idAsentamiento "
+				+ "and a.m_idMunicipio=pm.m_idMunicipio "
+				+ "and pm.idPuebloMagico=:idPM")
+		.addScalar("idservicioEmergencias", new IntegerType())
+		.addScalar("nombre", new IntegerType())
+		.addScalar("aIdAsentamiento", new IntegerType())
+		.addScalar("longitud", new IntegerType())
+		.addScalar("latitud", new IntegerType())
+		.addScalar("descripcion", new IntegerType())
+		.addScalar("horaInicio", new IntegerType())
+		.addScalar("horaFin", new IntegerType())
+		.setResultTransformer(Transformers.aliasToBean(Servicioemergencias.class))
+		.setParameter("idPM", id);
+		
+		result = (List<Servicioemergencias>) query.list();
+		session.close();
+		return result;
+	}
+	
+	public String getNombrePuebloMagico(int idServicioEmergencias)
+	{
+		String nombre = null;;
+		
+		try
+		{
+			Session session = sessionFactory.openSession();
+			
+			Query query = session.createSQLQuery("select pm.nombre "
+					+ "from servicioEmergencias s, asentamiento a, pueblomagico pm "
+					+ "where s.a_idAsentamiento=a.idAsentamiento "
+					+ "and a.m_idMunicipio=pm.m_idMunicipio "
+					+ "and s.idservicioEmergencias=:id")
+					.setParameter("id", idServicioEmergencias); 
+			nombre = (String) query.uniqueResult();
+			session.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return nombre;
 	}
 
 }

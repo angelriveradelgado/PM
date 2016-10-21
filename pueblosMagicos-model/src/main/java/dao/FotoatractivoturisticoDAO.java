@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,10 +10,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import dto.FotoSimple;
+import dto.FotoAtractivoTuristicoSimple;
 import dto.Fotoatractivoturistico;
 
 @Repository
@@ -137,15 +141,18 @@ public class FotoatractivoturisticoDAO {
 		return u;
 	}
 	
-	public List<FotoSimple> readAllSimpleByIdAtractivoTuristico(int id) 
+	public List<FotoAtractivoTuristicoSimple> readAllSimpleByIdAtractivoTuristico(int id) 
 	{
-		List<FotoSimple> result = null;
+		List<FotoAtractivoTuristicoSimple> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select idFotoAtractivoTuristico, descripcion from fotoAtractivoTuristico where aT_idAtractivoTuristico=:idAT")
+		Query query = session.createSQLQuery("select idfotoAtractivoTuristico, descripcion from fotoAtractivoTuristico where aT_idAtractivoTuristico=:idAT")
+				.addScalar("idfotoAtractivoTuristico", new IntegerType())
+				.addScalar("descripcion", new StringType())
+				.setResultTransformer(Transformers.aliasToBean(FotoAtractivoTuristicoSimple.class))
 				.setParameter("idAT", id);
 		
-		result = (List<FotoSimple>) query.list();
+		result = (List<FotoAtractivoTuristicoSimple>) query.list();
 		session.close();
 		return result;
 	}
@@ -163,5 +170,26 @@ public class FotoatractivoturisticoDAO {
 		}
 	}
 	
+	
+	public Integer getAutoIncrementValue()
+	{
+		Integer result=0;
+		Session session = sessionFactory.openSession();
+		try
+		{
+		//Query query = session.createSQLQuery("select idfotoPuebloMagico from fotoPuebloMagico order by idfotoPuebloMagico desc limit 1");
+		Query query = session.createSQLQuery("SELECT AUTO_INCREMENT "
+				+ "FROM  INFORMATION_SCHEMA.TABLES "
+				+ "WHERE TABLE_SCHEMA = \"pueblosmagicos\" "
+				+ "AND TABLE_NAME = \"fotoAtractivoTuristico\"");
+		result = ((BigInteger) query.uniqueResult()).intValue();
+		session.close();
+		}catch(Exception e )
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 }

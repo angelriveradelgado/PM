@@ -10,9 +10,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.FloatType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import dto.Atractivoturistico;
+import dto.FotoServicioTuristicoSimple;
 
 @Repository
 public class AtractivoturisticoDAO{
@@ -22,7 +28,7 @@ public class AtractivoturisticoDAO{
 	private SessionFactory sessionFactory;
 	 
 	public SessionFactory getSessionFactory() {
-	return sessionFactory;
+		return sessionFactory;
 	}
 	 
 	@Autowired
@@ -167,21 +173,143 @@ public class AtractivoturisticoDAO{
 		return results;
 	}
 	
+	public List<Atractivoturistico> getAtractivoturisticoByPMByLimit(int id, int first, int numRegistros) 
+	{
+		List<Atractivoturistico> result = null;
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createSQLQuery("select at.idAtractivoTuristico, at.nombre, at.descripcion, at.latitud, at.longitud, at.t_idUsuario as TIdUsuario, "
+				+ "at.tA_idtipoAtractivo as taIdtipoAtractivo, at.a_idUsuario as AIdUsuario, at.a_idAsentamiento as AIdAsentamiento, "
+				+ "at.eR_idEstadoRegistro as erIdEstadoRegistro, at.promedio "
+				+ "from atractivoTuristico at, asentamiento a, pueblomagico pm "
+				+ "where at.a_idAsentamiento=a.idAsentamiento "
+				+ "and a.m_idMunicipio=pm.m_idMunicipio "
+				+ "and pm.idPuebloMagico=:idPM limit :first, :numRegistros")
+		.addScalar("idAtractivoTuristico", new IntegerType())
+		.addScalar("nombre", new StringType())
+		.addScalar("descripcion", new StringType())
+		.addScalar("latitud", new DoubleType())
+		.addScalar("longitud", new DoubleType())
+		.addScalar("TIdUsuario", new IntegerType())
+		.addScalar("taIdtipoAtractivo", new IntegerType())
+		.addScalar("AIdUsuario", new IntegerType())
+		.addScalar("AIdAsentamiento", new IntegerType())
+		.addScalar("erIdEstadoRegistro", new IntegerType())		
+		.addScalar("promedio", new FloatType())		
+		.setResultTransformer(Transformers.aliasToBean(Atractivoturistico.class))
+		.setParameter("idPM", id)
+		.setParameter("first", first)
+		.setParameter("numRegistros", numRegistros);
+		
+		result = (List<Atractivoturistico>) query.list();
+		session.close();
+		return result;
+	}
+	
 	public List<Atractivoturistico> findByIdPuebloMagico(int id) 
 	{
 		List<Atractivoturistico> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select at.* from atractivoTuristico at, asentamiento a, municipio m, pueblomagico pm "
+		Query query = session.createSQLQuery("select at.idAtractivoTuristico, at.nombre, at.descripcion, at.latitud, at.longitud, at.t_idUsuario as TIdUsuario, "
+				+ "at.tA_idtipoAtractivo as taIdtipoAtractivo, at.a_idUsuario as AIdUsuario, at.a_idAsentamiento as AIdAsentamiento, "
+				+ "at.eR_idEstadoRegistro as erIdEstadoRegistro, at.promedio "
+				+ "from atractivoTuristico at, asentamiento a, pueblomagico pm "
 				+ "where at.a_idAsentamiento=a.idAsentamiento "
-				+ " and a.m_idMunicipio=m.idMunicipio "
-				+ "and m.idMunicipio=pm.m_idMunicipio "
-				+ "and pm.idPuebloMagico:=idPM")
+				+ "and a.m_idMunicipio=pm.m_idMunicipio "
+				+ "and pm.idPuebloMagico=:idPM")
+		.addScalar("idAtractivoTuristico", new IntegerType())
+		.addScalar("nombre", new StringType())
+		.addScalar("descripcion", new StringType())
+		.addScalar("latitud", new DoubleType())
+		.addScalar("longitud", new DoubleType())
+		.addScalar("TIdUsuario", new IntegerType())
+		.addScalar("taIdtipoAtractivo", new IntegerType())
+		.addScalar("AIdUsuario", new IntegerType())
+		.addScalar("AIdAsentamiento", new IntegerType())
+		.addScalar("erIdEstadoRegistro", new IntegerType())		
+		.addScalar("promedio", new FloatType())		
+		.setResultTransformer(Transformers.aliasToBean(Atractivoturistico.class))
 		.setParameter("idPM", id);
 		
 		result = (List<Atractivoturistico>) query.list();
 		session.close();
 		return result;
 	}
+	
+	public String getNombrePuebloMagico(int idAtractivoTuristico)
+	{
+		String nombre = null;;
+		
+		try
+		{
+			Session session = sessionFactory.openSession();
+			
+			Query query = session.createSQLQuery("select pm.nombre "
+					+ "from atractivoTuristico at, asentamiento a, pueblomagico pm "
+					+ "where at.a_idAsentamiento=a.idAsentamiento "
+					+ "and a.m_idMunicipio=pm.m_idMunicipio "
+					+ "and at.idAtractivoTuristico=:id")
+					.setParameter("id", idAtractivoTuristico); 
+			nombre = (String) query.uniqueResult();
+			session.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return nombre;
+	}
+	
+	public String getDireccion(int idAtractivoTuristico)
+	{
+		String direccion = null;
+				
+		try
+		{
+			Session session = sessionFactory.openSession();
+			
+			Query query = session.createSQLQuery("select ta.nombre "
+					+ "from tipoasentamiento ta, asentamiento a, atractivoTuristico at "
+					+ "where ta.idtipoAsentamiento=a.tA_idtipoAsentamiento "
+					+ "and a.idAsentamiento=at.a_idAsentamiento "
+					+ "and at.idAtractivoTuristico=:id")
+					.setParameter("id", idAtractivoTuristico); 
+			direccion = (String) query.uniqueResult();
+			
+			query = session.createSQLQuery("select a.nombreAsentamiento "
+					+ "from asentamiento a, atractivoTuristico at "
+					+ "where a.idAsentamiento=at.a_idAsentamiento "
+					+ "and at.idAtractivoTuristico=:id")
+					.setParameter("id", idAtractivoTuristico); 
+			direccion = direccion + " " + (String) query.uniqueResult();
+			
+			query = session.createSQLQuery("select m.nombreMunicipio "
+					+ "from asentamiento a, atractivoTuristico at, municipio m "
+					+ "where m.idMunicipio=a.m_idMunicipio "
+					+ "and a.idAsentamiento=at.a_idAsentamiento "
+					+ "and at.idAtractivoTuristico=:id")
+					.setParameter("id", idAtractivoTuristico); 
+			direccion = direccion + ", " + (String) query.uniqueResult();
+			
+			query = session.createSQLQuery("select e.nombreEstado "
+					+ "from asentamiento a, atractivoTuristico at, municipio m, estado e "
+					+ "where e.idEstado=e_idEstado "
+					+ "and m.idMunicipio=a.m_idMunicipio "
+					+ "and a.idAsentamiento=at.a_idAsentamiento "
+					+ "and at.idAtractivoTuristico=:id")
+					.setParameter("id", idAtractivoTuristico); 
+			direccion = direccion + ", " + (String) query.uniqueResult();
+			
+			session.close();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return direccion;
+	}
+	
+	
 	
 }

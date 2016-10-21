@@ -6,7 +6,7 @@ App.controller('NavegationController', function($rootScope, $http, $location)
 	var authenticate = function(credentials, callback)
 	{
 		var headers = credentials ? {authorization : "Basic " + btoa(credentials.username + ":" + credentials.password)} : {};
-	    $http.get('http://localhost:8080/pueblosMagicos/usuario', {headers : headers})
+	    $http.get('http://localhost:8080/pueblosMagicos/turista/' , {headers : headers})
 	    .then
 	    (
     		function(response)

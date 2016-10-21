@@ -30,7 +30,6 @@ public class ListaHasAtractivoturistico implements java.io.Serializable
 	@EmbeddedId
 
 	@AttributeOverrides({
-			@AttributeOverride(name = "listaIdlista", column = @Column(name = "lista_idlista", nullable = false)),
 			@AttributeOverride(name = "atractivoTuristicoIdAtractivoTuristico", column = @Column(name = "AtractivoTuristico_idAtractivoTuristico", nullable = false)),
 			@AttributeOverride(name = "turistaIdUsuario", column = @Column(name = "Turista_idUsuario", nullable = false)) })
 	public ListaHasAtractivoturisticoId getId( )

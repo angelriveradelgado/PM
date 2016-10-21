@@ -142,9 +142,11 @@ public class AsentamientoDAO {
 		try {
 			List<Asentamiento> results = session.createCriteria(Asentamiento.class).add( Restrictions.like("nombreAsentamiento", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
+			session.close();
 			return results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
+			session.close();
 			throw re;
 		}
 	}

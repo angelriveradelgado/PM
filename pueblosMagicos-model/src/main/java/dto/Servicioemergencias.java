@@ -21,7 +21,7 @@ public class Servicioemergencias implements java.io.Serializable
 
 	private Integer idservicioEmergencias;
 	private String nombre;
-	private int pmIdPuebloMagico;
+	private int aIdAsentamiento;
 	private Double longitud;
 	private Double latitud;
 	private String descripcion;
@@ -34,14 +34,14 @@ public class Servicioemergencias implements java.io.Serializable
 
 	public Servicioemergencias(int pmIdPuebloMagico)
 	{
-		this.pmIdPuebloMagico = pmIdPuebloMagico;
+		this.aIdAsentamiento = pmIdPuebloMagico;
 	}
 
-	public Servicioemergencias(String nombre, int pmIdPuebloMagico, Double longitud, Double latitud, String descripcion,
+	public Servicioemergencias(String nombre, int aIdAsentamiento, Double longitud, Double latitud, String descripcion,
 			Date horaInicio, Date horaFin)
 	{
 		this.nombre = nombre;
-		this.pmIdPuebloMagico = pmIdPuebloMagico;
+		this.aIdAsentamiento = aIdAsentamiento;
 		this.longitud = longitud;
 		this.latitud = latitud;
 		this.descripcion = descripcion;
@@ -74,15 +74,15 @@ public class Servicioemergencias implements java.io.Serializable
 		this.nombre = nombre;
 	}
 
-	@Column(name = "pM_idPuebloMagico", nullable = false)
-	public int getPmIdPuebloMagico( )
+	@Column(name = "a_idAsentamiento", nullable = false)
+	public int getAIdAsentamiento( )
 	{
-		return this.pmIdPuebloMagico;
+		return this.aIdAsentamiento;
 	}
 
-	public void setPmIdPuebloMagico( int pmIdPuebloMagico )
+	public void setAIdAsentamiento( int aIdAsentamiento )
 	{
-		this.pmIdPuebloMagico = pmIdPuebloMagico;
+		this.aIdAsentamiento = aIdAsentamiento;
 	}
 
 	@Column(name = "longitud", precision = 22, scale = 0)

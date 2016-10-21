@@ -26,20 +26,20 @@ public class Atractivoturistico implements java.io.Serializable
 	private Integer AIdUsuario;
 	private int AIdAsentamiento;
 	private int erIdEstadoRegistro;
+	private Float promedio;
 
 	public Atractivoturistico()
 	{
 	}
 
-	public Atractivoturistico(int taIdtipoAtractivo, int AIdAsentamiento, int erIdEstadoRegistro)
+	public Atractivoturistico(int taIdtipoAtractivo, int erIdEstadoRegistro)
 	{
 		this.taIdtipoAtractivo = taIdtipoAtractivo;
-		this.AIdAsentamiento = AIdAsentamiento;
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
 
 	public Atractivoturistico(String nombre, String descripcion, Double latitud, Double longitud, Integer TIdUsuario,
-			int taIdtipoAtractivo, Integer AIdUsuario, int AIdAsentamiento, int erIdEstadoRegistro)
+			int taIdtipoAtractivo, Integer AIdUsuario, int AIdAsentamiento, int erIdEstadoRegistro, float promedio)
 	{
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -50,6 +50,7 @@ public class Atractivoturistico implements java.io.Serializable
 		this.AIdUsuario = AIdUsuario;
 		this.AIdAsentamiento = AIdAsentamiento;
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
+		this.promedio = promedio;
 	}
 
 	@Id
@@ -143,7 +144,7 @@ public class Atractivoturistico implements java.io.Serializable
 		this.AIdUsuario = AIdUsuario;
 	}
 
-	@Column(name = "a_idAsentamiento", nullable = false)
+	@Column(name = "a_idAsentamiento")
 	public int getAIdAsentamiento( )
 	{
 		return this.AIdAsentamiento;
@@ -163,6 +164,17 @@ public class Atractivoturistico implements java.io.Serializable
 	public void setErIdEstadoRegistro( int erIdEstadoRegistro )
 	{
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
+	}
+	
+	@Column(name = "promedio")
+	public float getPromedio( )
+	{
+		return this.promedio;
+	}
+
+	public void setPromedio( Float promedio )
+	{
+		this.promedio = promedio;
 	}
 
 }

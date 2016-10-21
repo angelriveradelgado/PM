@@ -5,16 +5,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.FloatType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dto.Calificacionpueblomagico;
 import dto.Evaluacionservicioturistico;
 import dto.Pueblomagico;
+import dto.Servicioturistico;
 
 @Repository
 public class EvaluacionservicioturisticoDAO
@@ -210,6 +216,47 @@ public class EvaluacionservicioturisticoDAO
 			throw re;
 		}
 		return results;
+	}
+	
+	public List<Evaluacionservicioturistico> getEvaluacionservicioturisticoByIdServicioAndByLimit( int id, int first, int numRegistros  )
+	{
+		List<Evaluacionservicioturistico> result = null;
+		Session session = sessionFactory.openSession();
+		
+		Query query = session.createSQLQuery("select e.idEvaluacion, e.comentario, "
+				+ "e.t_idUsuario as TIdUsuario, e.aspectoEstablecimiento, "
+				+ "e.atencionCliente, e.eficienciaServicio,"
+				+ "e.higieneEstablecimiento, e.relacionPrecioCalidad, "
+				+ "e.accesibilidad, e.comunicacion, e.manejoIdiomas,"
+				+ "e.senalamientoInterno, e.senalamientoExterno, "
+				+ "e.sT_idServicioTuristico as sTIdServicioTuristico, e.tE_idEvaluacion as teIdEvaluacion, "
+				+ "e.promedio "
+				+ "from evaluacionServicioTuristico e, servicioTuristico s	"
+				+ "where s.idServicioTuristico=e.sT_idServicioTuristico "
+				+ "and s.idServicioTuristico=:id "
+				+ "limit first, numRegistros")
+		.addScalar("idEvaluacion", new IntegerType())
+		.addScalar("comentario", new StringType())
+		.addScalar("TIdUsuario", new IntegerType())
+		.addScalar("teIdEvaluacion", new IntegerType())
+		.addScalar("aspectoEstablecimiento", new IntegerType())
+		.addScalar("atencionCliente", new IntegerType())
+		.addScalar("eficienciaServicio", new IntegerType())
+		.addScalar("higieneEstablecimiento", new IntegerType())
+		.addScalar("relacionPrecioCalidad", new IntegerType())
+		.addScalar("accesibilidad", new IntegerType())
+		.addScalar("comunicacion", new IntegerType())
+		.addScalar("manejoIdiomas", new IntegerType())
+		.addScalar("senalamientoInterno", new IntegerType())
+		.addScalar("senalamientoExterno", new IntegerType())
+		.addScalar("sTIdServicioTuristico", new IntegerType())
+		.addScalar("promedio", new FloatType())
+		.setResultTransformer(Transformers.aliasToBean(Evaluacionservicioturistico.class))
+		.setParameter("id", id);
+		
+		result = (List<Evaluacionservicioturistico>) query.list();
+		session.close();
+		return result;
 	}
 
 }

@@ -11,8 +11,8 @@
         <property name="nombre" type="string">
             <column name="nombre" length="100" />
         </property>
-        <property name="pmIdPuebloMagico" type="int">
-            <column name="pM_idPuebloMagico" not-null="true" />
+        <property name="aIdAsentamiento" type="int">
+            <column name="a_idAsentamiento" not-null="true" />
         </property>
         <property name="longitud" type="java.lang.Double">
             <column name="longitud" precision="22" scale="0" />

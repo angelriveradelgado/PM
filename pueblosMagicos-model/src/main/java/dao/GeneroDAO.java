@@ -151,15 +151,20 @@ public class GeneroDAO {
 	
 	public int getId(String n) {
 		log.debug("finding Usuario instance by example");
+		int respuesta = 0;
 		Session session = sessionFactory.openSession();
+		Transaction tx = null;
 		try {
-			List<Genero> results = session.createCriteria(Tipousuario.class).add(Restrictions.like("nombre", n))
+			tx = session.getTransaction();
+			List<Genero> results = session.createCriteria(Genero.class).add(Restrictions.like("nombre", n))
 					.list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0).getIdgenero();
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
+			respuesta =  results.get(0).getIdgenero();
+		} catch (HibernateException e) {
+			if (tx!=null) 
+				tx.rollback();
 		}
+		session.close();
+		return respuesta;
 	}
 }

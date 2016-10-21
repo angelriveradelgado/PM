@@ -70,7 +70,14 @@ public class AsociacionDAO {
 	public List<Asociacion> readAll() {
 		List<Asociacion> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Asociacion.class).list();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			result = session.createCriteria(Asociacion.class).list();
+		} catch (HibernateException e) {
+			if (tx!=null) 
+				tx.rollback();
+		}
 		session.close();
 		return result;
 	}
@@ -142,9 +149,11 @@ public class AsociacionDAO {
 		try {
 			List<Asociacion> results = session.createCriteria(Asociacion.class).add( Restrictions.like("nombreAsociacion", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
+			session.close();
 			return results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
+			session.close();
 			throw re;
 		}
 	}

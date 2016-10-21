@@ -25,7 +25,7 @@ public class EstadoController
 	
 	//WS que devuelve una lista de estados que tienen pms
 	@RequestMapping(value = "/estados/pm", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getEstadoPM() 
+	public ResponseEntity<?> getEstadosPM() 
 	{
 		ResponseEntity<?> result = null;
 		List<Estado> e = null;
