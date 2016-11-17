@@ -1,0 +1,57 @@
+
+ <div class="container" ng-controller="ValidacionEstablecimientos as validacionEstablecimientos">
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li >
+						<a href="#/validacion" >Inicio</a>
+					</li>
+				   <li >
+						<a href="#/validacion/prestadores" >PST</a>
+				   </li>
+				   <li class="active">
+						<a href="#/validacion/establecimientos" >Establecimientos</a>
+				   </li>           
+				   <li >
+						<a href="#/validacion/serviciosTuristicos" >Servicios turísticos</a>
+				   </li>                
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9">
+         	<table class="table table-bordered table-striped table-booking-history">
+               	<thead>
+                     <tr>
+                        <th colspan="5" class="text-center">Solicitudes de PST</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Nombre comercial</th>
+                        <th class="text-center">Validar</th>
+                    </tr>
+                </thead>
+                <tbody infinite-scroll='loadMore()' infinite-scroll-distance='2' infinite-scroll-disabled='end'>
+                    <tr ng-repeat="establecimiento in establecimientos">
+                        <td>{{establecimiento.nombreComercial}}</td>
+                        <td class="text-center">
+                            <div>    
+                                <form>
+                                	<a class="btn btn-link  fa  fa-pencil-square-o" ng-href="#/validacion/establecimientos/validar/{{establecimiento.idEstablecimiento}}"></a>
+                                </form>
+                            </div>
+                        </td>
+                        
+                    </tr>   
+
+                </tbody>
+            </table>
+               
+                   	
+         </div>
+     </div>
+
+     <div class="gap"></div>
+ </div>

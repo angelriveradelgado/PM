@@ -14,19 +14,19 @@ import javax.persistence.Table;
 public class Estadopueblomagico implements java.io.Serializable
 {
 
-	private int idestadoPuebloMagico;
+	private Integer idestadoPuebloMagico;
 	private String estado;
 
 	public Estadopueblomagico()
 	{
 	}
 
-	public Estadopueblomagico(int idestadoPuebloMagico)
+	public Estadopueblomagico(Integer idestadoPuebloMagico)
 	{
 		this.idestadoPuebloMagico = idestadoPuebloMagico;
 	}
 
-	public Estadopueblomagico(int idestadoPuebloMagico, String estado)
+	public Estadopueblomagico(Integer idestadoPuebloMagico, String estado)
 	{
 		this.idestadoPuebloMagico = idestadoPuebloMagico;
 		this.estado = estado;
@@ -35,12 +35,12 @@ public class Estadopueblomagico implements java.io.Serializable
 	@Id
 
 	@Column(name = "idestadoPuebloMagico", unique = true, nullable = false)
-	public int getIdestadoPuebloMagico( )
+	public Integer getIdestadoPuebloMagico( )
 	{
 		return this.idestadoPuebloMagico;
 	}
 
-	public void setIdestadoPuebloMagico( int idestadoPuebloMagico )
+	public void setIdestadoPuebloMagico( Integer idestadoPuebloMagico )
 	{
 		this.idestadoPuebloMagico = idestadoPuebloMagico;
 	}

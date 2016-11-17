@@ -4,14 +4,14 @@
 <!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="dto.Turista" table="turista" catalog="pueblosMagicos">
-        <id name="idUsuario" type="int">
+        <id name="idUsuario" type="java.lang.Integer">
             <column name="idUsuario" />
             <generator class="assigned" />
         </id>
         <property name="fechaNacimiento" type="date">
             <column name="fechaNacimiento" length="0" />
         </property>
-        <property name="GIdgenero" type="int">
+        <property name="GIdgenero" type="java.lang.Integer">
             <column name="g_idgenero" not-null="true" />
         </property>
     </class>

@@ -14,10 +14,10 @@
         <property name="comentario" type="string">
             <column name="comentario" length="65535" />
         </property>
-        <property name="atIdatractivoTuristico" type="int">
+        <property name="atIdatractivoTuristico" type="java.lang.Integer">
             <column name="aT_idatractivoTuristico" not-null="true" />
         </property>
-        <property name="TIdusuario" type="int">
+        <property name="TIdusuario" type="java.lang.Integer">
             <column name="t_idusuario" not-null="true" />
         </property>
     </class>

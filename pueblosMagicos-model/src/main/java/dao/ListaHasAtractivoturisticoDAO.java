@@ -67,10 +67,17 @@ public class ListaHasAtractivoturisticoDAO{
 		return u;
 	}
 	
-	public List<ListaHasAtractivoturistico> readAll() {
+	public List<ListaHasAtractivoturistico> readAll() 
+	{
 		List<ListaHasAtractivoturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(ListaHasAtractivoturistico.class).list();
+		try
+		{
+			result = session.createCriteria(ListaHasAtractivoturistico.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -136,17 +143,19 @@ public class ListaHasAtractivoturisticoDAO{
 		return u;
 	}
 
-	public List<ListaHasAtractivoturisticoId> findByIdUsuario(int id) {
+	public List<ListaHasAtractivoturisticoId> findByIdUsuario(Integer id) {
 		log.debug("finding ListaHasServicioturistico instance by example");
+		List<ListaHasAtractivoturisticoId> results = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<ListaHasAtractivoturisticoId> results = session.createCriteria(ListaHasAtractivoturisticoId.class).add( Restrictions.like("Turista_idUsuario", id) ).list();
+			results = session.createCriteria(ListaHasAtractivoturisticoId.class).add( Restrictions.like("servicioTuristicoIdServicio", id) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return results;
 	}
 	
 }

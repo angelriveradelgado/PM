@@ -51,11 +51,12 @@ public class EvaluacionalojamientoDAO
 					.createSQLQuery(
 							"insert into evaluacionservicioturistico(comentario,t_idUsuario,aspectoEstablecimiento, "
 									+ "	atencionCliente,eficienciaServicio,higieneEstablecimiento,relacionPrecioCalidad, "
-									+ "	accesibilidad,comunicacion,manejoIdiomas,senalamientoInterno,senalamientoExterno,sT_idServicioTuristico,tE_idEvaluacion) "
+									+ "	accesibilidad,comunicacion,manejoIdiomas,senalamientoInterno,senalamientoExterno,"
+									+ "sT_idServicioTuristico,tE_idEvaluacion, promedio) "
 									+ "	values(:comentario,:idUsuario,:aspectoEstablecimiento, "
 									+ "	:atencionCliente,:eficienciaServicio,:higieneEstablecimiento,:relacionPrecioCalidad, "
-									+ "	:accesibilidad,:comunicacion,:manejoIdiomas,:senalamientoInterno,:senalamientoExterno,:idServicioTuristico"
-									+ "(select idEvaluacion from tipoevaluacion where nombre like '%AVENTURA%'))")
+									+ "	:accesibilidad,:comunicacion,:manejoIdiomas,:senalamientoInterno,:senalamientoExterno,:idServicioTuristico, "
+									+ "(select idEvaluacion from tipoevaluacion where nombre like '%ALOJAMIENTO%'), :promedio)")
 					.setParameter("comentario", est.getComentario()).setParameter("idUsuario", est.getTIdUsuario())
 					.setParameter("aspectoEstablecimiento", est.getAspectoEstablecimiento())
 					.setParameter("atencionCliente", est.getAtencionCliente())
@@ -67,19 +68,25 @@ public class EvaluacionalojamientoDAO
 					.setParameter("manejoIdiomas", est.getManejoIdiomas())
 					.setParameter("senalamientoInterno", est.getSenalamientoInterno())
 					.setParameter("senalamientoExterno", est.getSenalamientoExterno())
-					.setParameter("idServicioTuristico", est.getSTIdServicioTuristico());
+					.setParameter("idServicioTuristico", est.getSTIdServicioTuristico())
+					.setParameter("promedio", est.getPromedio());
 
 			Query query1 = session
 					.createSQLQuery(
-							"insert into evaluacionalojamiento values(((select idEvaluacion from evaluacionservicioturistico order by idEvaluacion desc limit 1)), "
+							"insert into evaluacionalojamiento "
+							+ "(e_idevaluacion, instalacionesRecepcion, servicioPortero, servicioMaletero, "
+							+ "registroEntrada, iluminacionHabitacion, confortCama, limpiezaBano, mobiliario, equipamientoElectronicos, servicioLavadoPlanchado) "
+							+ "values("
+							+ "(select idEvaluacion from evaluacionservicioturistico order by idEvaluacion desc limit 1), "
 									+ ":instalacionesRecep, :servPortero, :servMaletero, :regEntrada, :ilumHabitacion, :confortCama, "
-									+ ":limpBano, :mobiliario, :eqElectronicos, :servLavPlanchado")
+									+ ":limpBano, :mobiliario, :eqElectronicos, :servLavPlanchado)")
 					.setParameter("instalacionesRecep", ea.getInstalacionesRecepcion())
 					.setParameter("servPortero", ea.getServicioPortero())
 					.setParameter("servMaletero", ea.getServicioMaletero())
 					.setParameter("regEntrada", ea.getRegistroEntrada())
 					.setParameter("ilumHabitacion", ea.getIluminacionHabitacion())
-					.setParameter("confortCama", ea.getConfortCama()).setParameter("limpBano", ea.getLimpiezaBano())
+					.setParameter("confortCama", ea.getConfortCama())
+					.setParameter("limpBano", ea.getLimpiezaBano())
 					.setParameter("mobiliario", ea.getMobiliario())
 					.setParameter("eqElectronicos", ea.getEquipamientoElectronicos())
 					.setParameter("servLavPlanchado", ea.getServicioLavadoPlanchado());
@@ -89,17 +96,16 @@ public class EvaluacionalojamientoDAO
 				tx.commit();
 				conf = true;
 			}
-			conf = false;
 		} catch (HibernateException e)
 		{
 			if (tx != null)
 				tx.rollback();
 		}
-
+		session.close();
 		return conf;
 	}
 
-	public Evaluacionalojamiento read( int id )
+	public Evaluacionalojamiento read( Integer id )
 	{
 		log.debug("reading Evaluacionalojamiento instance");
 		Evaluacionalojamiento u = null;
@@ -124,7 +130,13 @@ public class EvaluacionalojamientoDAO
 	{
 		List<Evaluacionalojamiento> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Evaluacionalojamiento.class).list();
+		try
+		{
+			result = session.createCriteria(Evaluacionalojamiento.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -203,21 +215,25 @@ public class EvaluacionalojamientoDAO
 	public Evaluacionalojamiento findByNombreEvaluacionalojamiento( String n )
 	{
 		log.debug("finding Evaluacionalojamiento instance by example");
+		List<Evaluacionalojamiento> results = null;
+		Evaluacionalojamiento result = null;
 		Session session = sessionFactory.openSession();
 		try
 		{
-			List<Evaluacionalojamiento> results = session.createCriteria(Evaluacionalojamiento.class)
+			results = session.createCriteria(Evaluacionalojamiento.class)
 					.add(Restrictions.like("nombreEvaluacionalojamiento", n)).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re)
 		{
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 
-	public List<Evaluacionalojamiento> getEvaluacionalojamientoByLimit( int first, int numRegistros )
+	public List<Evaluacionalojamiento> getEvaluacionalojamientoByLimit( Integer first, Integer numRegistros )
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Evaluacionalojamiento> results = null;
@@ -232,8 +248,9 @@ public class EvaluacionalojamientoDAO
 		} catch (RuntimeException re)
 		{
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 

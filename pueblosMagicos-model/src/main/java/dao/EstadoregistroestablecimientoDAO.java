@@ -48,7 +48,7 @@ public class EstadoregistroestablecimientoDAO{
 		return conf;
 	}
 	
-	public Estadoregistroestablecimiento read(int id) {
+	public Estadoregistroestablecimiento read(Integer id) {
 		log.debug("reading Estadoregistroestablecimiento instance");
 		Estadoregistroestablecimiento u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +69,13 @@ public class EstadoregistroestablecimientoDAO{
 	public List<Estadoregistroestablecimiento> readAll() {
 		List<Estadoregistroestablecimiento> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Estadoregistroestablecimiento.class).list();
+		try
+		{
+			result = session.createCriteria(Estadoregistroestablecimiento.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -137,15 +143,19 @@ public class EstadoregistroestablecimientoDAO{
 
 	public Estadoregistroestablecimiento findByNombreEstadoregistroestablecimiento(String n) {
 		log.debug("finding Estadoregistroestablecimiento instance by example");
+		List<Estadoregistroestablecimiento> results = null;
+		Estadoregistroestablecimiento result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Estadoregistroestablecimiento> results = session.createCriteria(Estadoregistroestablecimiento.class).add( Restrictions.like("nombreEstadoregistroestablecimiento", n) ).list();
+			results = session.createCriteria(Estadoregistroestablecimiento.class).add( Restrictions.like("nombreEstadoregistroestablecimiento", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result =  results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
 }

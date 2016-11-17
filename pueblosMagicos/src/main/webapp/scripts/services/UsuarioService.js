@@ -5,6 +5,23 @@ App.factory('UsuarioService', ['$http', '$q', 'CONFIG',  function($http, $q, CON
 		return {
 	        
 	        
+			getUsuarioById: function(id) 
+	        {
+	            return $http.get( CONFIG.urlWebService + '/usuario/id/' + id )
+	            .then
+	            (
+	                function(response)
+	                {
+	                    return response.data;
+	                }, 
+	                function(errResponse)
+	                {
+	                    console.error('Error while fetching pueblosMagicos');
+	                    return $q.reject(errResponse);
+	                }
+	            );
+	        },
+			
 	        getUsuarioByNombre: function(nombre) 
 	        {
 	            return $http.get( CONFIG.urlWebService + '/usuario/nombre/' + nombre )
@@ -84,7 +101,7 @@ App.factory('UsuarioService', ['$http', '$q', 'CONFIG',  function($http, $q, CON
 		            }
 		        }
 				
-				$http.put(CONFIG.urlWebService + '/turista', data, config)
+				$http.post(CONFIG.urlWebService + '/turistaEdit', data, config)
 		        .success(function (data, status, headers, config) {
 		            return data;
 		        })

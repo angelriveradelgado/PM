@@ -14,13 +14,13 @@ import javax.persistence.Table;
 public class Servicioturisticoaventura implements java.io.Serializable
 {
 
-	private int stIdServicio;
+	private Integer stIdServicio;
 
 	public Servicioturisticoaventura()
 	{
 	}
 
-	public Servicioturisticoaventura(int stIdServicio)
+	public Servicioturisticoaventura(Integer stIdServicio)
 	{
 		this.stIdServicio = stIdServicio;
 	}
@@ -28,12 +28,12 @@ public class Servicioturisticoaventura implements java.io.Serializable
 	@Id
 
 	@Column(name = "sT_idServicio", unique = true, nullable = false)
-	public int getStIdServicio( )
+	public Integer getStIdServicio( )
 	{
 		return this.stIdServicio;
 	}
 
-	public void setStIdServicio( int stIdServicio )
+	public void setStIdServicio( Integer stIdServicio )
 	{
 		this.stIdServicio = stIdServicio;
 	}

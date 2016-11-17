@@ -14,14 +14,14 @@ import javax.persistence.Table;
 public class Servicioturisticorestauracion implements java.io.Serializable
 {
 
-	private int stIdServicioTuristico;
-	private int tsrIdtipoServicioRestauracion;
+	private Integer stIdServicioTuristico;
+	private Integer tsrIdtipoServicioRestauracion;
 
 	public Servicioturisticorestauracion()
 	{
 	}
 
-	public Servicioturisticorestauracion(int stIdServicioTuristico, int tsrIdtipoServicioRestauracion)
+	public Servicioturisticorestauracion(Integer stIdServicioTuristico, Integer tsrIdtipoServicioRestauracion)
 	{
 		this.stIdServicioTuristico = stIdServicioTuristico;
 		this.tsrIdtipoServicioRestauracion = tsrIdtipoServicioRestauracion;
@@ -30,23 +30,23 @@ public class Servicioturisticorestauracion implements java.io.Serializable
 	@Id
 
 	@Column(name = "sT_idServicioTuristico", unique = true, nullable = false)
-	public int getStIdServicioTuristico( )
+	public Integer getStIdServicioTuristico( )
 	{
 		return this.stIdServicioTuristico;
 	}
 
-	public void setStIdServicioTuristico( int stIdServicioTuristico )
+	public void setStIdServicioTuristico( Integer stIdServicioTuristico )
 	{
 		this.stIdServicioTuristico = stIdServicioTuristico;
 	}
 
 	@Column(name = "tSR_idtipoServicioRestauracion", nullable = false)
-	public int getTsrIdtipoServicioRestauracion( )
+	public Integer getTsrIdtipoServicioRestauracion( )
 	{
 		return this.tsrIdtipoServicioRestauracion;
 	}
 
-	public void setTsrIdtipoServicioRestauracion( int tsrIdtipoServicioRestauracion )
+	public void setTsrIdtipoServicioRestauracion( Integer tsrIdtipoServicioRestauracion )
 	{
 		this.tsrIdtipoServicioRestauracion = tsrIdtipoServicioRestauracion;
 	}

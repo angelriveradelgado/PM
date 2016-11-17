@@ -48,7 +48,7 @@ public class TipovialidadDAO {
 		return conf;
 	}
 	
-	public Tipovialidad read(int id) {
+	public Tipovialidad read(Integer id) {
 		log.debug("reading Tipovialidad instance");
 		Tipovialidad u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +69,14 @@ public class TipovialidadDAO {
 	public List<Tipovialidad> readAll() {
 		List<Tipovialidad> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tipovialidad.class).list();
+		try
+		{
+			result = session.createCriteria(Tipovialidad.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	
 		session.close();
 		return result;
 	}

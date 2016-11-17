@@ -22,24 +22,24 @@ public class Atractivoturistico implements java.io.Serializable
 	private Double latitud;
 	private Double longitud;
 	private Integer TIdUsuario;
-	private int taIdtipoAtractivo;
+	private Integer taIdtipoAtractivo;
 	private Integer AIdUsuario;
-	private int AIdAsentamiento;
-	private int erIdEstadoRegistro;
+	private Integer AIdAsentamiento;
+	private Integer erIdEstadoRegistro;
 	private Float promedio;
 
 	public Atractivoturistico()
 	{
 	}
 
-	public Atractivoturistico(int taIdtipoAtractivo, int erIdEstadoRegistro)
+	public Atractivoturistico(Integer taIdtipoAtractivo, Integer erIdEstadoRegistro)
 	{
 		this.taIdtipoAtractivo = taIdtipoAtractivo;
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
 
 	public Atractivoturistico(String nombre, String descripcion, Double latitud, Double longitud, Integer TIdUsuario,
-			int taIdtipoAtractivo, Integer AIdUsuario, int AIdAsentamiento, int erIdEstadoRegistro, float promedio)
+			Integer taIdtipoAtractivo, Integer AIdUsuario, Integer AIdAsentamiento, Integer erIdEstadoRegistro, Float promedio)
 	{
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -122,13 +122,13 @@ public class Atractivoturistico implements java.io.Serializable
 		this.TIdUsuario = TIdUsuario;
 	}
 
-	@Column(name = "tA_idtipoAtractivo", nullable = false)
-	public int getTaIdtipoAtractivo( )
+	@Column(name = "tA_idtipoAtractivo")
+	public Integer getTaIdtipoAtractivo( )
 	{
 		return this.taIdtipoAtractivo;
 	}
 
-	public void setTaIdtipoAtractivo( int taIdtipoAtractivo )
+	public void setTaIdtipoAtractivo( Integer taIdtipoAtractivo )
 	{
 		this.taIdtipoAtractivo = taIdtipoAtractivo;
 	}
@@ -145,29 +145,29 @@ public class Atractivoturistico implements java.io.Serializable
 	}
 
 	@Column(name = "a_idAsentamiento")
-	public int getAIdAsentamiento( )
+	public Integer getAIdAsentamiento( )
 	{
 		return this.AIdAsentamiento;
 	}
 
-	public void setAIdAsentamiento( int AIdAsentamiento )
+	public void setAIdAsentamiento( Integer AIdAsentamiento )
 	{
 		this.AIdAsentamiento = AIdAsentamiento;
 	}
 
 	@Column(name = "eR_idEstadoRegistro", nullable = false)
-	public int getErIdEstadoRegistro( )
+	public Integer getErIdEstadoRegistro( )
 	{
 		return this.erIdEstadoRegistro;
 	}
 
-	public void setErIdEstadoRegistro( int erIdEstadoRegistro )
+	public void setErIdEstadoRegistro( Integer erIdEstadoRegistro )
 	{
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
 	
 	@Column(name = "promedio")
-	public float getPromedio( )
+	public Float getPromedio( )
 	{
 		return this.promedio;
 	}

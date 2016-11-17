@@ -17,27 +17,27 @@ public class Servicioturistico implements java.io.Serializable
 {
 
 	private Integer idServicioTuristico;
-	private int EIdEstablecimiento;
+	private Integer EIdEstablecimiento;
 	private String nombre;
 	private Integer aforo;
-	private int tstIdtSt;
-	private int VIdUsuario;
+	private Integer tstIdtSt;
+	private Integer VIdUsuario;
 	private Double precioMinimo;
 	private Double precioMaximo;
 	private Double precioMedio;
 	private String descripcion;
 	private String sitioWeb;
-	private int erIdEstadoRegistro;
+	private Integer erIdEstadoRegistro;
 	private String telefono;
 	private String extensionTelefono;
-	private float promedio;
+	private Float promedio;
 
 	public Servicioturistico()
 	{
 	}
 
-	public Servicioturistico(int EIdEstablecimiento, int tstIdtSt, int VIdUsuario, 
-			int erIdEstadoRegistro)
+	public Servicioturistico(Integer EIdEstablecimiento, Integer tstIdtSt, Integer VIdUsuario, 
+			Integer erIdEstadoRegistro)
 	{
 		this.EIdEstablecimiento = EIdEstablecimiento;
 		this.tstIdtSt = tstIdtSt;
@@ -45,9 +45,9 @@ public class Servicioturistico implements java.io.Serializable
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
 
-	public Servicioturistico(int EIdEstablecimiento, String nombre, Integer aforo, int tstIdtSt, int VIdUsuario,
+	public Servicioturistico(Integer EIdEstablecimiento, String nombre, Integer aforo, Integer tstIdtSt, Integer VIdUsuario,
 			Double precioMinimo, Double precioMaximo, Double precioMedio, String descripcion,
-			String sitioWeb, int erIdEstadoRegistro, String telefono, String extensionTelefono, float promedio)
+			String sitioWeb, Integer erIdEstadoRegistro, String telefono, String extensionTelefono, Float promedio)
 	{
 		this.EIdEstablecimiento = EIdEstablecimiento;
 		this.nombre = nombre;
@@ -80,12 +80,12 @@ public class Servicioturistico implements java.io.Serializable
 	}
 
 	@Column(name = "e_idEstablecimiento", nullable = false)
-	public int getEIdEstablecimiento( )
+	public Integer getEIdEstablecimiento( )
 	{
 		return this.EIdEstablecimiento;
 	}
 
-	public void setEIdEstablecimiento( int EIdEstablecimiento )
+	public void setEIdEstablecimiento( Integer EIdEstablecimiento )
 	{
 		this.EIdEstablecimiento = EIdEstablecimiento;
 	}
@@ -113,23 +113,23 @@ public class Servicioturistico implements java.io.Serializable
 	}
 
 	@Column(name = "tST_idtST", nullable = false)
-	public int getTstIdtSt( )
+	public Integer getTstIdtSt( )
 	{
 		return this.tstIdtSt;
 	}
 
-	public void setTstIdtSt( int tstIdtSt )
+	public void setTstIdtSt( Integer tstIdtSt )
 	{
 		this.tstIdtSt = tstIdtSt;
 	}
 
-	@Column(name = "v_idUsuario", nullable = false)
-	public int getVIdUsuario( )
+	@Column(name = "v_idUsuario")
+	public Integer getVIdUsuario( )
 	{
 		return this.VIdUsuario;
 	}
 
-	public void setVIdUsuario( int VIdUsuario )
+	public void setVIdUsuario( Integer VIdUsuario )
 	{
 		this.VIdUsuario = VIdUsuario;
 	}
@@ -178,7 +178,7 @@ public class Servicioturistico implements java.io.Serializable
 		this.descripcion = descripcion;
 	}
 
-	@Column(name = "sitioWEB", length = 45)
+	@Column(name = "sitioWEB", length = 100)
 	public String getSitioWeb( )
 	{
 		return this.sitioWeb;
@@ -190,12 +190,12 @@ public class Servicioturistico implements java.io.Serializable
 	}
 
 	@Column(name = "eR_idEstadoRegistro", nullable = false)
-	public int getErIdEstadoRegistro( )
+	public Integer getErIdEstadoRegistro( )
 	{
 		return this.erIdEstadoRegistro;
 	}
 
-	public void setErIdEstadoRegistro( int erIdEstadoRegistro )
+	public void setErIdEstadoRegistro( Integer erIdEstadoRegistro )
 	{
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
@@ -223,12 +223,12 @@ public class Servicioturistico implements java.io.Serializable
 	}
 
 	@Column(name = "promedio")
-	public float getPromedio( )
+	public Float getPromedio( )
 	{
 		return this.promedio;
 	}
 
-	public void setPromedio( float promedio )
+	public void setPromedio( Float promedio )
 	{
 		this.promedio = promedio;
 	}

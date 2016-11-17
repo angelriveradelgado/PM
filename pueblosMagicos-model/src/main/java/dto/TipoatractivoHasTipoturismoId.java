@@ -11,37 +11,37 @@ import javax.persistence.Embeddable;
 public class TipoatractivoHasTipoturismoId implements java.io.Serializable
 {
 
-	private int taIdtipoAtractivo;
-	private int ttIdtipoTurismo;
+	private Integer taIdtipoAtractivo;
+	private Integer ttIdtipoTurismo;
 
 	public TipoatractivoHasTipoturismoId()
 	{
 	}
 
-	public TipoatractivoHasTipoturismoId(int taIdtipoAtractivo, int ttIdtipoTurismo)
+	public TipoatractivoHasTipoturismoId(Integer taIdtipoAtractivo, Integer ttIdtipoTurismo)
 	{
 		this.taIdtipoAtractivo = taIdtipoAtractivo;
 		this.ttIdtipoTurismo = ttIdtipoTurismo;
 	}
 
 	@Column(name = "tA_idtipoAtractivo", nullable = false)
-	public int getTaIdtipoAtractivo( )
+	public Integer getTaIdtipoAtractivo( )
 	{
 		return this.taIdtipoAtractivo;
 	}
 
-	public void setTaIdtipoAtractivo( int taIdtipoAtractivo )
+	public void setTaIdtipoAtractivo( Integer taIdtipoAtractivo )
 	{
 		this.taIdtipoAtractivo = taIdtipoAtractivo;
 	}
 
 	@Column(name = "tT_idtipoTurismo", nullable = false)
-	public int getTtIdtipoTurismo( )
+	public Integer getTtIdtipoTurismo( )
 	{
 		return this.ttIdtipoTurismo;
 	}
 
-	public void setTtIdtipoTurismo( int ttIdtipoTurismo )
+	public void setTtIdtipoTurismo( Integer ttIdtipoTurismo )
 	{
 		this.ttIdtipoTurismo = ttIdtipoTurismo;
 	}

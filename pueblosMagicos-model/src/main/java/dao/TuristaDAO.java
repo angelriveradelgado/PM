@@ -1,6 +1,4 @@
 package dao;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -10,10 +8,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.hibernate.Query;
 
 import dto.Turista;
 import dto.Usuario;
@@ -98,7 +94,7 @@ public class TuristaDAO {
 		return conf;
 	}
 	
-	public Turista read(int id) {
+	public Turista read(Integer id) {
 		log.debug("reading Turista instance");
 		Turista u = null;
 		Session session = sessionFactory.openSession();
@@ -119,7 +115,14 @@ public class TuristaDAO {
 	public List<Turista> readAll() {
 		List<Turista> result = null;
 		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
 		result = session.createCriteria(Turista.class).list();
+		} catch (HibernateException e) {
+			if (tx!=null) 
+				tx.rollback();
+		}
 		session.close();
 		return result;
 	}
@@ -168,7 +171,7 @@ public class TuristaDAO {
 	}
 
 
-	public Turista findById(java.lang.Integer id) {
+	public Turista findById(Integer id) {
 		log.debug("getting Turista instance with id: " + id);
 		Turista u = null;
 		Session session = sessionFactory.openSession();

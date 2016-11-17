@@ -69,7 +69,13 @@ public class TipoturismoHasTiposervicioturisticoDAO {
 	public List<TipoturismoHasTiposervicioturistico> readAll() {
 		List<TipoturismoHasTiposervicioturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(TipoturismoHasTiposervicioturistico.class).list();
+		try
+		{
+			result = session.createCriteria(TipoturismoHasTiposervicioturistico.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -113,7 +119,7 @@ public class TipoturismoHasTiposervicioturisticoDAO {
 	}
 
 
-	public TipoturismoHasTiposervicioturistico findById(java.lang.Integer id) {
+	public TipoturismoHasTiposervicioturistico findById(Integer id) {
 		log.debug("getting TipoturismoHasTiposervicioturistico instance with id: " + id);
 		TipoturismoHasTiposervicioturistico u = null;
 		Session session = sessionFactory.openSession();

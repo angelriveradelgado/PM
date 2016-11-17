@@ -14,19 +14,19 @@ import javax.persistence.Table;
 public class Tipoalojamiento implements java.io.Serializable
 {
 
-	private int idtipoAlojamiento;
+	private Integer idtipoAlojamiento;
 	private String nombre;
 
 	public Tipoalojamiento()
 	{
 	}
 
-	public Tipoalojamiento(int idtipoAlojamiento)
+	public Tipoalojamiento(Integer idtipoAlojamiento)
 	{
 		this.idtipoAlojamiento = idtipoAlojamiento;
 	}
 
-	public Tipoalojamiento(int idtipoAlojamiento, String nombre)
+	public Tipoalojamiento(Integer idtipoAlojamiento, String nombre)
 	{
 		this.idtipoAlojamiento = idtipoAlojamiento;
 		this.nombre = nombre;
@@ -35,12 +35,12 @@ public class Tipoalojamiento implements java.io.Serializable
 	@Id
 
 	@Column(name = "idtipoAlojamiento", unique = true, nullable = false)
-	public int getIdtipoAlojamiento( )
+	public Integer getIdtipoAlojamiento( )
 	{
 		return this.idtipoAlojamiento;
 	}
 
-	public void setIdtipoAlojamiento( int idtipoAlojamiento )
+	public void setIdtipoAlojamiento( Integer idtipoAlojamiento )
 	{
 		this.idtipoAlojamiento = idtipoAlojamiento;
 	}

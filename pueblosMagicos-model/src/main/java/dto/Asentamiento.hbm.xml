@@ -9,13 +9,13 @@
             <column name="idAsentamiento" />
             <generator class="identity" />
         </id>
-		<property name="mIMunicipio" type="int">
-			<column name="m_idMunicipio" />
+		<property name="MIdMunicipio" type="java.lang.Integer">
+			<column name="m_idMunicipio" not-null="true"/>
 		</property>
 		<property name="nombreAsentamiento" type="string">
 			<column name="nombreAsentamiento" length="60" />
 		</property>
-		<property name="taIdtipoAsentamiento" type="int">
+		<property name="taIdtipoAsentamiento" type="java.lang.Integer">
 			<column name="tA_idtipoAsentamiento" not-null="true" />
 		</property>
 	</class>

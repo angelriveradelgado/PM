@@ -27,11 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 import dao.CalificacionpueblomagicoDAO;
 import dao.FotopueblomagicoDAO;
 import dao.PueblomagicoDAO;
+import dao.RegistrovisitaDAO;
 import dto.Calificacionatractivoturistico;
 import dto.Calificacionpueblomagico;
 import dto.FotoPuebloMagicoSimple;
 import dto.Fotopueblomagico;
 import dto.Pueblomagico;
+import dto.Registrovisita;
 
 @RestController
 @Component
@@ -46,9 +48,12 @@ public class PuebloMagicoController
 	@Autowired
 	CalificacionpueblomagicoDAO calificacionpueblomagicoDAO;
 
+	@Autowired
+	private RegistrovisitaDAO registrovisitaDAO;
+	
 	// WS que devuelve un pm por su id
 	@RequestMapping(value = "/puebloMagico/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getPuebloMagico( @PathVariable int id )
+	public ResponseEntity<?> getPuebloMagico( @PathVariable Integer id )
 	{
 		ResponseEntity<?> result = null;
 		Pueblomagico p = null;
@@ -86,7 +91,7 @@ public class PuebloMagicoController
 	}
 
 	@RequestMapping(value = "/puebloMagico/{first}/{max}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getSomePuebloMagico( @PathVariable("first") int first, @PathVariable("max") int max )
+	public ResponseEntity<?> getSomePuebloMagico( @PathVariable("first") Integer first, @PathVariable("max") Integer max )
 	{
 		List<Pueblomagico> pms = null;
 		ResponseEntity<?> result = null;
@@ -127,7 +132,7 @@ public class PuebloMagicoController
 
 	// WS que devuelve una lista de las fotos de un pm. Recibe el id del pm
 	@RequestMapping(value = "/puebloMagico/{id}/fotos", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getAllFotos( @PathVariable("id") int id )
+	public ResponseEntity<?> getAllFotos( @PathVariable("id") Integer id )
 	{
 		List<FotoPuebloMagicoSimple> fotos = null;
 		ResponseEntity<?> result = null;
@@ -145,7 +150,7 @@ public class PuebloMagicoController
 
 	// WS que devuelve una foto de un pm. Recibe el id de la imagen
 	@RequestMapping(value = "/puebloMagico/foto/{id}", method = RequestMethod.GET, produces = "image/jpg")
-	public ResponseEntity<?> getPuebloMagicoFoto( @PathVariable int id )
+	public ResponseEntity<?> getPuebloMagicoFoto( @PathVariable Integer id )
 	{
 		ResponseEntity<?> result = null;
 
@@ -181,7 +186,7 @@ public class PuebloMagicoController
 	// WS que devuelve una lista con todos los pm de un estado. Recibe el id del
 	// estado
 	@RequestMapping(value = "/puebloMagico/estado/{id}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getAllPueblosMagicosByIdEstado( @PathVariable int id )
+	public ResponseEntity<?> getAllPueblosMagicosByIdEstado( @PathVariable Integer id )
 	{
 		List<Pueblomagico> pms = null;
 		ResponseEntity<?> result = null;
@@ -197,9 +202,9 @@ public class PuebloMagicoController
 		return result;
 	}
 
-	// WS que devuelve la califcacion de un pueblo mágico
+	// WS que devuelve una lista de califcaciones de un pueblo mágico
 	@RequestMapping(value = "/puebloMagico/{id}/Calificacion", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getCalificacionesByIdPuebloMagico( @PathVariable int id )
+	public ResponseEntity<?> getCalificacionesByIdPuebloMagico( @PathVariable Integer id )
 	{
 		List<Calificacionpueblomagico> c = null;
 		ResponseEntity<?> result = null;
@@ -214,14 +219,40 @@ public class PuebloMagicoController
 		}
 		return result;
 	}
+	
+	// WS que devuelve la califcacion de un pueblo mágico
+	@RequestMapping(value = "/puebloMagico/{id}/Calificacion/limit/{first}/{num}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getCalificacionesByIdPuebloMagicoByLimit( @PathVariable Integer id, 
+			@PathVariable Integer first, @PathVariable Integer num )
+	{
+		List<Calificacionpueblomagico> c = null;
+		ResponseEntity<?> result = null;
+		try
+		{
+			c = calificacionpueblomagicoDAO.getCalificacionpueblomagicoByIdPMByLimit(id, first, num);
+			result = new ResponseEntity<List<Calificacionpueblomagico>>(c, HttpStatus.OK);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return result;
+	}
 
 	// WS que recibe un pm y lo inserta en la bd
 	@RequestMapping(value = "/puebloMagico", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<?> insertPuebloMagico( @FormParam("nombre") String nombre,
-			@FormParam("latitud") double latitud, @FormParam("longitud") double longitud,
-			@FormParam("descripcion") String descripcion, @FormParam("idMunicipio") int idMunicipio, @FormParam("promedio") float promedio )
+			@FormParam("latitud") Double latitud, @FormParam("longitud") Double longitud,
+			@FormParam("descripcion") String descripcion, @FormParam("idMunicipio") Integer idMunicipio )
 	{
 		ResponseEntity<?> result = null;
+		
+		if( nombre == null || latitud == null || longitud == null || idMunicipio == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
 		Pueblomagico pm = new Pueblomagico();
 		Boolean respuesta = false;
 
@@ -231,9 +262,9 @@ public class PuebloMagicoController
 			pm.setLatitud(latitud);
 			pm.setLongitud(longitud);
 			pm.setDescripcion(descripcion);
-			pm.setEpmIdestadoPuebloMagico(1);
 			pm.setMIdMunicipio(idMunicipio);
-			pm.setPromedio(promedio);
+			pm.setPromedio( (float) 0 );
+			pm.setEpmIdestadoPuebloMagico(1);
 			respuesta = puebloMagicoDAO.create(pm);
 
 			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
@@ -246,8 +277,8 @@ public class PuebloMagicoController
 		return result;
 	}
 
-	@RequestMapping(value = "/puebloMagico", method = RequestMethod.DELETE, produces = "application/json")
-	public ResponseEntity<?> deletePuebloMagico( @FormParam("idPuebloMagico") Integer idPuebloMagico )
+	@RequestMapping(value = "/puebloMagico/{idPuebloMagico}", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<?> deletePuebloMagico( @PathVariable Integer idPuebloMagico )
 	{
 		ResponseEntity<?> result = null;
 		Pueblomagico pm = new Pueblomagico();
@@ -256,6 +287,7 @@ public class PuebloMagicoController
 		try
 		{
 			pm.setIdPuebloMagico(idPuebloMagico);
+			pm.setMIdMunicipio(0);
 			respuesta = puebloMagicoDAO.delete(pm);
 			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
 		} catch (Exception e)
@@ -267,13 +299,20 @@ public class PuebloMagicoController
 		return result;
 	}
 
-	@RequestMapping(value = "/puebloMagico", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public ResponseEntity<?> updatePuebloMagico( @FormParam("idPuebloMagico") int idPuebloMagico,
-			@FormParam("nombre") String nombre, @FormParam("latitud") double latitud,
-			@FormParam("longitud") double longitud, @FormParam("descripcion") String descripcion,
-			@FormParam("idEstadoPubloMagico") int idEstadoPubloMagico, @FormParam("idMunicipio") int idMunicipio )
+	@RequestMapping(value = "/puebloMagicoEdit", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<?> updatePuebloMagico( @FormParam("idPuebloMagico") Integer idPuebloMagico,
+			@FormParam("nombre") String nombre, @FormParam("latitud") Double latitud,
+			@FormParam("longitud") Double longitud, @FormParam("descripcion") String descripcion,
+			@FormParam("idEstadoPubloMagico") Integer idEstadoPubloMagico, @FormParam("idMunicipio") Integer idMunicipio )
 	{
 		ResponseEntity<?> result = null;
+		
+		if( nombre == null || latitud == null || longitud == null || idMunicipio == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
 		Pueblomagico pm = new Pueblomagico();
 		Boolean respuesta = false;
 
@@ -298,4 +337,49 @@ public class PuebloMagicoController
 		return result;
 	}
 
+	// WS que inserta una cal de un pm
+	@RequestMapping(value = "/puebloMagico/calificacion", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<?> setCalificacionPuebloMagico( @FormParam("calificacion") Integer calificacion,
+			@FormParam("comentario") String comentario, @FormParam("idUsuario") Integer idUsuario,
+			@FormParam("idPuebloMagico") Integer idPuebloMagico,
+			@FormParam("idRegistroVisita")Integer idRegistroVisita)
+	{
+		ResponseEntity<?> result = null;
+		
+		if( idUsuario == null || idPuebloMagico == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
+		Calificacionpueblomagico c = new Calificacionpueblomagico();
+		Boolean respuesta = false;
+
+		try
+		{
+			
+			Registrovisita r = new 	Registrovisita();			
+			r = registrovisitaDAO.read(idRegistroVisita);
+			if( r.getEvaluado() == 1 || r.getTIdUsuario()!=idUsuario || r.getPmIdPuebloMagico() != idPuebloMagico)
+			{
+				result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
+				return result;
+			}
+			r.setEvaluado(1);
+			registrovisitaDAO.update(r);
+			c.setCalificacion(calificacion);
+			c.setComentario(comentario);
+			c.setPmIdPuebloMagico(idPuebloMagico);
+			c.setTIdUsuario(idUsuario);
+			respuesta = calificacionpueblomagicoDAO.create(c);
+			puebloMagicoDAO.updatePromedio(idPuebloMagico);
+			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
+		} catch (Exception e2)
+		{
+			e2.printStackTrace();
+			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return result;
+	}
 }

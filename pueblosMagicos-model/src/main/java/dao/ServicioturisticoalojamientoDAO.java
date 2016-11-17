@@ -12,10 +12,6 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import dto.Evaluacionalojamiento;
-import dto.Evaluacionaventura;
-import dto.Evaluacionservicioturistico;
-import dto.Pueblomagico;
 import dto.Servicioturistico;
 import dto.Servicioturisticoalojamiento;
 
@@ -47,13 +43,13 @@ public class ServicioturisticoalojamientoDAO {
 			Query query = session.createSQLQuery(
 			        "insert into servicioturistico(e_idEstablecimiento, nombre, aforo, tST_idtST, "
 			        + "precioMinimo, precioMaximo, precioMedio, descripcion, sitioWEB, "
-			        + "eR_estadoRegistro, telefono, extensionTelefono) values(:idEstablecimiento, :nombreServ, :aforo, :tipoServ, "
+			        + "eR_idEstadoRegistro, telefono, extensionTelefono) values(:idEstablecimiento, :nombreServ, :aforo, :tipoServ, "
 			        + ":precioMinimo, :precioMaximo, :precioMedio, :descripcion, :sitioWEB, "
 			        + ":edoRegistro, :telefono, :extensionTelefono)")
 			        .setParameter("idEstablecimiento", st.getEIdEstablecimiento())
 			        .setParameter("nombreServ", st.getNombre())
 			        .setParameter("aforo", st.getAforo())
-			        .setParameter("tipoServ", st.getIdServicioTuristico())
+			        .setParameter("tipoServ", st.getTstIdtSt())
 			        .setParameter("precioMinimo", st.getPrecioMinimo() )
 			        .setParameter("precioMaximo", st.getPrecioMaximo())
 			        .setParameter("precioMedio", st.getPrecioMedio())
@@ -64,7 +60,8 @@ public class ServicioturisticoalojamientoDAO {
 			        .setParameter("extensionTelefono", st.getExtensionTelefono());
 			
 			Query query1 = session.createSQLQuery(
-			        "insert into servicioturisticoaventura (tO_idtipoOperacion, tA_idtipoAlojamiento, tSA_idtipoServicioAlojamiento) values((select idServicioTuristico from servicioturistico order by idServicioTuristico desc limit 1), "
+			        "insert into servicioturisticoalojamiento (sT_idServicio, tO_idtipoOperacion, tA_idtipoAlojamiento, tSA_idtipoServicioAlojamiento) values((select idServicioTuristico "
+			        + " from servicioturistico order by idServicioTuristico desc limit 1), "
 			        + ":tipoOperacion,:tipoAlojamiento,:tipoServicioAlojamiento)")
 			        .setParameter("tipoOperacion", sta.getToIdtipoOperacion())
 			        .setParameter("tipoAlojamiento", sta.getTaIdtipoAlojamiento())
@@ -77,16 +74,15 @@ public class ServicioturisticoalojamientoDAO {
 				tx.commit();
 				conf = true;
 			}
-			conf = false;
 		}catch (HibernateException e) {
 			if (tx!=null) 
 				tx.rollback();
 		}
-		
+		session.close();
 		return conf;
 	}
 	
-	public Servicioturisticoalojamiento read(int id) {
+	public Servicioturisticoalojamiento read(Integer id) {
 		log.debug("reading Servicioturisticoalojamiento instance");
 		Servicioturisticoalojamiento u = null;
 		Session session = sessionFactory.openSession();
@@ -107,7 +103,13 @@ public class ServicioturisticoalojamientoDAO {
 	public List<Servicioturisticoalojamiento> readAll() {
 		List<Servicioturisticoalojamiento> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Servicioturisticoalojamiento.class).list();
+		try
+		{
+			result = session.createCriteria(Servicioturisticoalojamiento.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -151,7 +153,7 @@ public class ServicioturisticoalojamientoDAO {
 	}
 
 
-	public Servicioturisticoalojamiento findById(java.lang.Integer id) {
+	public Servicioturisticoalojamiento findById(Integer id) {
 		log.debug("getting Servicioturisticoalojamiento instance with id: " + id);
 		Servicioturisticoalojamiento u = null;
 		Session session = sessionFactory.openSession();
@@ -173,7 +175,7 @@ public class ServicioturisticoalojamientoDAO {
 		return u;
 	}
 	
-	public List<Servicioturisticoalojamiento> getServicioturisticoalojamientoByLimit(int first, int numRegistros) 
+	public List<Servicioturisticoalojamiento> getServicioturisticoalojamientoByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Servicioturisticoalojamiento> results = null;
@@ -186,8 +188,9 @@ public class ServicioturisticoalojamientoDAO {
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 

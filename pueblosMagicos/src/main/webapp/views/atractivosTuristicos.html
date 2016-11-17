@@ -1,0 +1,96 @@
+<!-- GOOGLE FONTS -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'>
+<!-- /GOOGLE FONTS -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/icomoon.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/mystyles.css">
+<script src="js/modernizr.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/slimmenu.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap-timepicker.js"></script>
+<script src="js/nicescroll.js"></script>
+<script src="js/dropit.js"></script>
+<script src="js/ionrangeslider.js"></script>
+<script src="js/icheck.js"></script>
+<script src="js/fotorama.js"></script>
+<script src="js/typeahead.js"></script>
+<script src="js/card-payment.js"></script>
+<script src="js/magnific.js"></script>
+<script src="js/owl-carousel.js"></script>
+<script src="js/fitvids.js"></script>
+<script src="js/tweet.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/gridrotator.js"></script>
+<script src="js/custom.js"></script>
+        
+ <div class="container" >
+     <div class="container" ng-controller="PuebloMagicoHeader as puebloMagicoHeader">
+         <h1 class="page-title">{{nombrePuebloMagico}}</h1>
+     </div>
+
+     <div class="row" ng-controller="AtractivosTuristicosController as atractivosTuristicosController">
+         <div class="col-md-2">
+             <aside class="sidebar-left">
+                  <ul class="nav nav-pills nav-stacked nav-side mb30">
+                     <li ><a href="#/pueblo/{{nombrePuebloMagico}}">Información</a>
+                     </li>
+                     <li ><a href="#/pueblo/{{nombrePuebloMagico}}/serviciosTuristicos">Servicios turísticos</a>
+                     </li>
+                     <li class="active"><a href="#/pueblo/{{nombrePuebloMagico}}/atractivosTuristicos">Atractivos turísticos</a>
+                     </li>
+                     <li ><a href="#/pueblo/{{nombrePuebloMagico}}/serviciosEmergencias">Servicios de emergencias</a>
+                     </li>                            
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-10">           
+	         	
+         	<div >
+         		
+	            <ul class="booking-list"  infinite-scroll='loadMore()' infinite-scroll-distance='2' infinite-scroll-disabled='end'>
+	           
+		                    <li ng-repeat="atractivo in atractivosTuristicos">
+								<a class="booking-item" ng-href="#/atractivoTuristico/{{atractivo.idAtractivoTuristico}}">
+		                            <div class="row">
+		                                <div class="col-md-4">
+		                                    <img height="170px" width="400px" ng-src="{{atractivo.foto}}" alt="{{atractivo.nombre}}" title="{{atractivo.nombre}}" />
+		                                </div>
+		                                <div class="col-md-5">
+		                                    <div class="booking-item-rating">
+		                                        <ul class="icon-group booking-item-rating-stars">
+		                                            <li><i class="fa fa-star"></i>
+		                                            </li>
+		                                            <li><i class="fa fa-star"></i>
+		                                            </li>
+		                                            <li><i class="fa fa-star"></i>
+		                                            </li>
+		                                            <li><i class="fa fa-star"></i>
+		                                            </li>
+		                                            <li><i class="fa fa-star-o"></i>
+		                                            </li>
+		                                        </ul><span class="booking-item-rating-number"><b >{{atractivo.promedio}}</b> de 5</span>
+		                                    </div>
+		                                    <h5 class="booking-item-title">{{atractivo.nombre}}</h5>
+		                                    <p class="booking-item-address"><i class="fa fa-map-marker"></i>{{atractivo.direccion}}</p>
+		                                    <p class="booking-item-description text-justify">{{atractivo.descripcion.substring(0,200) + '...'}}</p>
+		                             
+                                       </div>
+		                            </div>
+		                        </a>
+		                    </li>
+	                   
+                    
+                </ul>
+	        </div>            
+
+         </div>         
+ 
+
+     <div class="gap"></div>
+ </div>

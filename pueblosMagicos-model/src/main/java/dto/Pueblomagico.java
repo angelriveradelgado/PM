@@ -21,7 +21,7 @@ public class Pueblomagico implements java.io.Serializable
 	private Double latitud;
 	private Double longitud;
 	private String descripcion;
-	private int MIdMunicipio;
+	private Integer MIdMunicipio;
 	private Integer epmIdestadoPuebloMagico;
 	private Float promedio;
 
@@ -29,12 +29,12 @@ public class Pueblomagico implements java.io.Serializable
 	{
 	}
 
-	public Pueblomagico(int MIdMunicipio)
+	public Pueblomagico(Integer MIdMunicipio)
 	{
 		this.MIdMunicipio = MIdMunicipio;
 	}
 
-	public Pueblomagico(String nombre, Double latitud, Double longitud, String descripcion, int MIdMunicipio,
+	public Pueblomagico(String nombre, Double latitud, Double longitud, String descripcion, Integer MIdMunicipio,
 			Integer epmIdestadoPuebloMagico, Float promedio)
 	{
 		this.nombre = nombre;
@@ -105,12 +105,12 @@ public class Pueblomagico implements java.io.Serializable
 	}
 
 	@Column(name = "m_idMunicipio", nullable = false)
-	public int getMIdMunicipio( )
+	public Integer getMIdMunicipio( )
 	{
 		return this.MIdMunicipio;
 	}
 
-	public void setMIdMunicipio( int MIdMunicipio )
+	public void setMIdMunicipio( Integer MIdMunicipio )
 	{
 		this.MIdMunicipio = MIdMunicipio;
 	}

@@ -29,7 +29,7 @@
         <property name="correo" type="string">
             <column name="correo" length="45" />
         </property>
-        <property name="tipoUsuarioIdtipoUsuario" type="int">
+        <property name="tipoUsuarioIdtipoUsuario" type="java.lang.Integer">
             <column name="tipoUsuario_idtipoUsuario" not-null="true" />
         </property>
     </class>

@@ -8,7 +8,7 @@
             <column name="idregistroVisita" />
             <generator class="identity" />
         </id>
-        <property name="TIdUsuario" type="int">
+        <property name="TIdUsuario" type="java.lang.Integer">
             <column name="t_idUsuario" not-null="true" />
         </property>
         <property name="EIdEstablecimiento" type="java.lang.Integer">
@@ -20,8 +20,14 @@
         <property name="atIdAtractivoTuristico" type="java.lang.Integer">
             <column name="aT_idAtractivoTuristico" />
         </property>
+        <property name="stIdServicioTuristico" type="java.lang.Integer">
+            <column name="sT_idServicioTuristico" />
+        </property>
         <property name="fecha" type="timestamp">
             <column name="fecha" length="0" />
+        </property>
+        <property name="evaluado" type="java.lang.Integer">
+            <column name="evaluado" />
         </property>
     </class>
 </hibernate-mapping>

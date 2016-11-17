@@ -1,0 +1,83 @@
+
+ <div class="container" >
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li >
+						<a  href="#/pst" ng-click="tab='establecimientos'">Inicio</a>
+					</li>
+				   <li >
+						<a  href="#/pst/establecimientos" ng-click="tab='establecimientos'">Establecimientos</a>
+				   </li>
+				   <li class="active">
+				   		<a href="#/pst/serviciosTuristicos" ng-click="tab='servicios'">Servicios turísticos</a>
+				   </li>                           
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9" ng-controller="ServiciosPSTController as serviciosPSTController">
+             
+            <label>Establecimiento</label> 
+            <select class="form-control" ng-model="idEstablecimiento" ng-change="getServicios(idEstablecimiento)">
+				<option ng-repeat="establecimiento in establecimientos" value="{{establecimiento.idEstablecimiento}}">{{establecimiento.nombreComercial}}</option>															
+			</select>
+			
+			<div class="gap"></div>
+			
+           	<table class="table table-bordered table-striped table-booking-history" ng-show="showTable">
+               	<thead>
+                     <tr>
+                        <th colspan="5" class="text-center">Servicios turísticos
+                        	<a ng-show="establecimiento.erIdEstadoRegistro==1" class="btn btn-link  fa fa-plus btn-lg" ng-href="#/pst/{{idEstablecimiento}}/registroServicioTuristico"></a>
+                       	</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Registro</th>
+                        <th class="text-center">Ver más</th>
+                        <th class="text-center">Modificar</th>
+                        <th class="text-center">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="servicio in servicios">
+                        <td>{{servicio.nombre}}</td>
+                        <td class="text-center">{{getRegistro(servicio.erIdEstadoRegistro)}}</td>
+                        <td class="text-center">
+                            <div>    
+                                <form>
+                                	<a class="btn btn-link  fa  fa-search btn-lg" ng-href="#/pst/serviciosTuristicos/detalles/{{servicio.idServicioTuristico}}"></a>
+                                </form>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div>    
+                                <form>                                
+                                	<a class="btn btn-link  fa fa-pencil btn-lg" ng-href="#/pst/editarServicioTuristico/{{servicio.idServicioTuristico}}"></a>
+                               	</form>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div>    
+                                <form>
+                                	<a ng-show="servicio.tstIdtSt==66" class="btn btn-link  fa fa-times btn-lg" ng-click="deleteServicioTuristicoAventura(servicio.idServicioTuristicoAventura)"></a>
+                                	<a ng-show="servicio.tstIdtSt==6" class="btn btn-link  fa fa-times btn-lg" ng-click="deleteServicioTuristicoAlojamiento(servicio.idServicioTuristicoAlojamiento)"></a>
+                               	</form>
+                            </div>
+                        </td>
+                    </tr>   
+
+                </tbody>
+            </table>
+            <p ng-show="servicios.length==0">No existe informacion registrada por el momento</p>
+            <p ng-show="pst.pst.erIdEstadoRegistro==2 || pst.pst.erIdEstadoRegistro==3">Espere a que se valide su cuenta para agregar establecimientos.</p>
+        
+         </div>
+     </div>
+
+     <div class="gap"></div>
+ </div>

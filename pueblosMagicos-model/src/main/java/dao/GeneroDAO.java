@@ -49,7 +49,7 @@ public class GeneroDAO {
 		return conf;
 	}
 	
-	public Genero read(int id) {
+	public Genero read(Integer id) {
 		log.debug("reading Genero instance");
 		Genero u = null;
 		Session session = sessionFactory.openSession();
@@ -70,7 +70,13 @@ public class GeneroDAO {
 	public List<Genero> readAll() {
 		List<Genero> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Genero.class).list();
+		try
+		{
+			result = session.createCriteria(Genero.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -138,20 +144,24 @@ public class GeneroDAO {
 
 	public Genero findByNombreGenero(String n) {
 		log.debug("finding Genero instance by example");
+		List<Genero> results = null;
+		Genero result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Genero> results = session.createCriteria(Genero.class).add( Restrictions.like("nombreGenero", n) ).list();
+			results = session.createCriteria(Genero.class).add( Restrictions.like("nombreGenero", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public int getId(String n) {
+	public Integer getId(String n) {
 		log.debug("finding Usuario instance by example");
-		int respuesta = 0;
+		Integer respuesta = 0;
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {

@@ -20,40 +20,41 @@ import javax.persistence.Table;
 public class Asentamiento implements java.io.Serializable
 {
 
-	private Integer idAsentaminto;
+	private Integer idAsentamiento;
 	private String nombreAsentamiento;
-	private int taIdtipoAsentamiento;
-	private int mIdMunicipio;
+	private Integer taIdtipoAsentamiento;
+	private Integer MIdMunicipio;
 
 	public Asentamiento()
 	{
 	}
 
-	public Asentamiento(int idAsentaminto, String nombreAsentamiento, int taIdtipoAsentamiento, int mIdMunicipio)
+	public Asentamiento(Integer idAsentamiento, String nombreAsentamiento, Integer taIdtipoAsentamiento, Integer mIdMunicipio)
 	{
-		this.idAsentaminto = idAsentaminto;
+		this.idAsentamiento = idAsentamiento;
 		this.nombreAsentamiento = nombreAsentamiento;
 		this.taIdtipoAsentamiento = taIdtipoAsentamiento;
-		this.mIdMunicipio = mIdMunicipio;
+		this.MIdMunicipio = mIdMunicipio;
 	}
 
 	
 
 	@AttributeOverrides({
 			@AttributeOverride(name = "idAsentamiento", column = @Column(name = "idAsentamiento", nullable = false)),
-			@AttributeOverride(name = "mIdMunicipio", column = @Column(name = "m_idMunicipio", nullable = false)),
+			@AttributeOverride(name = "nombreAsentamiento", column = @Column(name = "nombreAsentamiento")),
+			@AttributeOverride(name = "MIdMunicipio", column = @Column(name = "m_idMunicipio", nullable = false)),
 			@AttributeOverride(name = "taIdtipoAsentamiento", column = @Column(name = "ta_idtipoAsentamiento", nullable = false))})
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	public Integer getIdAsentaminto( )
+	public Integer getIdAsentamiento( )
 	{
-		return this.idAsentaminto;
+		return this.idAsentamiento;
 	}
 
-	public void setIdAsentaminto( Integer idAsentaminto )
+	public void setIdAsentamiento( Integer idAsentamiento )
 	{
-		this.idAsentaminto = idAsentaminto;
+		this.idAsentamiento = idAsentamiento;
 	}
 	
 	
@@ -70,25 +71,25 @@ public class Asentamiento implements java.io.Serializable
 	}
 
 	@Column(name = "tA_idtipoAsentamiento", nullable = false)
-	public int getTaIdtipoAsentamiento( )
+	public Integer getTaIdtipoAsentamiento( )
 	{
 		return this.taIdtipoAsentamiento;
 	}
 
-	public void setTaIdtipoAsentamiento( int taIdtipoAsentamiento )
+	public void setTaIdtipoAsentamiento( Integer taIdtipoAsentamiento )
 	{
 		this.taIdtipoAsentamiento = taIdtipoAsentamiento;
 	}
 	
 	@Column(name = "m_idMunicipio", nullable = false)
-	public int getMIdMunicipio( )
+	public Integer getMIdMunicipio( )
 	{
-		return this.mIdMunicipio;
+		return this.MIdMunicipio;
 	}
 
-	public void setMIdMunicipio( int mIdMunicipio )
+	public void setMIdMunicipio( Integer MIdMunicipio )
 	{
-		this.mIdMunicipio = mIdMunicipio;
+		this.MIdMunicipio = MIdMunicipio;
 	}
 
 }

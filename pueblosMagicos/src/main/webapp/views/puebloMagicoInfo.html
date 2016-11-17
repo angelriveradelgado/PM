@@ -1,0 +1,116 @@
+<!-- GOOGLE FONTS -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'>
+<!-- /GOOGLE FONTS -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/icomoon.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/mystyles.css">
+<script src="js/modernizr.js"></script>
+<script src="js/jquery.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/slimmenu.js"></script>
+        <script src="js/bootstrap-datepicker.js"></script>
+        <script src="js/bootstrap-timepicker.js"></script>
+        <script src="js/nicescroll.js"></script>
+        <script src="js/dropit.js"></script>
+        <script src="js/ionrangeslider.js"></script>
+        <script src="js/icheck.js"></script>
+        <script src="js/fotorama.js"></script>
+        <script src="js/typeahead.js"></script>
+        <script src="js/card-payment.js"></script>
+        <script src="js/magnific.js"></script>
+        <script src="js/owl-carousel.js"></script>
+        <script src="js/fitvids.js"></script>
+        <script src="js/tweet.js"></script>
+        <script src="js/countdown.js"></script>
+        <script src="js/gridrotator.js"></script>
+        <script src="js/custom.js"></script>
+        
+<style>
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+    }
+</style>
+
+<style>
+    .icon-amarillo {
+    color: #FFD700;
+}
+ .icon-mediano {
+    width: 45px;
+  height: 45px;
+  line-height: 45px;
+  font-size: 40px;
+}
+.icon-small {
+    width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 20px;
+}
+</style>
+
+ <div class="container" ng-controller="PuebloMagicoController as puebloMagicoController">
+
+	<h1 class="page-title">{{nombrePuebloMagico}}</h1>
+     <div class="row">
+         <div class="col-md-2">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+                     <li class="active"><a href="#/pueblo/{{nombrePuebloMagico}}">Información</a>
+                     </li>
+                     <li ><a href="#/pueblo/{{nombrePuebloMagico}}/serviciosTuristicos">Servicios turísticos</a>
+                     </li>
+                     <li ><a href="#/pueblo/{{nombrePuebloMagico}}/atractivosTuristicos">Atractivos turísticos</a>
+                     </li>
+                     <li ><a href="#/pueblo/{{nombrePuebloMagico}}/serviciosEmergencias">Servicios de emergencias</a>
+                     </li>                            
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-10" >             
+
+         	<p>{{descripcion}}</p>
+			<div class="gap"></div>
+			<h4>Ubicación</h4>
+			<div id="map" style="height: 400px"></div>	
+			
+			<div class="gap gap-small"></div>
+            <div class="box bg-gray">
+                <h3>Califica este Pueblo Mágico</h3>
+                <form>
+                    <div class="form-group">
+                        <label>Calificación</label>
+                        <span uib-rating ng-model="calificacion.calificacion" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+							    	
+                    </div>
+                    <div class="form-group">
+                        <label>Comentario</label>
+                        <textarea class="form-control" rows="6" ng-model="calificacion.comentario"></textarea>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Calificar" ng-click="calificar()" />
+                </form>
+                <div class="gap gap-small"></div>
+                <div class="alert alert-danger" ng-show="errorCalificar=='error'" >
+                  	<button class="close" type="button" ng-click="errorCalificar='ok'">
+                  		<span aria-hidden="true">&times;</span>
+                    </button>
+	                <p class="">{{mensajeErrorCalificar}}</p>
+              	</div>
+              	<div class="alert alert-success" ng-show="insertarCalificacion=='ok'" >
+                  	<button class="close" type="button" ng-click="insertarCalificacion='cerrar'">
+                  		<span aria-hidden="true">&times;</span>
+                    </button>
+	                <p class="">{{mensajeCalInsertada}}</p>
+              	</div>
+            </div>         	
+             
+         </div>
+          
+     </div>
+
+     <div class="gap"></div>
+ </div>

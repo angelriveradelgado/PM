@@ -1,0 +1,222 @@
+<!-- GOOGLE FONTS -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'>
+<!-- /GOOGLE FONTS -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/icomoon.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/mystyles.css">
+<script src="js/modernizr.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/slimmenu.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap-timepicker.js"></script>
+<script src="js/nicescroll.js"></script>
+<script src="js/dropit.js"></script>
+<script src="js/ionrangeslider.js"></script>
+<script src="js/icheck.js"></script>
+<script src="js/fotorama.js"></script>
+<script src="js/typeahead.js"></script>
+<script src="js/card-payment.js"></script>
+<script src="js/magnific.js"></script>
+<script src="js/owl-carousel.js"></script>
+<script src="js/fitvids.js"></script>
+<script src="js/tweet.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/gridrotator.js"></script>
+<script src="js/custom.js"></script>
+ 
+<style>
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+    }
+</style>
+
+<style>
+    .icon-amarillo {
+    color: #ffff00;
+}
+ .icon-mediano {
+    width: 45px;
+  height: 45px;
+  line-height: 45px;
+  font-size: 40px;
+}
+</style>
+
+<style>
+	.clickable
+	{
+/* 		pointer-events: none */
+/* 		position: absolute; */
+ 		z-index: 100000; 
+/* 		pointer-events: auto; */
+
+	}
+	.top
+	{
+/*   		pointer-events: none   */
+	}
+</style>
+
+<div class="container" ng-controller="GestionEditarAtractivoController as gestionEditarAtractivoController">
+<!--     <ul class="breadcrumb"> -->
+<!--         <li><a href="index.html">Pueblos Mágicos</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">United States</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">New York (NY)</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">New York City</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">New York Activities</a> -->
+<!--         </li> -->
+<!--         <li class="active">Central Park Trip</li> -->
+<!--     </ul> -->
+    <div class="booking-item-details">
+        <header class="booking-item-header">
+            <div class="row">
+                <div class="col-md-9">
+                    <h2 ng-show="editarTitulo" ng-init="editarTitulo=true" class="lh1em">{{atractivoTuristico.nombre}} <a class="btn btn-primary fa fa-pencil btn-xs" ng-click="editarTitulo=false"></a></h2>
+                    <div ng-show="!editarTitulo" class="form-group">
+                    
+                    
+                    	<label>Editar nombre</label>
+                    	<ul class="list-inline">
+	                        <li>
+	                        	<input class="form-control input-lg"  placeholder="" type="text" ng-model="atractivoTuristico.nombre"
+		                   			maxlength="100" required/>
+	                        </li>
+	                        <li>
+	                        	<a class="btn btn-primary btn-xs" ng-click="editarTitulo=true;updateAtractivoTuristico()">Guardar</a>
+	                        	<a class="btn btn-primary btn-xs" ng-click="editarTitulo=true;">Cancelar</a>
+	                        </li>	                        
+	                    </ul>
+		                 
+					</div>	
+                    <p class="lh1em text-small"><i class="fa fa-map-marker"></i> {{atractivoTuristico.direccion}} </p>
+                </div>
+            </div>
+        </header>
+        <div class="row">
+        
+            <div class="col-md-7">
+                <div class="tabbable booking-details-tabbable">
+                    <ul class="nav nav-tabs" id="myTab" >
+                    
+                    
+                        <li ng-class="{ active: tab=='fotos' }"><a href=""  ng-init="tab='fotos'" ng-click="tab='fotos';resizeMap()"><i class="fa fa-camera"></i>Fotos</a>
+                        </li>
+                        <li ng-class="{ active: tab=='mapa' }"><a href=""  ng-click="tab='mapa';resizeMap()"><i class="fa fa-map-marker"></i>Ubicación</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" >
+                        <div ng-show="tab=='fotos'" class="  fade in active" id="tab-1" >
+                            		
+                            <div class="fotorama top ng-cloak"  data-allowfullscreen="true" data-width="100%"  data-ratio="800/800">
+                              	<a class="fa fa fa-times box-icon-normal round clickable" data-toggle="modal" data-target="#confirmEliminar" ng-click="setSelectedItem('hola')"></a>
+										
+                            	<div ng-repeat="foto in fotos"  class="hover-img ng-cloak" ng-init="parent=$parent">
+									<img ng-src="{{foto.url}}"   alt="Image Alternative text" title="Upper Lake in New York Central Park" />
+<!-- 											<a class="fa fa fa-times box-icon-normal round clickable"  data-toggle="modal" data-target="#confirmEliminar" ng-click="$parent.setSelectedItem(foto.idfotoAtractivoTuristico)"></a> -->
+									<ul class="hover-icon-group-center-bottom">
+										<li>
+											<a class="fa fa fa-times box-icon-normal round clickable"  data-toggle="modal" data-target="#confirmEliminar" ng-click="$event.stopPropagation();$parent.setSelectedItem(foto.idfotoAtractivoTuristico)"></a>
+										</li>	
+										<li>
+											<a class="fa fa fa-plus box-icon-normal round" data-toggle="modal" data-target="#upload" ng-click="gestionEditarAtractivoController.setSelectedItem('foto.idfotoAtractivoTuristico')"></a>
+										</li>									
+									</ul>
+								</div>
+                            </div>
+                        </div >
+<!--                         ng-class="{ tab-pane fade, in:tab=='fotos', active:tab}" -->
+<!--                         <div  ng-class="{'tab-pane':true, 'fade':true, 'in active':tab=='mapa'}" id="google-map-tab"> -->
+                        <div ng-show="tab=='mapa'" class=" tab-pane fade in active"  id="google-map-tab">
+                            <div ng-model="tab"  id="map" style="width:100%; height:500px;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+            <div class="col-md-5">
+                <div class="booking-item-meta">
+                    
+<!--                     <h4>Default</h4> -->
+<!-- 				    <span uib-rating ng-model="rate" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating"></span> -->
+<!-- 				    <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span> -->
+<!--                     <pre style="margin:15px 0;">Rate: <b>{{rate}}</b> - Readonly is: <i>{{isReadonly}}</i> - Hovering over: <b>{{overStar || "none"}}</b></pre> -->
+
+<!-- 				    <button type="button" class="btn btn-sm btn-danger" ng-click="rate = 0"  ng-disabled="isReadonly">Clear</button> -->
+<!-- 				    <button type="button" class="btn btn-sm btn-default" ng-click="isReadonly = ! isReadonly">Toggle Readonly</button> -->
+<!-- 				    <hr /> -->
+				
+				    <div>
+				    	<span uib-rating ng-model="atractivoTuristico.promedio" max="max" read-only="isReadonly" state-on="'fa fa-star icon-amarillo icon-mediano'" state-off="'fa fa-star-o icon-mediano '" aria-labelledby="custom-icons-1"></span> 
+				    	<b>(<i>Calificación:</i> {{atractivoTuristico.promedio}})</b>
+			    	</div>
+<!-- 				    <div ng-init="y = 2"><span uib-rating ng-model="y" rating-states="ratingStates" aria-labelledby="custom-icons-2"></span> <b>(<i>Rate:</i> {{y}})</b></div> -->
+                    
+                    <div class="gap gap-small">
+                </div>
+                <div class="gap gap-small">
+                    <h3>Descripción  <a class="btn btn-primary fa fa-pencil btn-xs" ng-click="editarDescripcion=false"></a></h3>
+                    <p class="text-justify" ng-show="editarDescripcion" ng-init="editarDescripcion=true" >{{atractivoTuristico.descripcion}} </p>
+                    <div class="form-group" ng-show="!editarDescripcion">
+						<label>Editar descripción</label>
+						<textarea class="form-control" rows="10" ng-model="atractivoTuristico.descripcion"></textarea>
+						<a class="btn btn-primary btn-xs" ng-click="editarDescripcion=true;updateAtractivoTuristico()">Guardar</a>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gap gap-small"></div>
+	</div>
+
+
+	<!-- Modal -->
+	  <div class="modal fade" id="upload" role="dialog">
+	    <div class="modal-dialog modal-md">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Seleccione una foto</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<input name="file"  file-model = "myFile" id="file" type="file"  max-size="2000000" accept="image/*" />
+	        	
+	        </div>
+	        
+	        <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal"  ng-click="uploadFile()">Aceptar</button>
+	        </div>
+	      </div>
+	    </div>
+  	</div>
+  	
+  	<div class="modal fade" id="confirmEliminar" role="dialog">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Confirmar operación</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>¿Está seguro de eliminar este elemento?</p>
+	        </div>
+	        <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deleteFotoAtractivoTuristico()">Aceptar</button>
+	        </div>
+	      </div>
+	    </div>
+  	</div>
+
+</div>
+

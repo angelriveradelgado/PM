@@ -10,15 +10,15 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ListaHasAtractivoturisticoId implements java.io.Serializable
 {
-	private int atractivoTuristicoIdAtractivoTuristico;
-	private int turistaIdUsuario;
+	private Integer atractivoTuristicoIdAtractivoTuristico;
+	private Integer turistaIdUsuario;
 
 	public ListaHasAtractivoturisticoId()
 	{
 	}
 
-	public ListaHasAtractivoturisticoId(int atractivoTuristicoIdAtractivoTuristico,
-			int turistaIdUsuario)
+	public ListaHasAtractivoturisticoId(Integer atractivoTuristicoIdAtractivoTuristico,
+			Integer turistaIdUsuario)
 	{
 		this.atractivoTuristicoIdAtractivoTuristico = atractivoTuristicoIdAtractivoTuristico;
 		this.turistaIdUsuario = turistaIdUsuario;
@@ -26,23 +26,23 @@ public class ListaHasAtractivoturisticoId implements java.io.Serializable
 
 
 	@Column(name = "AtractivoTuristico_idAtractivoTuristico", nullable = false)
-	public int getAtractivoTuristicoIdAtractivoTuristico( )
+	public Integer getAtractivoTuristicoIdAtractivoTuristico( )
 	{
 		return this.atractivoTuristicoIdAtractivoTuristico;
 	}
 
-	public void setAtractivoTuristicoIdAtractivoTuristico( int atractivoTuristicoIdAtractivoTuristico )
+	public void setAtractivoTuristicoIdAtractivoTuristico( Integer atractivoTuristicoIdAtractivoTuristico )
 	{
 		this.atractivoTuristicoIdAtractivoTuristico = atractivoTuristicoIdAtractivoTuristico;
 	}
 
 	@Column(name = "Turista_idUsuario", nullable = false)
-	public int getTuristaIdUsuario( )
+	public Integer getTuristaIdUsuario( )
 	{
 		return this.turistaIdUsuario;
 	}
 
-	public void setTuristaIdUsuario( int turistaIdUsuario )
+	public void setTuristaIdUsuario( Integer turistaIdUsuario )
 	{
 		this.turistaIdUsuario = turistaIdUsuario;
 	}

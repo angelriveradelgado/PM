@@ -6,14 +6,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dto.Atractivoturistico;
 import dto.Calificacionatractivoturistico;
 import dto.Calificacionpueblomagico;
 import dto.Pueblomagico;
@@ -53,7 +58,7 @@ public class CalificacionpueblomagicoDAO {
 		return conf;
 	}
 	
-	public Calificacionpueblomagico read(int id) {
+	public Calificacionpueblomagico read(Integer id) {
 		log.debug("reading Calificacionpueblomagico instance");
 		Calificacionpueblomagico u = null;
 		Session session = sessionFactory.openSession();
@@ -74,7 +79,13 @@ public class CalificacionpueblomagicoDAO {
 	public List<Calificacionpueblomagico> readAll() {
 		List<Calificacionpueblomagico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Calificacionpueblomagico.class).list();
+		try
+		{
+			result = session.createCriteria(Calificacionpueblomagico.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -142,31 +153,54 @@ public class CalificacionpueblomagicoDAO {
 
 	public Calificacionpueblomagico findByNombreCalificacionpueblomagico(String n) {
 		log.debug("finding Calificacionpueblomagico instance by example");
+		List<Calificacionpueblomagico> results = null;
+		Calificacionpueblomagico result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Calificacionpueblomagico> results = session.createCriteria(Calificacionpueblomagico.class).add( Restrictions.like("nombreCalificacionpueblomagico", n) ).list();
+			results = session.createCriteria(Calificacionpueblomagico.class).add( Restrictions.like("nombreCalificacionpueblomagico", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result =  results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public List<Calificacionpueblomagico> findByIdPuebloMagico(int idPM) {
+	public List<Calificacionpueblomagico> findByIdPuebloMagico(Integer idPM) {
 		log.debug("finding Calificacionatractivoturistico instance by example");
+		List<Calificacionpueblomagico> results = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Calificacionpueblomagico> results = session.createCriteria(Calificacionpueblomagico.class).add( Restrictions.like("pM_idPuebloMagico", idPM) ).list();
-			log.debug("find by example successful, result size: " + results.size());
-			return results;
+			results = session.createCriteria(Calificacionpueblomagico.class).add( Restrictions.like("pmIdPuebloMagico", idPM) ).list();
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return results;
 	}
 	
-	public List<Calificacionpueblomagico> getCalificacionpueblomagicoByLimit(int first, int numRegistros) 
+	public List<Calificacionpueblomagico> findByIdUsuarioByIdPuebloMagico(Integer idUsuario, Integer idPM) {
+		log.debug("finding Calificacionpueblomagico instance by example");
+		List<Calificacionpueblomagico> results = null;
+		Session session = sessionFactory.openSession();
+		try {
+			results = session.createCriteria(Calificacionpueblomagico.class)
+					.add( Restrictions.like("pmIdPuebloMagico", idPM) )
+					.add( Restrictions.like("TIdUsuario", idUsuario) )
+					.list();
+			log.debug("find by example successful, result size: " + results.size());
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			re.printStackTrace();
+		}
+		session.close();
+		return results;
+	}
+	
+	public List<Calificacionpueblomagico> getCalificacionpueblomagicoByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Calificacionpueblomagico> results = null;
@@ -179,9 +213,40 @@ public class CalificacionpueblomagicoDAO {
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
+	}
+	
+	public List<Calificacionpueblomagico> getCalificacionpueblomagicoByIdPMByLimit(Integer id,Integer first,Integer num)
+	{
+		List<Calificacionpueblomagico> result = null;
+		Session session = sessionFactory.openSession();
+		try
+		{	
+			
+			Query query = session.createSQLQuery("select c.idCalificacion, c.calificacion, c.comentario, c.t_idUsuario as TIdUsuario, c.pM_idPuebloMagico as pmIdPuebloMagico "
+					+ "from calificacionpueblomagico c "
+					+ "where c.pM_idPuebloMagico = :id "
+					+ "limit :first, :num")
+					.addScalar("idCalificacion", new IntegerType())
+					.addScalar("calificacion", new IntegerType())
+					.addScalar("comentario", new StringType())
+					.addScalar("TIdUsuario", new IntegerType())
+					.addScalar("pmIdPuebloMagico", new IntegerType())
+					.setResultTransformer(Transformers.aliasToBean(Calificacionpueblomagico.class))
+					.setParameter("id", id)
+					.setParameter("first", first)
+					.setParameter("num", num); 
+			result = (List<Calificacionpueblomagico>) query.list();
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
 	}
 	
 }

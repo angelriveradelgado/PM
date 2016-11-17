@@ -50,7 +50,7 @@ public class ServicioturisticorestauracionDAO {
 		return conf;
 	}
 	
-	public Servicioturisticorestauracion read(int id) {
+	public Servicioturisticorestauracion read(Integer id) {
 		log.debug("reading Servicioturisticorestauracion instance");
 		Servicioturisticorestauracion u = null;
 		Session session = sessionFactory.openSession();
@@ -71,7 +71,13 @@ public class ServicioturisticorestauracionDAO {
 	public List<Servicioturisticorestauracion> readAll() {
 		List<Servicioturisticorestauracion> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Servicioturisticorestauracion.class).list();
+		try
+		{
+			result = session.createCriteria(Servicioturisticorestauracion.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -137,7 +143,7 @@ public class ServicioturisticorestauracionDAO {
 		return u;
 	}
 	
-	public List<Servicioturisticorestauracion> getServicioturisticorestauracionByLimit(int first, int numRegistros) 
+	public List<Servicioturisticorestauracion> getServicioturisticorestauracionByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Servicioturisticorestauracion> results = null;
@@ -150,8 +156,9 @@ public class ServicioturisticorestauracionDAO {
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 }

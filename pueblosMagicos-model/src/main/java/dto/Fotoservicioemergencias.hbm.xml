@@ -14,7 +14,7 @@
         <property name="descripcion" type="string">
             <column name="descripcion" />
         </property>
-        <property name="sdeIdservicioDeEmergencias" type="int">
+        <property name="sdeIdservicioDeEmergencias" type="java.lang.Integer">
             <column name="sDE_idservicioDeEmergencias" not-null="true" />
         </property>
     </class>

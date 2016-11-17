@@ -20,29 +20,33 @@ public class Registrovisita implements java.io.Serializable
 {
 
 	private Integer idregistroVisita;
-	private int TIdUsuario;
+	private Integer TIdUsuario;
 	private Integer EIdEstablecimiento;
 	private Integer pmIdPuebloMagico;
 	private Integer atIdAtractivoTuristico;
+	private Integer stIdServicioTuristico;	
 	private Date fecha;
+	private Integer evaluado;
 
 	public Registrovisita()
 	{
 	}
 
-	public Registrovisita(int TIdUsuario)
+	public Registrovisita(Integer TIdUsuario)
 	{
 		this.TIdUsuario = TIdUsuario;
 	}
 
-	public Registrovisita(int TIdUsuario, Integer EIdEstablecimiento, Integer pmIdPuebloMagico,
-			Integer atIdAtractivoTuristico, Date fecha)
+	public Registrovisita(Integer TIdUsuario, Integer EIdEstablecimiento, Integer pmIdPuebloMagico,
+			Integer atIdAtractivoTuristico, Integer stIdServicioTuristico, Date fecha, Integer evaluado)
 	{
 		this.TIdUsuario = TIdUsuario;
 		this.EIdEstablecimiento = EIdEstablecimiento;
 		this.pmIdPuebloMagico = pmIdPuebloMagico;
 		this.atIdAtractivoTuristico = atIdAtractivoTuristico;
 		this.fecha = fecha;
+		this.evaluado = evaluado;
+		this.stIdServicioTuristico = stIdServicioTuristico;
 	}
 
 	@Id
@@ -60,12 +64,12 @@ public class Registrovisita implements java.io.Serializable
 	}
 
 	@Column(name = "t_idUsuario", nullable = false)
-	public int getTIdUsuario( )
+	public Integer getTIdUsuario( )
 	{
 		return this.TIdUsuario;
 	}
 
-	public void setTIdUsuario( int TIdUsuario )
+	public void setTIdUsuario( Integer TIdUsuario )
 	{
 		this.TIdUsuario = TIdUsuario;
 	}
@@ -102,6 +106,17 @@ public class Registrovisita implements java.io.Serializable
 	{
 		this.atIdAtractivoTuristico = atIdAtractivoTuristico;
 	}
+	
+	@Column(name = "sT_idServicioTuristico")
+	public Integer getStIdServicioTuristico( )
+	{
+		return this.stIdServicioTuristico;
+	}
+
+	public void setStIdServicioTuristico( Integer stIdServicioTuristico )
+	{
+		this.stIdServicioTuristico = stIdServicioTuristico;
+	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha", length = 0)
@@ -113,6 +128,17 @@ public class Registrovisita implements java.io.Serializable
 	public void setFecha( Date fecha )
 	{
 		this.fecha = fecha;
+	}
+	
+	@Column(name = "evaluado")
+	public Integer getEvaluado( )
+	{
+		return this.evaluado;
+	}
+
+	public void setEvaluado( Integer evaluado )
+	{
+		this.evaluado = evaluado;
 	}
 
 }

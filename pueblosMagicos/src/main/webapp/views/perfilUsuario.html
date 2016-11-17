@@ -1,0 +1,90 @@
+
+
+<div class="container">
+	<h1 class="page-title">Modificar información de perfíl</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <aside class="user-profile-sidebar">
+                <div class="user-profile-avatar text-center">
+                    <img style="max-height: 100px; max-width: 100px;"  class="origin round" src="img/lupe.jpg" alt="Image Alternative text" title="AMaze" />
+                    <h5>{{globals.currentUser.nombre}}</h5>
+                </div>
+                <ul class="list user-profile-nav">
+                    <li>
+                    	<a href="user-profile.html"><i class="fa fa-cog"></i>Configuración</a>
+                    </li>
+                    <li ng-show="globals.currentUser.tipoUsuarioIdtipoUsuario == 1">
+                    	<a href="user-profile-wishlist.html"><i class="fa fa-heart-o"></i>Mi lista</a>
+                    </li>
+                    <li ng-show="globals.currentUser.tipoUsuarioIdtipoUsuario == 1"><a href="user-profile-solicitudes.html">
+                    	<i class="fa fa-globe"></i>Mis solicitudes de registro</a>
+                    </li>
+                    <li ng-show="globals.currentUser.tipoUsuarioIdtipoUsuario == 1"><a href="user-profile-historial.html">
+                    	<i class="fa fa-globe"></i>Historial</a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-5">
+                    <form action="" method="POST">
+                        <h4>Infomación personal</h4>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon"></i>
+                            <label>Nombre</label>
+                            <input class="form-control" value="{{globals.currentUser.nombre}}" type="text" />
+                        </div>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon"></i>
+                            <label>Apellido Paterno</label>
+                            <input class="form-control" value="{{globals.currentUser.apellidoPaterno}}" type="text" />
+                        </div>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon"></i>
+                            <label>Apellido Materno</label>
+                            <input class="form-control" value={{globals.currentUser.apellidoMaterno}} type="text" />
+                        </div>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-user input-icon"></i>
+                            <label>Nombre de usuario</label>
+                            <input class="form-control" value="{{globals.currentUser.nombreUsuario}}" type="text" readonly />
+                        </div>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-envelope input-icon"></i>
+                            <label>Correo</label>
+                            <input class="form-control" value="{{globals.currentUser.correo}}" type="text" readonly/>
+                        </div>                             
+                        <div class="form-group form-group-icon-left"><i class="fa fa-phone input-icon"></i>
+                            <label>genero</label>
+                            <input class="form-control" value={{globals.currentUser.genero}} type="text" />
+                        </div>  
+                        <div class="form-group form-group-icon-left"><i class="fa fa-phone input-icon"></i>
+                            <label>Fecha de nacimiento</label>
+                            <input class="date-pick form-control" type="text" value="{{globals.currentUser.fechaNacimiento}}"/>
+                        </div>  
+                        <input type="submit" class="btn btn-primary" value="Guardar cambios">
+                    </form>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <h4>Cambiar contraseña</h4>
+                    <form>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-lock input-icon"></i>
+                            <label>Contraseña actual</label>
+                            <input class="form-control" type="password" />
+                        </div>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-lock input-icon"></i>
+                            <label>Contraseña nueva</label>
+                            <input class="form-control" type="password" />
+                        </div>
+                        <div class="form-group form-group-icon-left"><i class="fa fa-lock input-icon"></i>
+                            <label>Confirma la contraseña</label>
+                            <input class="form-control" type="password" />
+                        </div>
+                        <hr />
+                        <input class="btn btn-primary" type="submit" value="Cambiar contraseña" />
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

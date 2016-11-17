@@ -21,8 +21,9 @@ App.factory('AtractivoTuristicoService', ['$http', '$q', 'CONFIG',  function($ht
             );
         },
         
-        getDireccionIdAtractivoTuristico: function(idAT) 
+        getDireccionByIdAtractivoTuristico: function(idAT) 
         {
+        	console.log(CONFIG.urlWebService + '/atractivoTuristico/' + idAT + '/direccion');
             return $http.get( CONFIG.urlWebService + '/atractivoTuristico/' + idAT + '/direccion')
             .then
             (
@@ -32,7 +33,7 @@ App.factory('AtractivoTuristicoService', ['$http', '$q', 'CONFIG',  function($ht
                 }, 
                 function(errResponse)
                 {
-                    console.error('Error while fetching atractivos Turisticos');
+                    console.error('Error while fetching direccion atractivo Turistico');
                     return $q.reject(errResponse);
                 }
             );
@@ -73,9 +74,9 @@ App.factory('AtractivoTuristicoService', ['$http', '$q', 'CONFIG',  function($ht
         },
         
 //        Pide la lista de fotos de un pueblomagico
-        getAllFotosAtractivoTuristicoByIdAT: function(idPM) 
+        getAllFotosAtractivoTuristicoByIdAT: function(id) 
         {
-            return $http.get( CONFIG.urlWebService + '/atractivoTuristico/{id}/fotos' )
+            return $http.get( CONFIG.urlWebService + '/atractivoTuristico/' + id + '/fotos' )
             .then
             (
                 function(response)
@@ -88,87 +89,57 @@ App.factory('AtractivoTuristicoService', ['$http', '$q', 'CONFIG',  function($ht
                     return $q.reject(errResponse);
                 }
             );
-        },
-	     
-        createUsuarioTurista: function(atractivoTuristico)
-	    {
-	    	console.log(usuario);
-	    	var data = $.param({
-	    		nombre: atractivoTuristico.nombre,  
-	    		descripcion: atractivoTuristico.descripcion, 
-	    		latitud: atractivoTuristico.latitud, 
-	    		longitud: atractivoTuristico.longitud, 
-	    		idTurista: atractivoTuristico.idTurista, 
-	    		idTipoAtractivo: atractivoTuristico.idTipoAtractivo, 
-	    		idAdministrador: atractivoTuristico.idAdministrador, 
-	    		idAsentamiento: atractivoTuristico.idAsentamiento
-	    		});
-	    	console.log(data);
-			var config = 
-			{
-	            headers : 
-	            {
-	                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-	            }
-	        }
-			
-			$http.post(CONFIG.urlWebService + '/atractivoTuristico', data, config)
-	        .success(function (data, status, headers, config) {
-	            return data;
-	        })
-	        .error(function (data, status, header, config) {
-	            return "Data: " + data +
-	                "<hr />status: " + status +
-	                "<hr />headers: " + header +
-	                "<hr />config: " + config;
-	        });
+        }, 
+        
+        
+        getTiposAtractivoTuristico: function() 
+        {
+            return $http.get( CONFIG.urlWebService + '/atractivoturistico/tipos/atractivos' )
+            .then
+            (
+                function(response)
+                {
+                    return response.data;
+                }, 
+                function(errResponse)
+                {
+                    console.error('Error while fetching atractivos Turisticos');
+                    return $q.reject(errResponse);
+                }
+            );
         },
         
-        createUsuarioTurista: function(atractivoTuristico)
-	    {
-	    	console.log(usuario);
-	    	var data = $.param({
-	    		idAtractivoTuristico: atractivoTuristico.idAtractivoTuristico,  
-	    		nombre: atractivoTuristico.nombre,  
-	    		descripcion: atractivoTuristico.descripcion, 
-	    		latitud: atractivoTuristico.latitud, 
-	    		longitud: atractivoTuristico.longitud, 
-	    		idTurista: atractivoTuristico.idTurista, 
-	    		idTipoAtractivo: atractivoTuristico.idTipoAtractivo, 
-	    		idAdministrador: atractivoTuristico.idAdministrador, 
-	    		idAsentamiento: atractivoTuristico.idAsentamiento,
-	    		idEstadoRegistro: atractivoTuristico.idEstadoRegistro, 
-	    		promedio: atractivoTuristico.promedio
-	    		});
-	    	console.log(data);
-			var config = 
-			{
-	            headers : 
-	            {
-	                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-	            }
-	        }
-			
-			$http.put(CONFIG.urlWebService + '/atractivoTuristico', data, config)
-	        .success(function (data, status, headers, config) {
-	            return data;
-	        })
-	        .error(function (data, status, header, config) {
-	            return "Data: " + data +
-	                "<hr />status: " + status +
-	                "<hr />headers: " + header +
-	                "<hr />config: " + config;
-	        });
+        
+        getCalificacionesByIdAT: function(idAT) 
+        {
+            return $http.get( CONFIG.urlWebService + '/atractivoTuristico/' + idAT + '/Calificacion' )
+            .then
+            (
+                function(response)
+                {
+                    return response.data;
+                }, 
+                function(errResponse)
+                {
+                    console.error('Error while fetching atractivos Turisticos');
+                    return $q.reject(errResponse);
+                }
+            );
         },
-	     
-	   
-     
-        createUsuarioTurista: function(atractivoTuristico)
+        
+        createAtractivoTuristico: function(atractivoTuristico)
 	    {
-	    	console.log(usuario);
 	    	var data = $.param({
-	    		idAtractivoTuristico: atractivoTuristico.idAtractivoTuristico
-	    		});
+	    		nombre: atractivoTuristico.nombre,   		
+	    		descripcion: atractivoTuristico.descripcion,
+	    		latitud: atractivoTuristico.latitud,
+	    		longitud: atractivoTuristico.longitud,
+	    		idTurista: null,
+	    		idTipoAtractivo: atractivoTuristico.taIdtipoAtractivo,
+	    		idAdministrador: atractivoTuristico.aidUsuario,
+	    		idAsentamiento: atractivoTuristico.aidAsentamiento
+	    	});
+	    	
 	    	console.log(data);
 			var config = 
 			{
@@ -178,7 +149,7 @@ App.factory('AtractivoTuristicoService', ['$http', '$q', 'CONFIG',  function($ht
 	            }
 	        }
 			
-			$http.put(CONFIG.urlWebService + '/atractivoTuristico', data, config)
+			return $http.post(CONFIG.urlWebService + '/atractivoTuristico', data, config)
 	        .success(function (data, status, headers, config) {
 	            return data;
 	        })
@@ -188,8 +159,109 @@ App.factory('AtractivoTuristicoService', ['$http', '$q', 'CONFIG',  function($ht
 	                "<hr />headers: " + header +
 	                "<hr />config: " + config;
 	        });
-        }
+        }, 
+        
+        updateAtractivoTuristico: function(atractivoTuristico)
+	    {
+	    	var data = $.param({
+	    		idAtractivoTuristico: atractivoTuristico.idAtractivoTuristico,
+	    		nombre: atractivoTuristico.nombre,   		
+	    		descripcion: atractivoTuristico.descripcion,
+	    		latitud: atractivoTuristico.latitud,
+	    		longitud: atractivoTuristico.longitud,
+	    		idTurista: null,
+	    		idTipoAtractivo: atractivoTuristico.taIdtipoAtractivo,
+	    		idAdministrador: atractivoTuristico.aidUsuario,
+	    		idAsentamiento: atractivoTuristico.aidAsentamiento,
+	    		idEstadoRegistro: atractivoTuristico.erIdEstadoRegistro
+	    	});
+	    	
+	    	console.log(data);
+			var config = 
+			{
+	            headers : 
+	            {
+	                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	            }
+	        }
+			
+			return $http.post(CONFIG.urlWebService + '/atractivoTuristicoEdit', data, config)
+	        .success(function (data, status, headers, config) {
+	            return data;
+	        })
+	        .error(function (data, status, header, config) {
+	            return "Data: " + data +
+	                "<hr />status: " + status +
+	                "<hr />headers: " + header +
+	                "<hr />config: " + config;
+	        });
+        }, 
+          
+	 	  deleteAtractivoTuristico: function(id)
+	 	  {
+	            return $http.delete( CONFIG.urlWebService + '/atractivoTuristico/' + id)
+	            .then(
+	                function(response)
+	                {
+	                    return response.data;
+	                }, 
+	                function(errResponse)
+	                {
+	                    console.error('Error while delete pm');
+	                    return $q.reject(errResponse);
+	                }
+	            );
+	       },
+	       
+	       deleteFotoAtractivoTuristico: function( idfotoAtractivoTuristico)
+	 	  {
+	            return $http.delete( CONFIG.urlWebService + '/atractivoTuristico/eliminarFoto/' + idfotoAtractivoTuristico)
+	            .then(
+	                function(response)
+	                {
+	                    return response.data;
+	                }, 
+	                function(errResponse)
+	                {
+	                    console.error('Error while delete pm');
+	                    return $q.reject(errResponse);
+	                }
+	            );
+	       },
+	       
+	       insertCalificacionAtractivoTuristico: function( calificacion )
+		    {
+		    	var data = $.param({
+		    		idAtractivo: calificacion.idAtractivo,   		
+		    		idUsuario: calificacion.idUsuario,
+		    		calificacion: calificacion.calificacion,
+		    		comentario: calificacion.comentario,
+		    		idRegistroVisita: calificacion.idregistroVisita
+		    	});
+		    	
+		    	console.log(data);
+				var config = 
+				{
+		            headers : 
+		            {
+		                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		            }
+		        }
+				
+				return $http.post(CONFIG.urlWebService + '/calificacionAtractivoTuristico', data, config)
+		        .success(function (data, status, headers, config) {
+		            return data;
+		        })
+		        .error(function (data, status, header, config) {
+		            return "Data: " + data +
+		                "<hr />status: " + status +
+		                "<hr />headers: " + header +
+		                "<hr />config: " + config;
+		        });
+	        }
+        
+       
 	         
-	    }; 
+    }; 
 	 
-	}]);
+}]);

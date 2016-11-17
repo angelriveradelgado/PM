@@ -6,8 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.sql.Time;
-import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -25,11 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import dao.AtractivoturisticoDAO;
 import dao.CalificacionatractivoturisticoDAO;
 import dao.FotoatractivoturisticoDAO;
+import dao.TipoatractivoDAO;
 import dto.Atractivoturistico;
 import dto.Calificacionatractivoturistico;
+import dto.Direccion;
 import dto.FotoAtractivoTuristicoSimple;
 import dto.Fotoatractivoturistico;
-import dto.Pueblomagico;
+import dto.Tipoatractivo;
 
 @RestController
 @Component
@@ -37,6 +37,9 @@ public class AtractivoTuristicoController
 {
 	@Autowired
 	private AtractivoturisticoDAO atractivoTuristicoDAO;
+	
+	@Autowired
+	private TipoatractivoDAO tipoatractivoDAO;
 
 	@Autowired
 	private FotoatractivoturisticoDAO fotoatractivoturisticoDAO;
@@ -46,7 +49,7 @@ public class AtractivoTuristicoController
 
 	// WS que devuelve un atractivo turistico por su id
 	@RequestMapping(value = "/atractivoTuristico/{idAtractivoTuristico}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?>  getAtractivoturistico( @PathVariable int idAtractivoTuristico )
+	public ResponseEntity<?>  getAtractivoturistico( @PathVariable Integer idAtractivoTuristico )
 	{
 		ResponseEntity<?> result = null;
 		Atractivoturistico u = null;
@@ -65,7 +68,7 @@ public class AtractivoTuristicoController
 	// WS que devuelve una lista con los atractivos turisticos en un rango de
 	// resultados (limit)
 	@RequestMapping(value = "/atractivoturistico/{first}/{numRegistros}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?>  getSomeAtractivoTuristico( @PathVariable int first, @PathVariable int numRegistros )
+	public ResponseEntity<?>  getSomeAtractivoTuristico( @PathVariable Integer first, @PathVariable Integer numRegistros )
 	{
 		ResponseEntity<?> result = null;
 		List<Atractivoturistico> a = null;
@@ -85,7 +88,7 @@ public class AtractivoTuristicoController
 	// WS que devuelve una lista de las fotos de un AT. Recibe el id del
 	// atractivo
 	@RequestMapping(value = "/atractivoTuristico/{id}/fotos", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getAllImages( @PathVariable("id") int id )
+	public ResponseEntity<?> getAllImages( @PathVariable("id") Integer id )
 	{
 		List<FotoAtractivoTuristicoSimple> fotos = null;
 		ResponseEntity<?> result = null;
@@ -103,7 +106,7 @@ public class AtractivoTuristicoController
 
 	// WS que devuelve una foto de un AT. Recibe el id de la foto
 	@RequestMapping(value = "/atractivoTuristico/foto/{id}", method = RequestMethod.GET, produces = "image/jpg")
-	public ResponseEntity<?> getPuebloMagicoImage( @PathVariable int id )
+	public ResponseEntity<?> getAtractivoTuristicoFoto( @PathVariable Integer id )
 	{
 		ResponseEntity<?> result = null;
 
@@ -138,7 +141,7 @@ public class AtractivoTuristicoController
 	
 	// WS que devuelve una lista con todos los AT de un PM. Recibe el id del PM
 	@RequestMapping(value = "/atractivoTuristico/puebloMagico/{id}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getAllAtractivosTuristicosByPM( @PathVariable int id )
+	public ResponseEntity<?> getAllAtractivosTuristicosByPM( @PathVariable Integer id )
 	{
 		List<Atractivoturistico> ats = null;
 		ResponseEntity<?> result = null;
@@ -156,9 +159,9 @@ public class AtractivoTuristicoController
 	
 	// WS que devuelve una lista con todos los AT de un PM. Recibe el id del PM
 	@RequestMapping(value = "/atractivoTuristico/puebloMagico/{id}/limit/{first}/{numRegistros}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getAllAtractivosTuristicosByPMByLimit( @PathVariable int id,
-			@PathVariable int first,
-			@PathVariable int numRegistros)
+	public ResponseEntity<?> getAllAtractivosTuristicosByPMByLimit( @PathVariable Integer id,
+			@PathVariable Integer first,
+			@PathVariable Integer numRegistros)
 	{
 		List<Atractivoturistico> ats = null;
 		ResponseEntity<?> result = null;
@@ -177,7 +180,7 @@ public class AtractivoTuristicoController
 	
 	// WS que devuelve la lista de calificaciones de un atractivo turistico
 	@RequestMapping(value = "/atractivoTuristico/{id}/Calificacion", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getCalificacionesByIdAtractivoTuristico( @PathVariable int id )
+	public ResponseEntity<?> getCalificacionesByIdAtractivoTuristico( @PathVariable Integer id )
 	{
 		List<Calificacionatractivoturistico> c = null;
 		ResponseEntity<?> result = null;
@@ -193,17 +196,38 @@ public class AtractivoTuristicoController
 		return result;
 	}
 	
+	// WS que devuelve la lista de calificaciones de un atractivo turistico
+	@RequestMapping(value = "/atractivoTuristico/{id}/Calificacion/limit/{first}/{numRegistros}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getCalificacionesByIdAtractivoTuristicoByLimit( @PathVariable Integer id,
+			@PathVariable Integer first,@PathVariable Integer numRegistros)
+	{
+		List<Calificacionatractivoturistico> c = null;
+		ResponseEntity<?> result = null;
+		try
+		{
+			c = calificacionatractivoturisticoDAO.getCalificacionatractivoturisticoByLimit(id, first, numRegistros);
+			result = new ResponseEntity<List<Calificacionatractivoturistico>>(c, HttpStatus.OK);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return result;
+	}
 	
 	// WS que devuelve la lista de calificaciones de un atractivo turistico
 	@RequestMapping(value = "/atractivoTuristico/{id}/direccion", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getDireccionIdAtractivoTuristico( @PathVariable int id )
+	public ResponseEntity<?> getDireccionIdAtractivoTuristico( @PathVariable Integer id )
 	{
 		String direccion = null;
+		Direccion d = new Direccion();
+		
 		ResponseEntity<?> result = null;
 		try
 		{
 			direccion = atractivoTuristicoDAO.getDireccion(id);
-			result = new ResponseEntity<String>(direccion, HttpStatus.OK);
+			d.setDireccion(direccion);
+			result = new ResponseEntity<Direccion>(d, HttpStatus.OK);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -213,6 +237,23 @@ public class AtractivoTuristicoController
 	}
 		
 	
+	@RequestMapping(value = "/atractivoturistico/tipos/atractivos", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<?>  getTiposAtractivoTuristico( )
+	{
+		ResponseEntity<?> result = null;
+		List<Tipoatractivo> t = null;
+		try
+		{
+
+			t = tipoatractivoDAO.readAll();
+			result = new ResponseEntity<List<Tipoatractivo>>(t, HttpStatus.OK);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return result;
+	}
 
 
 	
@@ -222,18 +263,26 @@ public class AtractivoTuristicoController
 	/////////////////
 	///////////////////
 	@RequestMapping(value = "/atractivoTuristico", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Boolean insertAtractivoTuristico( 
+	public ResponseEntity<?> insertAtractivoTuristico( 
 			@FormParam("nombre") String nombre, 
 			@FormParam("descripcion") String descripcion, 
-			@FormParam("latitud") double latitud, 
-			@FormParam("longitud") double longitud,
-			@FormParam("idTurista") int idTurista,	
-			@FormParam("idTipoAtractivo") int idTipoAtractivo,
-			@FormParam("idAdministrador") int idAdministrador, 			
-			@FormParam("idAsentamiento") int idAsentamiento)
+			@FormParam("latitud") Double latitud, 
+			@FormParam("longitud") Double longitud,
+			@FormParam("idTurista") Integer idTurista,	
+			@FormParam("idTipoAtractivo") Integer idTipoAtractivo,
+			@FormParam("idAdministrador") Integer idAdministrador, 			
+			@FormParam("idAsentamiento") Integer idAsentamiento)
 	{
+		ResponseEntity<?> result = null;
+		if( nombre == null || latitud == null || longitud == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
 		Atractivoturistico at = new Atractivoturistico();
 		Boolean respuesta = false;
+		
 
 		try
 		{
@@ -253,29 +302,37 @@ public class AtractivoTuristicoController
 			e.printStackTrace();
 		}
 
-		return respuesta;
+		result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
+		return result;
+		
 	}
 	
-	@RequestMapping(value = "/atractivoTuristico", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public Boolean updatetAtractivoTuristico( 
+	@RequestMapping(value = "/atractivoTuristicoEdit", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<?> updatetAtractivoTuristico( 
 			@FormParam("idAtractivoTuristico") Integer idAtractivoTuristico, 
 			@FormParam("nombre") String nombre, 
 			@FormParam("descripcion") String descripcion, 
-			@FormParam("latitud") double latitud, 
-			@FormParam("longitud") double longitud,
-			@FormParam("idTurista") int idTurista,	
-			@FormParam("idTipoAtractivo") int idTipoAtractivo,
-			@FormParam("idAdministrador") int idAdministrador, 			
-			@FormParam("idAsentamiento") int idAsentamiento,
-			@FormParam("idEstadoRegistro") int idEstadoRegistro,
-			@FormParam("promedio") float promedio)
+			@FormParam("latitud") Double latitud, 
+			@FormParam("longitud") Double longitud,
+			@FormParam("idTurista") Integer idTurista,	
+			@FormParam("idTipoAtractivo") Integer idTipoAtractivo,
+			@FormParam("idAdministrador") Integer idAdministrador, 			
+			@FormParam("idAsentamiento") Integer idAsentamiento,
+			@FormParam("idEstadoRegistro") Integer idEstadoRegistro)
 	{
+		ResponseEntity<?> result = null;
 		Atractivoturistico at = new Atractivoturistico();
 		Boolean respuesta = false;
 
+		if( nombre == null || latitud == null || longitud == null || idAsentamiento == null || idAtractivoTuristico == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
 		try
 		{
-			at.setIdAtractivoTuristico(idAtractivoTuristico);
+			at = atractivoTuristicoDAO.read(idAtractivoTuristico);
 			at.setNombre(nombre);
 			at.setDescripcion(descripcion);
 			at.setLatitud(latitud);
@@ -285,7 +342,6 @@ public class AtractivoTuristicoController
 			at.setAIdUsuario(idAdministrador);
 			at.setAIdAsentamiento(idAsentamiento);
 			at.setErIdEstadoRegistro(idEstadoRegistro);
-			at.setPromedio(promedio);
 			
 			respuesta = atractivoTuristicoDAO.update(at);
 		} catch (Exception e)
@@ -293,19 +349,27 @@ public class AtractivoTuristicoController
 			e.printStackTrace();
 		}
 
-		return respuesta;
+		result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
+		return result;
 	}
 
-	@RequestMapping(value = "/atractivoTuristico", method = RequestMethod.DELETE, produces = "application/json")
-	public ResponseEntity<?> deleteAtractivoTuristico( @FormParam("idAtractivoTuristico") Integer idAtractivoTuristico )
+	@RequestMapping(value = "/atractivoTuristico/{idAtractivoTuristico}", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<?> deleteAtractivoTuristico( @PathVariable Integer idAtractivoTuristico )
 	{
 		ResponseEntity<?> result = null;
 		Atractivoturistico at = new Atractivoturistico();
 		Boolean respuesta = false;
 
+		if( idAtractivoTuristico == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
 		try
 		{
 			at.setIdAtractivoTuristico(idAtractivoTuristico);
+			at.setErIdEstadoRegistro(0);
 			respuesta = atractivoTuristicoDAO.delete(at);
 			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
 		} catch (Exception e)

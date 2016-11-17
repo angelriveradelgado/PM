@@ -65,7 +65,7 @@ public class EstadoDAO
 		return conf;
 	}
 
-	public Estado read( int id )
+	public Estado read( Integer id )
 	{
 		log.debug("reading Estado instance");
 		Estado u = null;
@@ -90,7 +90,13 @@ public class EstadoDAO
 	{
 		List<Estado> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Estado.class).list();
+		try
+		{
+			result = session.createCriteria(Estado.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -201,17 +207,22 @@ public class EstadoDAO
 	{
 		log.debug("finding Estado instance by example");
 		Session session = sessionFactory.openSession();
+		List<Estado> results = null;
+		Estado result = null;
 		try
 		{
-			List<Estado> results = session.createCriteria(Estado.class).add(Restrictions.like("nombreEstado", n))
+			results = session.createCriteria(Estado.class).add(Restrictions.like("nombreEstado", n))
 					.list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			
+			result = results.get(0);
 		} catch (RuntimeException re)
 		{
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 
 }

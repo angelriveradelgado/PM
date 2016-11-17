@@ -21,7 +21,7 @@ public class Servicioemergencias implements java.io.Serializable
 
 	private Integer idservicioEmergencias;
 	private String nombre;
-	private int aIdAsentamiento;
+	private Integer aIdAsentamiento;
 	private Double longitud;
 	private Double latitud;
 	private String descripcion;
@@ -32,12 +32,12 @@ public class Servicioemergencias implements java.io.Serializable
 	{
 	}
 
-	public Servicioemergencias(int pmIdPuebloMagico)
+	public Servicioemergencias(Integer pmIdPuebloMagico)
 	{
 		this.aIdAsentamiento = pmIdPuebloMagico;
 	}
 
-	public Servicioemergencias(String nombre, int aIdAsentamiento, Double longitud, Double latitud, String descripcion,
+	public Servicioemergencias(String nombre, Integer aIdAsentamiento, Double longitud, Double latitud, String descripcion,
 			Date horaInicio, Date horaFin)
 	{
 		this.nombre = nombre;
@@ -75,12 +75,12 @@ public class Servicioemergencias implements java.io.Serializable
 	}
 
 	@Column(name = "a_idAsentamiento", nullable = false)
-	public int getAIdAsentamiento( )
+	public Integer getAIdAsentamiento( )
 	{
 		return this.aIdAsentamiento;
 	}
 
-	public void setAIdAsentamiento( int aIdAsentamiento )
+	public void setAIdAsentamiento( Integer aIdAsentamiento )
 	{
 		this.aIdAsentamiento = aIdAsentamiento;
 	}

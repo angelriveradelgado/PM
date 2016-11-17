@@ -47,7 +47,7 @@ public class TipoalojamientoDAO {
 		return conf;
 	}
 	
-	public Tipoalojamiento read(int id) {
+	public Tipoalojamiento read(Integer id) {
 		log.debug("reading Tipoalojamiento instance");
 		Tipoalojamiento u = null;
 		Session session = sessionFactory.openSession();
@@ -68,7 +68,13 @@ public class TipoalojamientoDAO {
 	public List<Tipoalojamiento> readAll() {
 		List<Tipoalojamiento> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tipoalojamiento.class).list();
+		try
+		{
+			result = session.createCriteria(Tipoalojamiento.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -112,7 +118,7 @@ public class TipoalojamientoDAO {
 	}
 
 
-	public Tipoalojamiento findById(java.lang.Integer id) {
+	public Tipoalojamiento findById(Integer id) {
 		log.debug("getting Tipoalojamiento instance with id: " + id);
 		Tipoalojamiento u = null;
 		Session session = sessionFactory.openSession();

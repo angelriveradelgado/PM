@@ -48,7 +48,7 @@ public class TipohabitacionDAO {
 		return conf;
 	}
 	
-	public Tipohabitacion read(int id) {
+	public Tipohabitacion read(Integer id) {
 		log.debug("reading Tipohabitacion instance");
 		Tipohabitacion u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +69,13 @@ public class TipohabitacionDAO {
 	public List<Tipohabitacion> readAll() {
 		List<Tipohabitacion> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tipohabitacion.class).list();
+		try
+		{
+			result = session.createCriteria(Tipohabitacion.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}

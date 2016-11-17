@@ -14,25 +14,25 @@ import javax.persistence.Table;
 public class Pst implements java.io.Serializable
 {
 
-	private int idUsuario;
+	private Integer idUsuario;
 	private String numeroRnt;
 	private String telefono;
 	private String razonSocialEmpresa;
-	private int VIdUsuario;
-	private int erIdEstadoRegistro;
+	private Integer VIdUsuario;
+	private Integer erIdEstadoRegistro;
 
 	public Pst()
 	{
 	}
 
-	public Pst(int idUsuario, int erIdEstadoRegistro)
+	public Pst(Integer idUsuario, Integer erIdEstadoRegistro)
 	{
 		this.idUsuario = idUsuario;
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
 
-	public Pst(int idUsuario, String numeroRnt, String telefono, String razonSocialEmpresa, int VIdUsuario,
-			int erIdEstadoRegistro)
+	public Pst(Integer idUsuario, String numeroRnt, String telefono, String razonSocialEmpresa, Integer VIdUsuario,
+			Integer erIdEstadoRegistro)
 	{
 		this.idUsuario = idUsuario;
 		this.numeroRnt = numeroRnt;
@@ -45,12 +45,12 @@ public class Pst implements java.io.Serializable
 	@Id
 
 	@Column(name = "idUsuario", unique = true, nullable = false)
-	public int getIdUsuario( )
+	public Integer getIdUsuario( )
 	{
 		return this.idUsuario;
 	}
 
-	public void setIdUsuario( int idUsuario )
+	public void setIdUsuario( Integer idUsuario )
 	{
 		this.idUsuario = idUsuario;
 	}
@@ -89,23 +89,23 @@ public class Pst implements java.io.Serializable
 	}
 
 	@Column(name = "v_idUsuario")
-	public int getVIdUsuario( )
+	public Integer getVIdUsuario( )
 	{
 		return this.VIdUsuario;
 	}
 
-	public void setVIdUsuario( int VIdUsuario )
+	public void setVIdUsuario( Integer VIdUsuario )
 	{
 		this.VIdUsuario = VIdUsuario;
 	}
 
 	@Column(name = "eR_idEstadoRegistro", nullable = false)
-	public int getErIdEstadoRegistro( )
+	public Integer getErIdEstadoRegistro( )
 	{
 		return this.erIdEstadoRegistro;
 	}
 
-	public void setErIdEstadoRegistro( int erIdEstadoRegistro )
+	public void setErIdEstadoRegistro( Integer erIdEstadoRegistro )
 	{
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}

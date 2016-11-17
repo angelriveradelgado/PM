@@ -48,7 +48,7 @@ public class FormapagoDAO {
 		return conf;
 	}
 	
-	public Formapago read(int id) {
+	public Formapago read(Integer id) {
 		log.debug("reading Formapago instance");
 		Formapago u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +69,13 @@ public class FormapagoDAO {
 	public List<Formapago> readAll() {
 		List<Formapago> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Formapago.class).list();
+		try
+		{
+			result = session.createCriteria(Formapago.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -113,7 +119,7 @@ public class FormapagoDAO {
 	}
 
 
-	public Formapago findById(java.lang.Integer id) {
+	public Formapago findById(Integer id) {
 		log.debug("getting Formapago instance with id: " + id);
 		Formapago u = null;
 		Session session = sessionFactory.openSession();
@@ -137,15 +143,19 @@ public class FormapagoDAO {
 
 	public Formapago findByNombreFormapago(String n) {
 		log.debug("finding Formapago instance by example");
+		List<Formapago> results = null;
+		Formapago result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Formapago> results = session.createCriteria(Formapago.class).add( Restrictions.like("nombreFormapago", n) ).list();
+			results = session.createCriteria(Formapago.class).add( Restrictions.like("nombreFormapago", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
 	

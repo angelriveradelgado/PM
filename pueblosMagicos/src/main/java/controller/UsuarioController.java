@@ -50,7 +50,7 @@ public class UsuarioController
 	}
 	
 	@RequestMapping(value = "/usuario/id/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getUsuarioById(@PathVariable int id) 
+	public ResponseEntity<?> getUsuarioById(@PathVariable Integer id) 
 	{
 		ResponseEntity<?> result = null;
 		Usuario u = null;
@@ -65,7 +65,7 @@ public class UsuarioController
 	}
 	
 	@RequestMapping(value = "/usuario/{id}/listaServicios", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getListaServicios(@PathVariable int id) 
+	public ResponseEntity<?> getListaServicios(@PathVariable Integer id) 
 	{
 		ResponseEntity<?> result = null;
 		List<ListaHasServicioturisticoId> lista = null;
@@ -80,7 +80,7 @@ public class UsuarioController
 	}
 	
 	@RequestMapping(value = "/usuario/{id}/listaAtractivos", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getListaAtractivos(@PathVariable int id) 
+	public ResponseEntity<?> getListaAtractivos(@PathVariable Integer id) 
 	{
 		ResponseEntity<?> result = null;
 		List<ListaHasAtractivoturisticoId> lista = null;

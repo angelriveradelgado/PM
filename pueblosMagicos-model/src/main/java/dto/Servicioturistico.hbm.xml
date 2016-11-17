@@ -8,7 +8,7 @@
             <column name="idServicioTuristico" />
             <generator class="identity" />
         </id>
-        <property name="EIdEstablecimiento" type="int">
+        <property name="EIdEstablecimiento" type="java.lang.Integer">
             <column name="e_idEstablecimiento" not-null="true" />
         </property>
         <property name="nombre" type="string">
@@ -17,10 +17,10 @@
         <property name="aforo" type="java.lang.Integer">
             <column name="aforo" />
         </property>
-        <property name="tstIdtSt" type="int">
+        <property name="tstIdtSt" type="java.lang.Integer">
             <column name="tST_idtST" not-null="true" />
         </property>
-        <property name="VIdUsuario" type="int">
+        <property name="VIdUsuario" type="java.lang.Integer">
             <column name="v_idUsuario" />
         </property>
         <property name="precioMinimo" type="java.lang.Double">
@@ -36,9 +36,9 @@
             <column name="descripcion" length="65535" />
         </property>
         <property name="sitioWeb" type="string">
-            <column name="sitioWEB" length="45" />
+            <column name="sitioWEB" length="100" />
         </property>
-        <property name="erIdEstadoRegistro" type="int">
+        <property name="erIdEstadoRegistro" type="java.lang.Integer">
             <column name="eR_idEstadoRegistro" not-null="true" />
         </property>
         <property name="telefono" type="string">

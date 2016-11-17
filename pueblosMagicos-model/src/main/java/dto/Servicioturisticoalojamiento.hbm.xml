@@ -4,17 +4,17 @@
 <!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="dto.Servicioturisticoalojamiento" table="servicioturisticoalojamiento" catalog="pueblosMagicos">
-        <id name="stIdServicio" type="int">
+        <id name="stIdServicio" type="java.lang.Integer">
             <column name="sT_idServicio" />
             <generator class="assigned" />
         </id>
-        <property name="toIdtipoOperacion" type="int">
+        <property name="toIdtipoOperacion" type="java.lang.Integer">
             <column name="tO_idtipoOperacion" not-null="true" />
         </property>
-        <property name="taIdtipoAlojamiento" type="int">
+        <property name="taIdtipoAlojamiento" type="java.lang.Integer">
             <column name="tA_idtipoAlojamiento" not-null="true" />
         </property>
-        <property name="tsaIdtipoServicioAlojamiento" type="int">
+        <property name="tsaIdtipoServicioAlojamiento" type="java.lang.Integer">
             <column name="tSA_idtipoServicioAlojamiento" not-null="true" />
         </property>
     </class>

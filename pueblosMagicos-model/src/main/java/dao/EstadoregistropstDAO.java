@@ -47,7 +47,7 @@ public class EstadoregistropstDAO{
 		return conf;
 	}
 	
-	public Estadoregistropst read(int id) {
+	public Estadoregistropst read(Integer id) {
 		log.debug("reading Estadoregistropst instance");
 		Estadoregistropst u = null;
 		Session session = sessionFactory.openSession();
@@ -68,7 +68,13 @@ public class EstadoregistropstDAO{
 	public List<Estadoregistropst> readAll() {
 		List<Estadoregistropst> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Estadoregistropst.class).list();
+		try
+		{
+			result = session.createCriteria(Estadoregistropst.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -136,15 +142,19 @@ public class EstadoregistropstDAO{
 
 	public Estadoregistropst findByNombreEstadoregistropst(String n) {
 		log.debug("finding Estadoregistropst instance by example");
+		List<Estadoregistropst> results = null;
+		Estadoregistropst result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Estadoregistropst> results = session.createCriteria(Estadoregistropst.class).add( Restrictions.like("nombreEstadoregistropst", n) ).list();
+			results = session.createCriteria(Estadoregistropst.class).add( Restrictions.like("nombreEstadoregistropst", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result =  results.get(0);
 		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
+			log.error("find by example failed", re);			
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,13 +34,19 @@ public class ListaController
 	
 	@RequestMapping(value = "/listaAtractivoTuristico", method = RequestMethod.POST,  produces="application/json")
 	public ResponseEntity<?> insertListaAtractivoTuristico(	
-											@FormParam("idAtractivo")Integer idAtractivo,
-											@FormParam("idUsuario")Integer idUsuario)
+											@FormParam("idAtractivo") Integer idAtractivo,
+											@FormParam("idUsuario") Integer idUsuario)
 	{
 		ResponseEntity<?> result = null;
 		ListaHasAtractivoturisticoId lId = new ListaHasAtractivoturisticoId();
 		ListaHasAtractivoturistico l = new	ListaHasAtractivoturistico();
 		Boolean respuesta = false;
+		
+		if( idAtractivo == null || idUsuario == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
 		
 		try
 		{
@@ -59,15 +66,21 @@ public class ListaController
 		return result;
 	}
 	
-	@RequestMapping(value = "/listaAtractivoTuristico", method = RequestMethod.DELETE,  produces="application/json")
+	@RequestMapping(value = "/listaAtractivoTuristico/idAtractivo/{idAtractivo}/idUsuario/{idUsuario}", method = RequestMethod.DELETE,  produces="application/json")
 	public ResponseEntity<?> deleteListaAtractivoTuristico(	
-											@FormParam("idAtractivo")Integer idAtractivo,
-											@FormParam("idUsuario")Integer idUsuario)
+			@PathVariable Integer idAtractivo,
+			@PathVariable Integer idUsuario)
 	{
 		ResponseEntity<?> result = null;
 		ListaHasAtractivoturisticoId lId = new ListaHasAtractivoturisticoId();
 		ListaHasAtractivoturistico l = new	ListaHasAtractivoturistico();
 		Boolean respuesta = false;
+		
+		if( idAtractivo == null || idUsuario == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
 		
 		try
 		{
@@ -97,6 +110,12 @@ public class ListaController
 		ListaHasServicioturistico l = new	ListaHasServicioturistico();
 		Boolean respuesta = false;
 		
+		if( idServicio == null || idUsuario == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
 		try
 		{
 			lId.setServicioTuristicoIdServicio(idServicio);
@@ -115,15 +134,21 @@ public class ListaController
 		return result;
 	}
 	
-	@RequestMapping(value = "/listaServicioTuristico", method = RequestMethod.DELETE,  produces="application/json")
+	@RequestMapping(value = "/listaServicioTuristico/idServicio/{idServicio}/idUsuario/{idUsuario}", method = RequestMethod.DELETE,  produces="application/json")
 	public ResponseEntity<?> deleteListaServicioTuristico(	
-											@FormParam("idServicio")Integer idServicio,
-											@FormParam("idUsuario")Integer idUsuario)
+			@PathVariable Integer idServicio,
+			@PathVariable Integer idUsuario)
 	{
 		ResponseEntity<?> result = null;
 		ListaHasServicioturisticoId lId = new ListaHasServicioturisticoId();
 		ListaHasServicioturistico l = new	ListaHasServicioturistico();
 		Boolean respuesta = false;
+		
+		if( idServicio == null || idUsuario == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
 		
 		try
 		{

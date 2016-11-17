@@ -19,7 +19,7 @@ public class Fotoservicioturistico implements java.io.Serializable
 	private Integer idfotoServicioTuristico;
 	private String urlfoto;
 	private String descripcion;
-	private int stIdServicio;
+	private Integer stIdServicio;
 
 	public Fotoservicioturistico()
 	{
@@ -30,7 +30,7 @@ public class Fotoservicioturistico implements java.io.Serializable
 		this.stIdServicio = stIdServicio;
 	}
 
-	public Fotoservicioturistico(String urlfoto, String descripcion, int stIdServicio)
+	public Fotoservicioturistico(String urlfoto, String descripcion, Integer stIdServicio)
 	{
 		this.urlfoto = urlfoto;
 		this.descripcion = descripcion;
@@ -74,12 +74,12 @@ public class Fotoservicioturistico implements java.io.Serializable
 	}
 
 	@Column(name = "sT_idServicio", nullable = false)
-	public int getStIdServicio( )
+	public Integer getStIdServicio( )
 	{
 		return this.stIdServicio;
 	}
 
-	public void setStIdServicio( int stIdServicio )
+	public void setStIdServicio( Integer stIdServicio )
 	{
 		this.stIdServicio = stIdServicio;
 	}

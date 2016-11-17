@@ -14,17 +14,17 @@ import javax.persistence.Table;
 public class Servicioturisticoalojamiento implements java.io.Serializable
 {
 
-	private int stIdServicio;
-	private int toIdtipoOperacion;
-	private int taIdtipoAlojamiento;
-	private int tsaIdtipoServicioAlojamiento;
+	private Integer stIdServicio;
+	private Integer toIdtipoOperacion;
+	private Integer taIdtipoAlojamiento;
+	private Integer tsaIdtipoServicioAlojamiento;
 
 	public Servicioturisticoalojamiento()
 	{
 	}
 
-	public Servicioturisticoalojamiento(int stIdServicio, int toIdtipoOperacion, int taIdtipoAlojamiento,
-			int tsaIdtipoServicioAlojamiento)
+	public Servicioturisticoalojamiento(Integer stIdServicio, Integer toIdtipoOperacion, Integer taIdtipoAlojamiento,
+			Integer tsaIdtipoServicioAlojamiento)
 	{
 		this.stIdServicio = stIdServicio;
 		this.toIdtipoOperacion = toIdtipoOperacion;
@@ -35,45 +35,45 @@ public class Servicioturisticoalojamiento implements java.io.Serializable
 	@Id
 
 	@Column(name = "sT_idServicio", unique = true, nullable = false)
-	public int getStIdServicio( )
+	public Integer getStIdServicio( )
 	{
 		return this.stIdServicio;
 	}
 
-	public void setStIdServicio( int stIdServicio )
+	public void setStIdServicio( Integer stIdServicio )
 	{
 		this.stIdServicio = stIdServicio;
 	}
 
 	@Column(name = "tO_idtipoOperacion", nullable = false)
-	public int getToIdtipoOperacion( )
+	public Integer getToIdtipoOperacion( )
 	{
 		return this.toIdtipoOperacion;
 	}
 
-	public void setToIdtipoOperacion( int toIdtipoOperacion )
+	public void setToIdtipoOperacion( Integer toIdtipoOperacion )
 	{
 		this.toIdtipoOperacion = toIdtipoOperacion;
 	}
 
 	@Column(name = "tA_idtipoAlojamiento", nullable = false)
-	public int getTaIdtipoAlojamiento( )
+	public Integer getTaIdtipoAlojamiento( )
 	{
 		return this.taIdtipoAlojamiento;
 	}
 
-	public void setTaIdtipoAlojamiento( int taIdtipoAlojamiento )
+	public void setTaIdtipoAlojamiento( Integer taIdtipoAlojamiento )
 	{
 		this.taIdtipoAlojamiento = taIdtipoAlojamiento;
 	}
 
 	@Column(name = "tSA_idtipoServicioAlojamiento", nullable = false)
-	public int getTsaIdtipoServicioAlojamiento( )
+	public Integer getTsaIdtipoServicioAlojamiento( )
 	{
 		return this.tsaIdtipoServicioAlojamiento;
 	}
 
-	public void setTsaIdtipoServicioAlojamiento( int tsaIdtipoServicioAlojamiento )
+	public void setTsaIdtipoServicioAlojamiento( Integer tsaIdtipoServicioAlojamiento )
 	{
 		this.tsaIdtipoServicioAlojamiento = tsaIdtipoServicioAlojamiento;
 	}

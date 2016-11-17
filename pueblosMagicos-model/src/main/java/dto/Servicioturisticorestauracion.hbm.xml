@@ -4,11 +4,11 @@
 <!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="dto.Servicioturisticorestauracion" table="servicioturisticorestauracion" catalog="pueblosMagicos">
-        <id name="stIdServicioTuristico" type="int">
+        <id name="stIdServicioTuristico" type="java.lang.Integer">
             <column name="sT_idServicioTuristico" />
             <generator class="assigned" />
         </id>
-        <property name="tsrIdtipoServicioRestauracion" type="int">
+        <property name="tsrIdtipoServicioRestauracion" type="java.lang.Integer">
             <column name="tSR_idtipoServicioRestauracion" not-null="true" />
         </property>
     </class>

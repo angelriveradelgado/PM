@@ -18,19 +18,19 @@ public class Fotoatractivoturistico implements java.io.Serializable
 
 	private Integer idfotoAtractivoTuristico;
 	private String urlfoto;
-	private int atIdAtractivoTuristico;
+	private Integer atIdAtractivoTuristico;
 	private String descripcion;
 
 	public Fotoatractivoturistico()
 	{
 	}
 
-	public Fotoatractivoturistico(int atIdAtractivoTuristico)
+	public Fotoatractivoturistico(Integer atIdAtractivoTuristico)
 	{
 		this.atIdAtractivoTuristico = atIdAtractivoTuristico;
 	}
 
-	public Fotoatractivoturistico(String urlfoto, int atIdAtractivoTuristico, String descripcion)
+	public Fotoatractivoturistico(String urlfoto, Integer atIdAtractivoTuristico, String descripcion)
 	{
 		this.urlfoto = urlfoto;
 		this.atIdAtractivoTuristico = atIdAtractivoTuristico;
@@ -63,12 +63,12 @@ public class Fotoatractivoturistico implements java.io.Serializable
 	}
 
 	@Column(name = "aT_idAtractivoTuristico", nullable = false)
-	public int getAtIdAtractivoTuristico( )
+	public Integer getAtIdAtractivoTuristico( )
 	{
 		return this.atIdAtractivoTuristico;
 	}
 
-	public void setAtIdAtractivoTuristico( int atIdAtractivoTuristico )
+	public void setAtIdAtractivoTuristico( Integer atIdAtractivoTuristico )
 	{
 		this.atIdAtractivoTuristico = atIdAtractivoTuristico;
 	}

@@ -1,0 +1,89 @@
+
+ <div class="container" >
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li >
+						<a  href="#/pst" ng-click="tab='establecimientos'">Inicio</a>
+					</li>
+				   <li class="active">
+						<a  href="#/pst/establecimientos" ng-click="tab='establecimientos'">Establecimientos</a>
+				   </li>
+				   <li >
+				   		<a href="#/pst/serviciosTuristicos" ng-click="tab='servicios'">Servicios turísticos</a>
+				   </li>                           
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9" ng-controller="EstablecimientoRegistroController as establecimientoRegistroController">	
+			<form ng-submit="submit()">
+				<div class="form-group">
+					<label>*Nombre comercial</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.nombreComercial"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*RFC</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.rfc"
+	                   			maxlength="15" required/>
+				</div>
+				<div class="form-group">
+					<label>*Tipo de la vialidad</label>
+					<select class="form-control" ng-model="establecimiento.tvIdTipoVialidad">
+						<option ng-repeat="tipoVialidad in tiposVialidad" value="{{tipoVialidad.idTipoVialidad}}">{{tipoVialidad.nombre}}</option>															
+					</select>
+				</div>
+				<div class="form-group">
+					<label>*Nombre de la vialidad</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.nombreVialidad"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Número exterior</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.numeroExterior"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Número interior</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.numeroInterior"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Estado</label>
+					<select class="form-control" ng-model="idEstado" ng-change="getMunicipios(idEstado)">
+						<option ng-repeat="estado in estados" value="{{estado.idEstado}}">{{estado.nombreEstado}}</option>															
+					</select>
+				</div>
+				<div class="form-group">
+					<label>*Municipio</label>
+					<select class="form-control" ng-model="idMunicipio" ng-change="getAsentamientos(idMunicipio)">
+						<option ng-repeat="municipio in municipios" value="{{municipio.idMunicipio}}">{{municipio.nombreMunicipio}}</option>															
+					</select>
+				</div>
+				<div class="form-group" ng-model="idMunicipio">
+					<label>*Asentamiento</label>
+					<select class="form-control" ng-model="establecimiento.AIdAsentamiento">
+						<option ng-repeat="asentamiento in asentamientos" value="{{asentamiento.idAsentamiento}}">{{asentamiento.nombreAsentamiento}}</option>															
+					</select>
+				</div>
+				<div class="form-group">
+					<label>*Seleccione la ubicación de su establecimiento</label>
+					<div id="mapRegEst" style="height: 400px"></div>
+				</div>
+				
+				<div class="gap"></div>
+			
+			
+				<input class="btn btn-primary" type="submit" value="Registrar"></input>
+				<a class="btn btn-primary" href="#/pst/establecimientos">Cancelar</a>
+			</form>
+		</div>
+        
+     </div>
+
+     <div class="gap"></div>
+ </div>

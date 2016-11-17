@@ -17,21 +17,21 @@ import javax.persistence.TemporalType;
 public class Turista implements java.io.Serializable
 {
 
-	private int idUsuario;
+	private Integer idUsuario;
 	private Date fechaNacimiento;
-	private int GIdgenero;
+	private Integer GIdgenero;
 
 	public Turista()
 	{
 	}
 
-	public Turista(int idUsuario, int GIdgenero)
+	public Turista(Integer idUsuario, Integer GIdgenero)
 	{
 		this.idUsuario = idUsuario;
 		this.GIdgenero = GIdgenero;
 	}
 
-	public Turista(int idUsuario, Date fechaNacimiento, int GIdgenero)
+	public Turista(Integer idUsuario, Date fechaNacimiento, Integer GIdgenero)
 	{
 		this.idUsuario = idUsuario;
 		this.fechaNacimiento = fechaNacimiento;
@@ -41,12 +41,12 @@ public class Turista implements java.io.Serializable
 	@Id
 
 	@Column(name = "idUsuario", unique = true, nullable = false)
-	public int getIdUsuario( )
+	public Integer getIdUsuario( )
 	{
 		return this.idUsuario;
 	}
 
-	public void setIdUsuario( int idUsuario )
+	public void setIdUsuario( Integer idUsuario )
 	{
 		this.idUsuario = idUsuario;
 	}
@@ -64,12 +64,12 @@ public class Turista implements java.io.Serializable
 	}
 
 	@Column(name = "g_idgenero", nullable = false)
-	public int getGIdgenero( )
+	public Integer getGIdgenero( )
 	{
 		return this.GIdgenero;
 	}
 
-	public void setGIdgenero( int GIdgenero )
+	public void setGIdgenero( Integer GIdgenero )
 	{
 		this.GIdgenero = GIdgenero;
 	}

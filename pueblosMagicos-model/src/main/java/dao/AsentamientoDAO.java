@@ -8,11 +8,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dto.AsentamientoId;
+import dto.Municipio;
 import dto.Asentamiento;
 
 @Repository
@@ -70,7 +72,13 @@ public class AsentamientoDAO {
 	public List<Asentamiento> readAll() {
 		List<Asentamiento> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Asentamiento.class).list();
+		try
+		{
+			result = session.createCriteria(Asentamiento.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -138,17 +146,37 @@ public class AsentamientoDAO {
 
 	public Asentamiento findByNombreAsentamiento(String n) {
 		log.debug("finding Asentamiento instance by example");
+		List<Asentamiento> results = null;
+		Asentamiento result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Asentamiento> results = session.createCriteria(Asentamiento.class).add( Restrictions.like("nombreAsentamiento", n) ).list();
+			results = session.createCriteria(Asentamiento.class).add( Restrictions.like("nombreAsentamiento", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			session.close();
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			session.close();
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
+	}
+	
+	public List<Asentamiento> findByidMunicipio(Integer id) 
+	{
+		log.debug("finding Municipio instance by example");
+		Session session = sessionFactory.openSession();
+		List<Asentamiento> results = null;
+		try {
+			results = session.createCriteria(Asentamiento.class).add( Restrictions.like("MIdMunicipio", id) ).addOrder(Order.asc("nombreAsentamiento")).list();
+			log.debug("find by example successful, result size: " + results.size());
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		session.close();
+		return results;
 	}
 	
 	

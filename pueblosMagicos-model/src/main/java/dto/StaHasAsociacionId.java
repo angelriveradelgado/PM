@@ -11,37 +11,37 @@ import javax.persistence.Embeddable;
 public class StaHasAsociacionId implements java.io.Serializable
 {
 
-	private int staSTIdServicio;
-	private int AIdasociacion;
+	private Integer staSTIdServicio;
+	private Integer AIdasociacion;
 
 	public StaHasAsociacionId()
 	{
 	}
 
-	public StaHasAsociacionId(int staSTIdServicio, int AIdasociacion)
+	public StaHasAsociacionId(Integer staSTIdServicio, Integer AIdasociacion)
 	{
 		this.staSTIdServicio = staSTIdServicio;
 		this.AIdasociacion = AIdasociacion;
 	}
 
 	@Column(name = "sTA_sT_idServicio", nullable = false)
-	public int getStaSTIdServicio( )
+	public Integer getStaSTIdServicio( )
 	{
 		return this.staSTIdServicio;
 	}
 
-	public void setStaSTIdServicio( int staSTIdServicio )
+	public void setStaSTIdServicio( Integer staSTIdServicio )
 	{
 		this.staSTIdServicio = staSTIdServicio;
 	}
 
 	@Column(name = "a_idasociacion", nullable = false)
-	public int getAIdasociacion( )
+	public Integer getAIdasociacion( )
 	{
 		return this.AIdasociacion;
 	}
 
-	public void setAIdasociacion( int AIdasociacion )
+	public void setAIdasociacion( Integer AIdasociacion )
 	{
 		this.AIdasociacion = AIdasociacion;
 	}

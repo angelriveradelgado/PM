@@ -19,21 +19,21 @@ public class Calificacionatractivoturistico implements java.io.Serializable
 	private Integer idCalificacionAtractivoTuristico;
 	private Integer calificacion;
 	private String comentario;
-	private int atIdatractivoTuristico;
-	private int TIdusuario;
+	private Integer atIdatractivoTuristico;
+	private Integer TIdusuario;
 
 	public Calificacionatractivoturistico()
 	{
 	}
 
-	public Calificacionatractivoturistico(int atIdatractivoTuristico, int TIdusuario)
+	public Calificacionatractivoturistico(Integer atIdatractivoTuristico, Integer TIdusuario)
 	{
 		this.atIdatractivoTuristico = atIdatractivoTuristico;
 		this.TIdusuario = TIdusuario;
 	}
 
-	public Calificacionatractivoturistico(Integer calificacion, String comentario, int atIdatractivoTuristico,
-			int TIdusuario)
+	public Calificacionatractivoturistico(Integer calificacion, String comentario, Integer atIdatractivoTuristico,
+			Integer TIdusuario)
 	{
 		this.calificacion = calificacion;
 		this.comentario = comentario;
@@ -78,23 +78,23 @@ public class Calificacionatractivoturistico implements java.io.Serializable
 	}
 
 	@Column(name = "aT_idatractivoTuristico", nullable = false)
-	public int getAtIdatractivoTuristico( )
+	public Integer getAtIdatractivoTuristico( )
 	{
 		return this.atIdatractivoTuristico;
 	}
 
-	public void setAtIdatractivoTuristico( int atIdatractivoTuristico )
+	public void setAtIdatractivoTuristico( Integer atIdatractivoTuristico )
 	{
 		this.atIdatractivoTuristico = atIdatractivoTuristico;
 	}
 
 	@Column(name = "t_idusuario", nullable = false)
-	public int getTIdusuario( )
+	public Integer getTIdusuario( )
 	{
 		return this.TIdusuario;
 	}
 
-	public void setTIdusuario( int TIdusuario )
+	public void setTIdusuario( Integer TIdusuario )
 	{
 		this.TIdusuario = TIdusuario;
 	}

@@ -5,10 +5,10 @@
 <hibernate-mapping>
     <class name="dto.TipoturismoHasTiposervicioturistico" table="tipoturismo_has_tiposervicioturistico" catalog="pueblosMagicos">
         <composite-id name="id" class="dto.TipoturismoHasTiposervicioturisticoId">
-            <key-property name="stIdtipoTurismo" type="int">
+            <key-property name="stIdtipoTurismo" type="java.lang.Integer">
                 <column name="sT_idtipoTurismo" />
             </key-property>
-            <key-property name="tstIdtipoServicioTuristico" type="int">
+            <key-property name="tstIdtipoServicioTuristico" type="java.lang.Integer">
                 <column name="tST_idtipoServicioTuristico" />
             </key-property>
         </composite-id>

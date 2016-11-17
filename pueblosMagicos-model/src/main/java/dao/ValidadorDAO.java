@@ -48,7 +48,7 @@ public class ValidadorDAO {
 		return conf;
 	}
 	
-	public Validador read(int id) {
+	public Validador read(Integer id) {
 		log.debug("reading Validador instance");
 		Validador u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +69,13 @@ public class ValidadorDAO {
 	public List<Validador> readAll() {
 		List<Validador> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Validador.class).list();
+		try
+		{
+			result = session.createCriteria(Validador.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -113,7 +119,7 @@ public class ValidadorDAO {
 	}
 
 
-	public Validador findById(java.lang.Integer id) {
+	public Validador findById(Integer id) {
 		log.debug("getting Validador instance with id: " + id);
 		Validador u = null;
 		Session session = sessionFactory.openSession();

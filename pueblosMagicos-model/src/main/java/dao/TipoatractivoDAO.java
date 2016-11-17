@@ -47,7 +47,7 @@ public class TipoatractivoDAO {
 		return conf;
 	}
 	
-	public Tipoatractivo read(int id) {
+	public Tipoatractivo read(Integer id) {
 		log.debug("reading Tipoatractivo instance");
 		Tipoatractivo u = null;
 		Session session = sessionFactory.openSession();
@@ -68,7 +68,13 @@ public class TipoatractivoDAO {
 	public List<Tipoatractivo> readAll() {
 		List<Tipoatractivo> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tipoatractivo.class).list();
+		try
+		{
+			result = session.createCriteria(Tipoatractivo.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}

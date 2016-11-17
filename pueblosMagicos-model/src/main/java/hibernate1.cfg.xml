@@ -68,5 +68,6 @@
         <mapping class="dto.ListaHasAtractivoturistico" />
         <mapping class="dto.Tipovialidad" />
         <mapping resource="Usuario.hbm.xml"/>  
+        <mapping resource="Asentamiento.hbm.xml"/>  
     </session-factory>
 </hibernate-configuration>

@@ -26,7 +26,7 @@ public class ServicioEmergenciasController
 	
 	// WS que devuelve un servicio turistico por su id
 	@RequestMapping(value = "/servicioEmergencias/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<?> getServicioEmergencias( @PathVariable int id )
+	public ResponseEntity<?> getServicioEmergencias( @PathVariable Integer id )
 	{
 		ResponseEntity<?> result = null;
 		Servicioemergencias st = null;
@@ -44,7 +44,7 @@ public class ServicioEmergenciasController
 	
 	// WS que devuelve una lista con todos los ST de un PM. Recibe el id del PM
 	@RequestMapping(value = "/servicioEmergencias/puebloMagico/{id}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<?> getAllPueblosMagicosByEstado( @PathVariable int id )
+	public ResponseEntity<?> getAllPueblosMagicosByEstado( @PathVariable Integer id )
 	{
 		List<Servicioemergencias> se = null;
 		ResponseEntity<?> result = null;
@@ -63,18 +63,25 @@ public class ServicioEmergenciasController
 	
 	
 	@RequestMapping(value = "/servicioEmergencias", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Boolean insertAtractivoTuristico( 
+	public ResponseEntity<?> insertAtractivoTuristico( 
 			@FormParam("nombre") String nombre, 
 			@FormParam("aIdAsentamiento") Integer aIdAsentamiento, 
-			@FormParam("longitud") double longitud,
-			@FormParam("latitud") double latitud,	
+			@FormParam("longitud") Double longitud,
+			@FormParam("latitud") Double latitud,	
 			@FormParam("descripcion") String descripcion,
 			@FormParam("horaInicio") Date horaInicio, 			
 			@FormParam("horaFin") Date horaFin)
 	{
+		ResponseEntity<?> result = null;
 		Servicioemergencias se = new Servicioemergencias();
 		Boolean respuesta = false;
 
+		if( aIdAsentamiento == null || nombre == null || latitud == null || longitud == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
 		try
 		{
 			se.setNombre(nombre);
@@ -86,26 +93,36 @@ public class ServicioEmergenciasController
 			se.setHoraFin(horaFin);
 
 			respuesta = servicioemergenciasDAO.create(se);
+			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 
-		return respuesta;
+		return result;
 	}
 	
-	@RequestMapping(value = "/servicioEmergencias", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public Boolean updateAtractivoTuristico( 
+	@RequestMapping(value = "/servicioEmergenciasEdit", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<?> updateAtractivoTuristico( 
 			@FormParam("idservicioEmergencias") Integer idservicioEmergencias, 
 			@FormParam("nombre") String nombre, 
 			@FormParam("aIdAsentamiento") Integer aIdAsentamiento, 
-			@FormParam("longitud") double longitud,
-			@FormParam("latitud") double latitud,	
+			@FormParam("longitud") Double longitud,
+			@FormParam("latitud") Double latitud,	
 			@FormParam("descripcion") String descripcion,
 			@FormParam("horaInicio") Date horaInicio, 			
 			@FormParam("horaFin") Date horaFin)
 	{
-		Servicioemergencias se = new Servicioemergencias();
+		ResponseEntity<?> result = null;
+		
+		if( aIdAsentamiento == null || nombre == null || latitud == null || longitud == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
+		Servicioemergencias se = new Servicioemergencias();		
+		
 		Boolean respuesta = false;
 
 		try
@@ -120,32 +137,35 @@ public class ServicioEmergenciasController
 			se.setHoraFin(horaFin);
 
 			respuesta = servicioemergenciasDAO.update(se);
+			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 
-		return respuesta;
+		return result;
 	}
 	
-	@RequestMapping(value = "/servicioEmergencias", method = RequestMethod.DELETE, headers = "Accept=application/json")
-	public Boolean deleteAtractivoTuristico( 
-			@FormParam("idservicioEmergencias") Integer idservicioEmergencias)
+	@RequestMapping(value = "/servicioEmergencias/{idservicioEmergencias}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseEntity<?> deleteAtractivoTuristico( 
+			@PathVariable Integer idservicioEmergencias)
 	{
+		ResponseEntity<?> result = null;
 		Servicioemergencias se = new Servicioemergencias();
 		Boolean respuesta = false;
 
 		try
 		{
 			se.setIdservicioEmergencias(idservicioEmergencias);
-
+			se.setAIdAsentamiento(0);
 			respuesta = servicioemergenciasDAO.delete(se);
+			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 
-		return respuesta;
+		return result;
 	}
 	
 	

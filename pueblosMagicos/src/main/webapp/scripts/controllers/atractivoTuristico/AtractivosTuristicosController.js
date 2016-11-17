@@ -2,11 +2,15 @@
 
 App.controller('AtractivosTuristicosController', ['$scope', '$routeParams', '$http', 'PuebloMagicoService', 'AtractivoTuristicoService', '$window', 'CONFIG', function ($scope, $routeParams, $http, PuebloMagicoService, AtractivoTuristicoService, $window,  CONFIG) 
 {
+	$scope.atractivosTuristicos = [];
 	console.log('atractivo');
 	var self = this;
 	self.nombrePuebloMagico;
 	$scope.numAtractivos = 0;
 	$scope.end = true;
+	$scope.numReg = 10;
+	$scope.first = 0;
+	
 	var atractivoTuristico = {
 			idAtractivoTuristico: null,  
     		nombre: null,  
@@ -19,44 +23,40 @@ App.controller('AtractivosTuristicosController', ['$scope', '$routeParams', '$ht
     		idAsentamiento: null,
     		idEstadoRegistro: null, 
     		promedio: null,
-    		imagen: null
+    		foto: null
     		
 	};
 	
+	
+	
+	var getPuebloMagicoByNombre = function() 
+	{
+		PuebloMagicoService.getPuebloMagicoByNombre($scope.nombrePuebloMagico)
+		.then
+		(
+			function(d)
+			{			
+				var pm = d;
+				
+				$scope.idPuebloMagico = pm.idPuebloMagico;
+				$scope.end = false;
+			},
+			function(errResponse)
+			{
+				console.log('pmerror');
+				console.error('Error al buscar PM');
+				return null;
+			}
+		);		
+	}
+	
+	
+
 	$scope.nombrePuebloMagico = $routeParams.nombrePuebloMagico;
-	console.log($scope.nombrePuebloMagico);
-	
-
-	PuebloMagicoService.getPuebloMagicoByNombre($scope.nombrePuebloMagico)
-	.then
-	(
-		function(d)
-		{			
-			var pm = d;
-			console.log('pm');
-			console.log(pm);
-			
-			$scope.idPuebloMagico = pm.idPuebloMagico;
-			$scope.end = false;
-		},
-		function(errResponse)
-		{
-			console.log('pmerror');
-			console.error('Error al buscar PM');
-			return null;
-		}
-	);
-	
+	getPuebloMagicoByNombre();
 
 	
 	
-//	var PM = PuebloMagicoService.getPuebloMagicoByNombre($scope.nombrePuebloMagico);
-//	$scope.idPuebloMagico = PM.idPuebloMagico;
-//	console.log(PM);
-	console.log('id');
-	console.log($scope.idPuebloMagico);
-	
-	$scope.atractivosTuristicos = [];
 	
 	
 	$scope.getAtractivosTuristicos = function(idPM, first, num )
@@ -64,54 +64,48 @@ App.controller('AtractivosTuristicosController', ['$scope', '$routeParams', '$ht
 		AtractivoTuristicoService.getAtractivosTuristicosByPuebloMagicoByLimit(idPM, first, num )
 		.then
 		(
+
 			function(d)
 			{			
-				var atractivos = d;
-				console.log('d');
-				console.log(d);
+				var atractivos = {};
+				atractivos = d;
+				console.log('atractivos.length');
+				console.log(atractivos.length);
+				console.log(atractivos);
 				if( atractivos.length === 0)
 				{
 					$scope.end = true;
 					console.log('null');
 				}else
 				{
+					Array.prototype.push.apply($scope.atractivosTuristicos, JSON.parse(JSON.stringify(atractivos)));
+					$scope.numAtractivos = $scope.numAtractivos + atractivos.length;
+		 
+					
+					console.log('num');
+					console.log($scope.numAtractivos);
 
-					//$scope.atractivosTuristicos.push( JSON.parse(JSON.stringify(d)) );
-					Array.prototype.push.apply($scope.atractivosTuristicos, JSON.parse(JSON.stringify(d)));
+					console.log('first');
+					console.log(first);
+					var i;
+					for(i=0; i<num && (first + i) < $scope.numAtractivos ; i++)
+					{
+						$scope.atractivosTuristicos[first + i].foto = '';
+					}
+					
+					for(i=0; i<num && (first + i) < $scope.numAtractivos; i++)
+					{
+						console.log('pos');
+						console.log(first + i);
+						var idAtractivoTuristico = $scope.atractivosTuristicos[first + i].idAtractivoTuristico;
+						$scope.getFoto(idAtractivoTuristico, first + i);
+
+					}
+					console.log($scope.atractivosTuristicos);
 					var atractivo = {};
 					var i;
-//				    for (i in atractivos)
-//				    {
-//				    	console.log('i');
-//						console.log(i);
-//				    	atractivo.idAtractivoTuristico = atractivos[i].idAtractivoTuristico; 
-//				    	atractivo.nombre = atractivos[i].nombre; 
-//				    	atractivo.descripcion = atractivos[i].descripcion; 
-//				    	atractivo.latitud = atractivos[i].latitud; 
-//				    	atractivo.longitud = atractivos[i].longitud; 
-//				    	atractivo.taIdtipoAtractivo = atractivos[i].taIdtipoAtractivo; 
-//				    	atractivo.erIdEstadoRegistro = atractivos[i].erIdEstadoRegistro; 
-//				    	atractivo.promedio = atractivos[i].promedio; 
-//				    	atractivo.tidUsuario = atractivos[i].tidUsuario; 
-//				    	atractivo.aidUsuario = atractivos[i].aidUsuario; 
-//				    	
-//				    	console.log('atractivo');
-//						console.log(atractivo);
-//						if( JSON.parse(JSON.stringify(atractivo)) != undefined )
-//						{
-//							$scope.atractivosTuristicos[$scope.atractivosTuristicos.length] = JSON.parse(JSON.stringify(atractivo));
-//						
-//						}
-//						//$scope.atractivosTuristicos[$scope.atractivosTuristicos.length] = angular.copy(atractivo);
-//				    	console.log('insertatractivos');
-//						console.log($scope.atractivosTuristicos);
-////				    	if(pm.idPuebloMagico!=null)
-////			    		{
-////				    		$scope.getFotoPuebloMagicoByIdPM(pm.idPuebloMagico, x, i);
-////			    		}
-//				    	
-//				    	
-//				    }
+
+					$scope.end = false;
 				}
 			},
 			function(errResponse)
@@ -126,37 +120,60 @@ App.controller('AtractivosTuristicosController', ['$scope', '$routeParams', '$ht
 	
 	
 	$scope.loadMore = function()
-	{    	
-		console.log('atractivosscope');
-		console.log($scope.atractivosTuristicos)	
-		console.log('params');
-		console.log($scope.idPuebloMagico);
-		console.log('numatractivos');
-		console.log($scope.numAtractivos);
-		console.log('1');
-		
-		
-		
-		$scope.getAtractivosTuristicos($scope.idPuebloMagico, $scope.numAtractivos, 1 );
-		
-    	//var atractivos = AtractivoTuristicoService.getAtractivosTuristicosByPuebloMagicoByLimit($scope.idPuebloMagico, $scope.numAtractivos, 1 );
-    	
-    	
-    	
-    	
-//    	console.log('atractivos');
-//    	console.log(atractivos);
-		
-		$scope.numAtractivos++;
+	{    			
+		$scope.getAtractivosTuristicos($scope.idPuebloMagico, $scope.first, $scope.numReg  );
+		$scope.first = $scope.first + $scope.numReg;
 	}
 	
-	$scope.getImage = function(idAtractivoTuristico)
+	$scope.getFoto = function( idAtractivoTuristico, x )
 	{
+//		var image = CONFIG.urlWebService + '/atractivoTuristico/foto/' + idAtractivoTuristico;
+//		return image;
+		
+		var url;
+		AtractivoTuristicoService.getAllFotosAtractivoTuristicoByIdAT( idAtractivoTuristico )
+		.then
+		(
+			function(d)
+			{			
+				var fotos = d;
+				
+				if(fotos.length!=0)
+				{
+					url = CONFIG.urlWebService + '/atractivoTuristico/foto/' + fotos[0].idfotoAtractivoTuristico;
+					console.log(url);
+					console.log('pos');
+					console.log(x);
+					console.log($scope.atractivosTuristicos);
+					$scope.atractivosTuristicos[x].foto= '';
+					$scope.atractivosTuristicos[x].foto= url;
+				}else
+				{
+					url = 'img/icons/turismo.png';
+					console.log('img alt');
+					$scope.atractivosTuristicos[x].foto = url;
+				}
+				
+			},
+			function(errResponse)
+			{
+				console.error('Error al buscar fotoAT');
+			}
+		);
+	}
+	
+	$scope.getImage = function( idAtractivoTuristico )
+	{
+
+		var foto = $scope.getFoto( idAtractivoTuristico );
 		console.log('foto');
-		console.log(CONFIG.urlWebService + '/atractivoTuristico/foto/' + idAtractivoTuristico);
-		var image = CONFIG.urlWebService + '/atractivoTuristico/foto/' + idAtractivoTuristico;
-		return image;
+		console.log(foto);
+		
+		return foto;
+		
 	};
+	
+	
 	
 	
 }]);

@@ -14,7 +14,7 @@
         <property name="descripcion" type="string">
             <column name="descripcion" length="65535" />
         </property>
-        <property name="stIdServicio" type="int">
+        <property name="stIdServicio" type="java.lang.Integer">
             <column name="sT_idServicio" not-null="true" />
         </property>
     </class>

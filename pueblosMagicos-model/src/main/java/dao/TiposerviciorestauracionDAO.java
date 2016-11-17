@@ -48,7 +48,7 @@ public class TiposerviciorestauracionDAO {
 		return conf;
 	}
 	
-	public Tiposerviciorestauracion read(int id) {
+	public Tiposerviciorestauracion read(Integer id) {
 		log.debug("reading Tiposerviciorestauracion instance");
 		Tiposerviciorestauracion u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +69,13 @@ public class TiposerviciorestauracionDAO {
 	public List<Tiposerviciorestauracion> readAll() {
 		List<Tiposerviciorestauracion> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tiposerviciorestauracion.class).list();
+		try
+		{
+			result = session.createCriteria(Tiposerviciorestauracion.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -113,7 +119,7 @@ public class TiposerviciorestauracionDAO {
 	}
 
 
-	public Tiposerviciorestauracion findById(java.lang.Integer id) {
+	public Tiposerviciorestauracion findById(Integer id) {
 		log.debug("getting Tiposerviciorestauracion instance with id: " + id);
 		Tiposerviciorestauracion u = null;
 		Session session = sessionFactory.openSession();

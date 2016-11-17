@@ -11,7 +11,7 @@
         <property name="urlfoto" type="string">
             <column name="URLFoto" />
         </property>
-        <property name="atIdAtractivoTuristico" type="int">
+        <property name="atIdAtractivoTuristico" type="java.lang.Integer">
             <column name="aT_idAtractivoTuristico" not-null="true" />
         </property>
         <property name="descripcion" type="string">

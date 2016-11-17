@@ -22,18 +22,18 @@ public class Municipio implements java.io.Serializable
 
 	private Integer idMunicipio;
 	private String nombreMunicipio;
-	private int EIdEstado;
+	private Integer EIdEstado;
 
 	public Municipio()
 	{
 	}
 
-	public Municipio(int idMunicipio)
+	public Municipio(Integer idMunicipio)
 	{
 		this.idMunicipio = idMunicipio;
 	}
 
-	public Municipio(int idMunicipio, String nombreMunicipio, int eIdEstado)
+	public Municipio(Integer idMunicipio, String nombreMunicipio, Integer eIdEstado)
 	{
 		this.idMunicipio = idMunicipio;
 		this.nombreMunicipio = nombreMunicipio;
@@ -70,12 +70,12 @@ public class Municipio implements java.io.Serializable
 	}
 	
 	@Column(name = "e_idEstado", nullable = false)
-	public int getEIdEstado( )
+	public Integer getEIdEstado( )
 	{
 		return this.EIdEstado;
 	}
 
-	public void setEIdEstado( int eIdEstado )
+	public void setEIdEstado( Integer eIdEstado )
 	{
 		this.EIdEstado = eIdEstado;
 	}

@@ -47,7 +47,6 @@ public class PstDAO {
 		{
 			tx = session.beginTransaction();
 			System.out.println("pst dao");
-			session.beginTransaction();
 			Query query = session.createSQLQuery(
 			        "insert into usuario(nombreUsuario,contrasena,nombre,apellidoPaterno,apellidoMaterno,correo,tipoUsuario_idtipoUsuario) "
 			        + " values(:nombreUsuario,:contrasena,:nombre,:apellidoPat,:apellidoMat,:correo,:tipoUsuario)")
@@ -80,11 +79,11 @@ public class PstDAO {
 			if (tx!=null) 
 				tx.rollback();
 		}
-		
+		session.close();
 		return conf;
 	}
 	
-	public Pst read(int id) {
+	public Pst read(Integer id) {
 		log.debug("reading Pst instance");
 		Pst u = null;
 		Session session = sessionFactory.openSession();
@@ -105,7 +104,13 @@ public class PstDAO {
 	public List<Pst> readAll() {
 		List<Pst> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Pst.class).list();
+		try
+		{
+			result = session.createCriteria(Pst.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -173,18 +178,22 @@ public class PstDAO {
 
 	public Pst findByNombrePst(String n) {
 		log.debug("finding Pst instance by example");
+		List<Pst> results = null;
+		Pst result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Pst> results = session.createCriteria(Pst.class).add( Restrictions.like("nombrePst", n) ).list();
+			results = session.createCriteria(Pst.class).add( Restrictions.like("nombrePst", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public List<Pst> getPstByLimit(int first, int numRegistros) 
+	public List<Pst> getPstByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Pst> results = null;
@@ -197,11 +206,42 @@ public class PstDAO {
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 	
+	public List<Pst> readAllPSTByIdEstadoRegistroByLimit(Integer idEstadoRegistro, Integer first, Integer numReg) 
+	{
+		List<Pst> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query q = session.createSQLQuery("select p.idUsuario, p.numeroRNT as numeroRnt, p.telefono, p.razonSocialEmpresa,"
+					+ "p.v_idUsuario as VIdUsuario, p.eR_idEstadoRegistro as erIdEstadoRegistro"
+					+ " from pst p "
+					+ "where p.eR_idEstadoRegistro=:idEstadoRegistro limit :first, :numReg")
+					.addScalar("idUsuario", new IntegerType())
+					.addScalar("numeroRnt", new StringType())
+					.addScalar("telefono", new StringType())
+					.addScalar("razonSocialEmpresa", new StringType())
+					.addScalar("VIdUsuario", new IntegerType())
+					.addScalar("erIdEstadoRegistro", new IntegerType())
+					.setResultTransformer(Transformers.aliasToBean(Pst.class))
+					.setParameter("idEstadoRegistro", idEstadoRegistro)
+					.setParameter("first", first)
+					.setParameter("numReg", numReg);
+				
+			result = q.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
 	
 	public List<Pst> readAllPSTByEstadoRegistro(String estado) 
 	{
@@ -210,7 +250,7 @@ public class PstDAO {
 		
 		try
 		{
-			Query q = session.createSQLQuery("select p.* from PST p, estadoRegistro e "
+			Query q = session.createSQLQuery("select p.* from pst p, estadoregistro e "
 					+ "where p.eR_idEstadoRegistro=e.idEstadoRegistro "
 					+ "and e.estado=:nombreEstado")
 					.addScalar("idUsuario", new IntegerType())

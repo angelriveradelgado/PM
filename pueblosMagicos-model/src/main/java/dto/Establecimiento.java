@@ -17,36 +17,35 @@ public class Establecimiento implements java.io.Serializable
 {
 
 	private Integer idEstablecimiento;
-	private int pstIdUsuario;
+	private Integer pstIdUsuario;
 	private String nombreComercial;
 	private String rfc;
 	private String nombreVialidad;
 	private String numeroExterior;
 	private String numeroInterior;
-	private int VIdUsuario;
-	private int tvIdTipoVialidad;
+	private Integer VIdUsuario;
+	private Integer tvIdTipoVialidad;
 	private Double longitud;
-	private Double lalitud;
-	private int AIdAsentamiento;
-	private int erIdEstadoRegistro;
+	private Double latitud;
+	private Integer AIdAsentamiento;
+	private Integer erIdEstadoRegistro;
 
 	public Establecimiento()
 	{
 	}
 
-	public Establecimiento(int pstIdUsuario, int VIdUsuario, int tvIdTipoVialidad, int AIdAsentamiento,
-			int erIdEstadoRegistro)
+	public Establecimiento(Integer pstIdUsuario, Integer tvIdTipoVialidad, Integer AIdAsentamiento,
+			Integer erIdEstadoRegistro)
 	{
 		this.pstIdUsuario = pstIdUsuario;
-		this.VIdUsuario = VIdUsuario;
 		this.tvIdTipoVialidad = tvIdTipoVialidad;
 		this.AIdAsentamiento = AIdAsentamiento;
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
 
-	public Establecimiento(int pstIdUsuario, String nombreComercial, String rfc, String nombreVialidad,
-			String numeroExterior, String numeroInterior, int VIdUsuario,
-			int tvIdTipoVialidad, Double longitud, Double lalitud, int AIdAsentamiento, int erIdEstadoRegistro)
+	public Establecimiento(Integer pstIdUsuario, String nombreComercial, String rfc, String nombreVialidad,
+			String numeroExterior, String numeroInterior, Integer VIdUsuario,
+			Integer tvIdTipoVialidad, Double longitud, Double latitud, Integer AIdAsentamiento, Integer erIdEstadoRegistro)
 	{
 		this.pstIdUsuario = pstIdUsuario;
 		this.nombreComercial = nombreComercial;
@@ -57,7 +56,7 @@ public class Establecimiento implements java.io.Serializable
 		this.VIdUsuario = VIdUsuario;
 		this.tvIdTipoVialidad = tvIdTipoVialidad;
 		this.longitud = longitud;
-		this.lalitud = lalitud;
+		this.latitud = latitud;
 		this.AIdAsentamiento = AIdAsentamiento;
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}
@@ -77,12 +76,12 @@ public class Establecimiento implements java.io.Serializable
 	}
 
 	@Column(name = "PST_idUsuario", nullable = false)
-	public int getPstIdUsuario( )
+	public Integer getPstIdUsuario( )
 	{
 		return this.pstIdUsuario;
 	}
 
-	public void setPstIdUsuario( int pstIdUsuario )
+	public void setPstIdUsuario( Integer pstIdUsuario )
 	{
 		this.pstIdUsuario = pstIdUsuario;
 	}
@@ -142,24 +141,24 @@ public class Establecimiento implements java.io.Serializable
 		this.numeroInterior = numeroInterior;
 	}
 
-	@Column(name = "v_idUsuario", nullable = false)
-	public int getVIdUsuario( )
+	@Column(name = "v_idUsuario")
+	public Integer getVIdUsuario( )
 	{
 		return this.VIdUsuario;
 	}
 
-	public void setVIdUsuario( int VIdUsuario )
+	public void setVIdUsuario( Integer VIdUsuario )
 	{
 		this.VIdUsuario = VIdUsuario;
 	}
 
 	@Column(name = "tV_idTipoVialidad", nullable = false)
-	public int getTvIdTipoVialidad( )
+	public Integer getTvIdTipoVialidad( )
 	{
 		return this.tvIdTipoVialidad;
 	}
 
-	public void setTvIdTipoVialidad( int tvIdTipoVialidad )
+	public void setTvIdTipoVialidad( Integer tvIdTipoVialidad )
 	{
 		this.tvIdTipoVialidad = tvIdTipoVialidad;
 	}
@@ -175,35 +174,35 @@ public class Establecimiento implements java.io.Serializable
 		this.longitud = longitud;
 	}
 
-	@Column(name = "lalitud", precision = 22, scale = 0)
-	public Double getLalitud( )
+	@Column(name = "latitud", precision = 22, scale = 0)
+	public Double getLatitud( )
 	{
-		return this.lalitud;
+		return this.latitud;
 	}
 
-	public void setLalitud( Double lalitud )
+	public void setLatitud( Double latitud )
 	{
-		this.lalitud = lalitud;
+		this.latitud = latitud;
 	}
 
 	@Column(name = "a_idAsentamiento", nullable = false)
-	public int getAIdAsentamiento( )
+	public Integer getAIdAsentamiento( )
 	{
 		return this.AIdAsentamiento;
 	}
 
-	public void setAIdAsentamiento( int AIdAsentamiento )
+	public void setAIdAsentamiento( Integer AIdAsentamiento )
 	{
 		this.AIdAsentamiento = AIdAsentamiento;
 	}
 
 	@Column(name = "eR_idEstadoRegistro", nullable = false)
-	public int getErIdEstadoRegistro( )
+	public Integer getErIdEstadoRegistro( )
 	{
 		return this.erIdEstadoRegistro;
 	}
 
-	public void setErIdEstadoRegistro( int erIdEstadoRegistro )
+	public void setErIdEstadoRegistro( Integer erIdEstadoRegistro )
 	{
 		this.erIdEstadoRegistro = erIdEstadoRegistro;
 	}

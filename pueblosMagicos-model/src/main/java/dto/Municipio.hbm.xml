@@ -12,7 +12,7 @@
 		<property name="nombreMunicipio" type="string">
 			<column name="nombreMunicipio" length="60" />
 		</property>
-		<property name="EIdEstado" type="int">
+		<property name="EIdEstado" type="java.lang.Integer">
 			<column name="e_idEstado" />
 		</property>
 	</class>

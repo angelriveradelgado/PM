@@ -54,7 +54,7 @@ public class FotoservicioturisticoDAO{
 		return conf;
 	}
 	
-	public Fotoservicioturistico read(int id) {
+	public Fotoservicioturistico read(Integer id) {
 		log.debug("reading Fotoservicioturistico instance");
 		Fotoservicioturistico u = null;
 		Session session = sessionFactory.openSession();
@@ -75,7 +75,13 @@ public class FotoservicioturisticoDAO{
 	public List<Fotoservicioturistico> readAll() {
 		List<Fotoservicioturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Fotoservicioturistico.class).list();
+		try 
+		{
+			result = session.createCriteria(Fotoservicioturistico.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -141,33 +147,44 @@ public class FotoservicioturisticoDAO{
 		return u;
 	}
 
-	public List<FotoServicioTuristicoSimple> readAllSimpleByIdServicioTuristico(int id) 
+	public List<FotoServicioTuristicoSimple> readAllSimpleByIdServicioTuristico(Integer id) 
 	{
 		List<FotoServicioTuristicoSimple> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select idfotoServicioTuristico, descripcion from fotoServicioTuristico where sT_idServicio=:idST")
-				.addScalar("idfotoServicioTuristico", new IntegerType())
-				.addScalar("descripcion", new StringType())
-				.setResultTransformer(Transformers.aliasToBean(FotoServicioTuristicoSimple.class))
-				.setParameter("idST", id);
+		try
+		{
+			Query query = session.createSQLQuery("select idfotoServicioTuristico, descripcion from fotoservicioturistico where sT_idServicio=:idST")
+					.addScalar("idfotoServicioTuristico", new IntegerType())
+					.addScalar("descripcion", new StringType())
+					.setResultTransformer(Transformers.aliasToBean(FotoServicioTuristicoSimple.class))
+					.setParameter("idST", id);
+			
+			result = (List<FotoServicioTuristicoSimple>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		
-		result = (List<FotoServicioTuristicoSimple>) query.list();
 		session.close();
 		return result;
 	}
 	
 	public Fotoservicioturistico findByNombreFotoservicioturistico(String n) {
 		log.debug("finding Fotoservicioturistico instance by example");
+		List<Fotoservicioturistico> results = null;
+		Fotoservicioturistico result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Fotoservicioturistico> results = session.createCriteria(Fotoservicioturistico.class).add( Restrictions.like("nombreFotoservicioturistico", n) ).list();
+			results = session.createCriteria(Fotoservicioturistico.class).add( Restrictions.like("nombreFotoservicioturistico", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
 	public Integer getAutoIncrementValue()
@@ -179,15 +196,14 @@ public class FotoservicioturisticoDAO{
 		//Query query = session.createSQLQuery("select idfotoPuebloMagico from fotoPuebloMagico order by idfotoPuebloMagico desc limit 1");
 		Query query = session.createSQLQuery("SELECT AUTO_INCREMENT "
 				+ "FROM  INFORMATION_SCHEMA.TABLES "
-				+ "WHERE TABLE_SCHEMA = \"pueblosmagicos\" "
-				+ "AND TABLE_NAME = \"fotoServicioTuristico\"");
+				+ "WHERE TABLE_SCHEMA = \"pueblosMagicos\" "
+				+ "AND TABLE_NAME = \"fotoservicioturistico\"");
 		result = ((BigInteger) query.uniqueResult()).intValue();
-		session.close();
 		}catch(Exception e )
 		{
 			e.printStackTrace();
 		}
-		
+		session.close();
 		return result;
 	}
 }

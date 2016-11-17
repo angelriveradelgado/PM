@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dto.Tipousuario;
-import dto.Usuario;
 
 @Repository
 public class TipousuarioDAO {
@@ -49,7 +48,7 @@ public class TipousuarioDAO {
 		return conf;
 	}
 	
-	public Tipousuario read(int id) {
+	public Tipousuario read(Integer id) {
 		log.debug("reading Tipousuario instance");
 		Tipousuario u = null;
 		Session session = sessionFactory.openSession();
@@ -70,7 +69,13 @@ public class TipousuarioDAO {
 	public List<Tipousuario> readAll() {
 		List<Tipousuario> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tipousuario.class).list();
+		try
+		{
+			result = session.createCriteria(Tipousuario.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -114,7 +119,7 @@ public class TipousuarioDAO {
 	}
 
 
-	public Tipousuario findById(java.lang.Integer id) {
+	public Tipousuario findById(Integer id) {
 		log.debug("getting Tipousuario instance with id: " + id);
 		Tipousuario u = null;
 		Session session = sessionFactory.openSession();
@@ -136,17 +141,21 @@ public class TipousuarioDAO {
 		return u;
 	}
 	
-	public int getId(String n) {
+	public Integer getId(String n) {
 		log.debug("finding Usuario instance by example");
+		List<Tipousuario> results = null;
+		Integer result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Tipousuario> results = session.createCriteria(Tipousuario.class).add(Restrictions.like("nombre", n))
+			results = session.createCriteria(Tipousuario.class).add(Restrictions.like("nombre", n))
 					.list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0).getIdtipoUsuario();
+			result =  results.get(0).getIdtipoUsuario();
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 }

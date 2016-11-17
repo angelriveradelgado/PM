@@ -11,37 +11,37 @@ import javax.persistence.Embeddable;
 public class TipoturismoHasTiposervicioturisticoId implements java.io.Serializable
 {
 
-	private int stIdtipoTurismo;
-	private int tstIdtipoServicioTuristico;
+	private Integer stIdtipoTurismo;
+	private Integer tstIdtipoServicioTuristico;
 
 	public TipoturismoHasTiposervicioturisticoId()
 	{
 	}
 
-	public TipoturismoHasTiposervicioturisticoId(int stIdtipoTurismo, int tstIdtipoServicioTuristico)
+	public TipoturismoHasTiposervicioturisticoId(Integer stIdtipoTurismo, Integer tstIdtipoServicioTuristico)
 	{
 		this.stIdtipoTurismo = stIdtipoTurismo;
 		this.tstIdtipoServicioTuristico = tstIdtipoServicioTuristico;
 	}
 
 	@Column(name = "sT_idtipoTurismo", nullable = false)
-	public int getStIdtipoTurismo( )
+	public Integer getStIdtipoTurismo( )
 	{
 		return this.stIdtipoTurismo;
 	}
 
-	public void setStIdtipoTurismo( int stIdtipoTurismo )
+	public void setStIdtipoTurismo( Integer stIdtipoTurismo )
 	{
 		this.stIdtipoTurismo = stIdtipoTurismo;
 	}
 
 	@Column(name = "tST_idtipoServicioTuristico", nullable = false)
-	public int getTstIdtipoServicioTuristico( )
+	public Integer getTstIdtipoServicioTuristico( )
 	{
 		return this.tstIdtipoServicioTuristico;
 	}
 
-	public void setTstIdtipoServicioTuristico( int tstIdtipoServicioTuristico )
+	public void setTstIdtipoServicioTuristico( Integer tstIdtipoServicioTuristico )
 	{
 		this.tstIdtipoServicioTuristico = tstIdtipoServicioTuristico;
 	}

@@ -48,7 +48,7 @@ public class TipooperacionalojamientoDAO {
 		return conf;
 	}
 	
-	public Tipooperacionalojamiento read(int id) {
+	public Tipooperacionalojamiento read(Integer id) {
 		log.debug("reading Tipooperacionalojamiento instance");
 		Tipooperacionalojamiento u = null;
 		Session session = sessionFactory.openSession();
@@ -70,7 +70,13 @@ public class TipooperacionalojamientoDAO {
 	public List<Tipooperacionalojamiento> readAll() {
 		List<Tipooperacionalojamiento> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tipooperacionalojamiento.class).list();
+		try
+		{
+			result = session.createCriteria(Tipooperacionalojamiento.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}

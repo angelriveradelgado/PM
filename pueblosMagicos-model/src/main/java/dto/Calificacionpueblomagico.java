@@ -19,20 +19,20 @@ public class Calificacionpueblomagico implements java.io.Serializable
 	private Integer idCalificacion;
 	private Integer calificacion;
 	private String comentario;
-	private int TIdUsuario;
-	private int pmIdPuebloMagico;
+	private Integer TIdUsuario;
+	private Integer pmIdPuebloMagico;
 
 	public Calificacionpueblomagico()
 	{
 	}
 
-	public Calificacionpueblomagico(int TIdUsuario, int pmIdPuebloMagico)
+	public Calificacionpueblomagico(Integer TIdUsuario, Integer pmIdPuebloMagico)
 	{
 		this.TIdUsuario = TIdUsuario;
 		this.pmIdPuebloMagico = pmIdPuebloMagico;
 	}
 
-	public Calificacionpueblomagico(Integer calificacion, String comentario, int TIdUsuario, int pmIdPuebloMagico)
+	public Calificacionpueblomagico(Integer calificacion, String comentario, Integer TIdUsuario, Integer pmIdPuebloMagico)
 	{
 		this.calificacion = calificacion;
 		this.comentario = comentario;
@@ -77,23 +77,23 @@ public class Calificacionpueblomagico implements java.io.Serializable
 	}
 
 	@Column(name = "t_idUsuario", nullable = false)
-	public int getTIdUsuario( )
+	public Integer getTIdUsuario( )
 	{
 		return this.TIdUsuario;
 	}
 
-	public void setTIdUsuario( int TIdUsuario )
+	public void setTIdUsuario( Integer TIdUsuario )
 	{
 		this.TIdUsuario = TIdUsuario;
 	}
 
 	@Column(name = "pM_idPuebloMagico", nullable = false)
-	public int getPmIdPuebloMagico( )
+	public Integer getPmIdPuebloMagico( )
 	{
 		return this.pmIdPuebloMagico;
 	}
 
-	public void setPmIdPuebloMagico( int pmIdPuebloMagico )
+	public void setPmIdPuebloMagico( Integer pmIdPuebloMagico )
 	{
 		this.pmIdPuebloMagico = pmIdPuebloMagico;
 	}

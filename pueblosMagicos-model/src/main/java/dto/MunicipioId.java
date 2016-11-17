@@ -11,37 +11,37 @@ import javax.persistence.Embeddable;
 public class MunicipioId implements java.io.Serializable
 {
 
-	private int idMunicipio;
-	private int EIdEstado;
+	private Integer idMunicipio;
+	private Integer EIdEstado;
 
 	public MunicipioId()
 	{
 	}
 
-	public MunicipioId(int idMunicipio, int EIdEstado)
+	public MunicipioId(Integer idMunicipio, Integer EIdEstado)
 	{
 		this.idMunicipio = idMunicipio;
 		this.EIdEstado = EIdEstado;
 	}
 
 	@Column(name = "idMunicipio", nullable = false)
-	public int getIdMunicipio( )
+	public Integer getIdMunicipio( )
 	{
 		return this.idMunicipio;
 	}
 
-	public void setIdMunicipio( int idMunicipio )
+	public void setIdMunicipio( Integer idMunicipio )
 	{
 		this.idMunicipio = idMunicipio;
 	}
 
 	@Column(name = "e_idEstado", nullable = false)
-	public int getEIdEstado( )
+	public Integer getEIdEstado( )
 	{
 		return this.EIdEstado;
 	}
 
-	public void setEIdEstado( int EIdEstado )
+	public void setEIdEstado( Integer EIdEstado )
 	{
 		this.EIdEstado = EIdEstado;
 	}

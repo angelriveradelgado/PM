@@ -65,7 +65,8 @@ public class ServicioturisticoaventuraDAO {
 			        .setParameter("telefono", st.getTelefono() )
 			        .setParameter("extensionTelefono", st.getExtensionTelefono());
 			
-			Query query1 = session.createSQLQuery("insert into servicioturisticoaventura values((select idServicioTuristico from servicioTuristico order by idServicioTuristico desc limit 1))");
+			Query query1 = session.createSQLQuery("insert into servicioturisticoaventura values((select idServicioTuristico from "
+					+ " servicioturistico order by idServicioTuristico desc limit 1))");
 			
 			
 			
@@ -79,11 +80,11 @@ public class ServicioturisticoaventuraDAO {
 			if (tx!=null) 
 				tx.rollback();
 		}
-		
+		session.close();
 		return conf;
 	}
 	
-	public Servicioturisticoaventura read(int id) {
+	public Servicioturisticoaventura read(Integer id) {
 		log.debug("reading Servicioturisticoaventura instance");
 		Servicioturisticoaventura u = null;
 		Session session = sessionFactory.openSession();
@@ -104,7 +105,13 @@ public class ServicioturisticoaventuraDAO {
 	public List<Servicioturisticoaventura> readAll() {
 		List<Servicioturisticoaventura> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Servicioturisticoaventura.class).list();
+		try
+		{
+			result = session.createCriteria(Servicioturisticoaventura.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -148,7 +155,7 @@ public class ServicioturisticoaventuraDAO {
 	}
 
 
-	public Servicioturisticoaventura findById(java.lang.Integer id) {
+	public Servicioturisticoaventura findById(Integer id) {
 		log.debug("getting Servicioturisticoaventura instance with id: " + id);
 		Servicioturisticoaventura u = null;
 		Session session = sessionFactory.openSession();
@@ -170,7 +177,7 @@ public class ServicioturisticoaventuraDAO {
 		return u;
 	}
 	
-	public List<Servicioturisticoaventura> getServicioturisticoaventuraByLimit(int first, int numRegistros) 
+	public List<Servicioturisticoaventura> getServicioturisticoaventuraByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Servicioturisticoaventura> results = null;
@@ -183,8 +190,9 @@ public class ServicioturisticoaventuraDAO {
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 

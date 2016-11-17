@@ -4,7 +4,7 @@
 <!-- Generated 29/09/2016 02:45:40 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="dto.Servicioturisticoaventura" table="servicioturisticoaventura" catalog="pueblosMagicos">
-        <id name="stIdServicio" type="int">
+        <id name="stIdServicio" type="java.lang.Integer">
             <column name="sT_idServicio" />
             <generator class="assigned" />
         </id>

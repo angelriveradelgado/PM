@@ -19,18 +19,18 @@ public class Fotoservicioemergencias implements java.io.Serializable
 	private Integer idfotoServicioEmergencias;
 	private String urlfoto;
 	private String descripcion;
-	private int sdeIdservicioDeEmergencias;
+	private Integer sdeIdservicioDeEmergencias;
 
 	public Fotoservicioemergencias()
 	{
 	}
 
-	public Fotoservicioemergencias(int sdeIdservicioDeEmergencias)
+	public Fotoservicioemergencias(Integer sdeIdservicioDeEmergencias)
 	{
 		this.sdeIdservicioDeEmergencias = sdeIdservicioDeEmergencias;
 	}
 
-	public Fotoservicioemergencias(String urlfoto, String descripcion, int sdeIdservicioDeEmergencias)
+	public Fotoservicioemergencias(String urlfoto, String descripcion, Integer sdeIdservicioDeEmergencias)
 	{
 		this.urlfoto = urlfoto;
 		this.descripcion = descripcion;
@@ -75,12 +75,12 @@ public class Fotoservicioemergencias implements java.io.Serializable
 	}
 
 	@Column(name = "sDE_idservicioDeEmergencias", nullable = false)
-	public int getSdeIdservicioDeEmergencias( )
+	public Integer getSdeIdservicioDeEmergencias( )
 	{
 		return this.sdeIdservicioDeEmergencias;
 	}
 
-	public void setSdeIdservicioDeEmergencias( int sdeIdservicioDeEmergencias )
+	public void setSdeIdservicioDeEmergencias( Integer sdeIdservicioDeEmergencias )
 	{
 		this.sdeIdservicioDeEmergencias = sdeIdservicioDeEmergencias;
 	}

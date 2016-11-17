@@ -12,15 +12,10 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
-import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import dto.Atractivoturistico;
-import dto.FotoServicioTuristicoSimple;
-import dto.Pueblomagico;
 import dto.Registrovisita;
 
 @Repository
@@ -58,7 +53,7 @@ public class RegistrovisitaDAO{
 		return conf;
 	}
 	
-	public Registrovisita read(int id) {
+	public Registrovisita read(Integer id) {
 		log.debug("reading Registrovisita instance");
 		Registrovisita u = null;
 		Session session = sessionFactory.openSession();
@@ -79,7 +74,13 @@ public class RegistrovisitaDAO{
 	public List<Registrovisita> readAll() {
 		List<Registrovisita> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Registrovisita.class).list();
+		try
+		{
+			result = session.createCriteria(Registrovisita.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -147,18 +148,22 @@ public class RegistrovisitaDAO{
 
 	public Registrovisita findByNombreRegistrovisita(String n) {
 		log.debug("finding Registrovisita instance by example");
+		List<Registrovisita> results = null;
+		Registrovisita result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Registrovisita> results = session.createCriteria(Registrovisita.class).add( Restrictions.like("nombreRegistrovisita", n) ).list();
+			results = session.createCriteria(Registrovisita.class).add( Restrictions.like("nombreRegistrovisita", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public List<Registrovisita> getRegistrovisitaByLimit(int first, int numRegistros) 
+	public List<Registrovisita> getRegistrovisitaByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Registrovisita> results = null;
@@ -171,33 +176,232 @@ public class RegistrovisitaDAO{
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 	
-	public List<Registrovisita> getRegistrosByIdTurista(int id) 
+	public List<Registrovisita> getRegistrosByIdTurista(Integer id) 
 	{
 		List<Registrovisita> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
-				+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
-				+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
-				+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, r.fecha "
-				+ "from registroVisita r, turista t "
-				+ "where r.t_idUsuario=t.idUsuario "
-				+ "and t.idUsuario=:id")
-		.addScalar("idregistroVisita", new IntegerType())
-		.addScalar("TIdUsuario", new IntegerType())
-		.addScalar("EIdEstablecimiento", new IntegerType())
-		.addScalar("pmIdPuebloMagico", new IntegerType())
-		.addScalar("fecha", new DateType())
-		.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
-		.setParameter("id", id);
-		
-		result = (List<Registrovisita>) query.list();
+		try
+		{
+			Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
+					+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
+					+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
+					+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, "
+					+ "r.sT_idServicioTuristico as stIdServicioTuristico, "
+					+ "r.fecha, r.evaluado "
+					+ "from registrovisita r, turista t "
+					+ "where r.t_idUsuario=t.idUsuario "
+					+ "and t.idUsuario=:id")
+			.addScalar("idregistroVisita", new IntegerType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("EIdEstablecimiento", new IntegerType())
+			.addScalar("pmIdPuebloMagico", new IntegerType())
+			.addScalar("atIdAtractivoTuristico", new IntegerType())
+			.addScalar("stIdServicioTuristico", new IntegerType())
+			.addScalar("fecha", new DateType())
+			.addScalar("evaluado", new IntegerType())
+			.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
+			.setParameter("id", id);
+			
+			result = (List<Registrovisita>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
+	
+	public List<Registrovisita> getRegistrosByIdTuristaByIdAtractivoTuristico(Integer idTurista, Integer idAtractivo) 
+	{
+		List<Registrovisita> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
+					+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
+					+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
+					+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, "
+					+ "r.sT_idServicioTuristico as stIdServicioTuristico, "
+					+ "r.fecha, r.evaluado "
+					+ "from registrovisita r "
+					+ "where r.t_idUsuario=:idTurista "
+					+ "and r.aT_idAtractivoTuristico=:idAtractivo")
+			.addScalar("idregistroVisita", new IntegerType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("EIdEstablecimiento", new IntegerType())
+			.addScalar("pmIdPuebloMagico", new IntegerType())
+			.addScalar("atIdAtractivoTuristico", new IntegerType())
+			.addScalar("stIdServicioTuristico", new IntegerType())
+			.addScalar("fecha", new DateType())
+			.addScalar("evaluado", new IntegerType())
+			.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
+			.setParameter("idTurista", idTurista)
+			.setParameter("idAtractivo", idAtractivo);
+			
+			result = (List<Registrovisita>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
+	
+	public List<Registrovisita> getRegistrosByIdTuristaByIdEstablecimientoByIdServicioTuristico(Integer idTurista, Integer idEstablecimiento, Integer idServicioTuristico) 
+	{
+		List<Registrovisita> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
+					+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
+					+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
+					+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, "
+					+ "r.sT_idServicioTuristico as stIdServicioTuristico, "
+					+ "r.fecha, r.evaluado "
+					+ "from registrovisita r "
+					+ "where r.t_idUsuario=:idTurista "
+					+ "and r.e_idEstablecimiento=:idEstablecimiento "
+					+ "and r.sT_idServicioTuristico=:idServicioTuristico")
+			.addScalar("idregistroVisita", new IntegerType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("EIdEstablecimiento", new IntegerType())
+			.addScalar("pmIdPuebloMagico", new IntegerType())
+			.addScalar("atIdAtractivoTuristico", new IntegerType())
+			.addScalar("stIdServicioTuristico", new IntegerType())
+			.addScalar("fecha", new DateType())
+			.addScalar("evaluado", new IntegerType())
+			.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
+			.setParameter("idTurista", idTurista)
+			.setParameter("idEstablecimiento", idEstablecimiento)
+			.setParameter("idServicioTuristico", idServicioTuristico);
+			
+			result = (List<Registrovisita>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
+	
+	public List<Registrovisita> getRegistrosByIdTuristaByIdPuebloMagico(Integer idTurista, Integer idPuebloMagico) 
+	{
+		List<Registrovisita> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
+					+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
+					+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
+					+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, "
+					+ "r.sT_idServicioTuristico as stIdServicioTuristico, "
+					+ "r.fecha, r.evaluado "
+					+ "from registrovisita r "
+					+ "where r.t_idUsuario=:idTurista "
+					+ "and r.pM_idPuebloMagico=:idPuebloMagico")
+			.addScalar("idregistroVisita", new IntegerType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("EIdEstablecimiento", new IntegerType())
+			.addScalar("pmIdPuebloMagico", new IntegerType())
+			.addScalar("atIdAtractivoTuristico", new IntegerType())
+			.addScalar("stIdServicioTuristico", new IntegerType())
+			.addScalar("fecha", new DateType())
+			.addScalar("evaluado", new IntegerType())
+			.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
+			.setParameter("idTurista", idTurista)
+			.setParameter("idPuebloMagico", idPuebloMagico);
+			
+			result = (List<Registrovisita>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
+	
+	public List<Registrovisita> getRegistrosNoEvaluadosByIdTurista(Integer id) 
+	{
+		List<Registrovisita> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
+					+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
+					+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
+					+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, "
+					+ "r.sT_idServicioTuristico as stIdServicioTuristico, "
+					+ "r.fecha, r.evaluado "
+					+ "from registrovisita r, turista t "
+					+ "where r.t_idUsuario=t.idUsuario "
+					+ "and t.idUsuario=:id and r.evaluado=0")
+			.addScalar("idregistroVisita", new IntegerType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("EIdEstablecimiento", new IntegerType())
+			.addScalar("pmIdPuebloMagico", new IntegerType())
+			.addScalar("atIdAtractivoTuristico", new IntegerType())
+			.addScalar("stIdServicioTuristico", new IntegerType())
+			.addScalar("fecha", new DateType())
+			.addScalar("evaluado", new IntegerType())
+			.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
+			.setParameter("id", id);
+			
+			result = (List<Registrovisita>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
+	
+	public List<Registrovisita> getRegistrosEvaluadosByIdTurista(Integer id) 
+	{
+		List<Registrovisita> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query query = session.createSQLQuery("select r.idregistroVisita, r.t_idUsuario as TIdUsuario,  "
+					+ "r.e_idEstablecimiento as EIdEstablecimiento,  "
+					+ "r.pM_idPuebloMagico as pmIdPuebloMagico,  "
+					+ "r.aT_idAtractivoTuristico as atIdAtractivoTuristico, "
+					+ "r.sT_idServicioTuristico as stIdServicioTuristico, "
+					+ "r.fecha, r.evaluado "
+					+ "from registrovisita r, turista t "
+					+ "where r.t_idUsuario=t.idUsuario "
+					+ "and t.idUsuario=:id and r.evaluado=1")
+			.addScalar("idregistroVisita", new IntegerType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("EIdEstablecimiento", new IntegerType())
+			.addScalar("pmIdPuebloMagico", new IntegerType())
+			.addScalar("atIdAtractivoTuristico", new IntegerType())
+			.addScalar("stIdServicioTuristico", new IntegerType())
+			.addScalar("fecha", new DateType())
+			.addScalar("evaluado", new IntegerType())
+			.setResultTransformer(Transformers.aliasToBean(Registrovisita.class))
+			.setParameter("id", id);
+			
+			result = (List<Registrovisita>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
+	
+	
 }

@@ -145,19 +145,20 @@ public class AsociacionDAO {
 
 	public Asociacion findByNombreAsociacion(String n) {
 		log.debug("finding Asociacion instance by example");
+		List<Asociacion> results = null;
+		Asociacion result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Asociacion> results = session.createCriteria(Asociacion.class).add( Restrictions.like("nombreAsociacion", n) ).list();
+			results = session.createCriteria(Asociacion.class).add( Restrictions.like("nombreAsociacion", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			session.close();
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			session.close();
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;	
 	}
 	
-
 	
 }

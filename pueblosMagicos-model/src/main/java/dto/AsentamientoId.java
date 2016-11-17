@@ -11,15 +11,15 @@ import javax.persistence.Embeddable;
 public class AsentamientoId implements java.io.Serializable
 {
 
-	private int idAsentamiento;
-	private int MEIdEstado;
-	private int MIdMunicipio;
+	private Integer idAsentamiento;
+	private Integer MEIdEstado;
+	private Integer MIdMunicipio;
 
 	public AsentamientoId()
 	{
 	}
 
-	public AsentamientoId(int idAsentamiento, int MEIdEstado, int MIdMunicipio)
+	public AsentamientoId(Integer idAsentamiento, Integer MEIdEstado, Integer MIdMunicipio)
 	{
 		this.idAsentamiento = idAsentamiento;
 		this.MEIdEstado = MEIdEstado;
@@ -27,34 +27,34 @@ public class AsentamientoId implements java.io.Serializable
 	}
 
 	@Column(name = "idAsentamiento", nullable = false)
-	public int getIdAsentamiento( )
+	public Integer getIdAsentamiento( )
 	{
 		return this.idAsentamiento;
 	}
 
-	public void setIdAsentamiento( int idAsentamiento )
+	public void setIdAsentamiento( Integer idAsentamiento )
 	{
 		this.idAsentamiento = idAsentamiento;
 	}
 
 	@Column(name = "m_e_idEstado", nullable = false)
-	public int getMEIdEstado( )
+	public Integer getMEIdEstado( )
 	{
 		return this.MEIdEstado;
 	}
 
-	public void setMEIdEstado( int MEIdEstado )
+	public void setMEIdEstado( Integer MEIdEstado )
 	{
 		this.MEIdEstado = MEIdEstado;
 	}
 
 	@Column(name = "m_idMunicipio", nullable = false)
-	public int getMIdMunicipio( )
+	public Integer getMIdMunicipio( )
 	{
 		return this.MIdMunicipio;
 	}
 
-	public void setMIdMunicipio( int MIdMunicipio )
+	public void setMIdMunicipio( Integer MIdMunicipio )
 	{
 		this.MIdMunicipio = MIdMunicipio;
 	}

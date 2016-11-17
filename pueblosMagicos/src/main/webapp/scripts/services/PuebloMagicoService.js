@@ -57,6 +57,25 @@ App.factory('PuebloMagicoService', ['$http', '$q', 'CONFIG',  function($http, $q
             );
         },
         
+        getPuebloMagicoById: function(id) 
+        {
+            return $http.get( CONFIG.urlWebService + '/puebloMagico/' + id )
+            .then
+            (
+                function(response)
+                {
+                	console.log(response);
+                	console.log(response.data);
+                    return response.data;
+                }, 
+                function(errResponse)
+                {
+                    console.error('Error while fetching pueblosMagicos');
+                    return $q.reject(errResponse);
+                }
+            );
+        },
+        
         getPuebloMagicoByNombre: function(nombre) 
         {
             return $http.get( CONFIG.urlWebService + '/puebloMagico/nombre/' + nombre )
@@ -96,39 +115,71 @@ App.factory('PuebloMagicoService', ['$http', '$q', 'CONFIG',  function($http, $q
 	     
 	    createPuebloMagico: function(puebloMagico)
 	    {
-            return $http.post( CONFIG.urlWebService + '/puebloMagico', puebloMagico)
-            .then
-            (
-                function(response){
-                    return response.data;
-                }, 
-                function(errResponse){
-                    console.error('Error while creating user');
-                    return $q.reject(errResponse);
-                }
-            );
-        },
+	    	var data = $.param({
+	    		nombre: puebloMagico.nombre,   		
+	    		latitud: puebloMagico.latitud,
+	    		longitud: puebloMagico.longitud,
+	    		descripcion: puebloMagico.descripcion,
+	    		idMunicipio: puebloMagico.idMunicipio
+	    	});
+	    	
+	    	console.log(data);
+			var config = 
+			{
+	            headers : 
+	            {
+	                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	            }
+	        }
+			
+			$http.post(CONFIG.urlWebService + '/puebloMagico', data, config)
+	        .success(function (data, status, headers, config) {
+	            return data;
+	        })
+	        .error(function (data, status, header, config) {
+	            return "Data: " + data +
+	                "<hr />status: " + status +
+	                "<hr />headers: " + header +
+	                "<hr />config: " + config;
+	        });
+        }, 
 	     
-	    updatePuebloMagico: function(puebloMagico)
+        updatePuebloMagico: function(puebloMagico)
 	    {
-            return $http.put( CONFIG.urlWebService + '/puebloMagico', puebloMagico)
-            .then
-            (
-                function(response)
-                {
-                    return response.data;
-                }, 
-                function(errResponse)
-                {
-                    console.error('Error while updating user');
-                    return $q.reject(errResponse);
-                }
-            );
-        },
+	    	var data = $.param({
+	    		idPuebloMagico: puebloMagico.idPuebloMagico,
+	    		nombre: puebloMagico.nombre,   		
+	    		latitud: puebloMagico.latitud,
+	    		longitud: puebloMagico.longitud,
+	    		descripcion: puebloMagico.descripcion,
+	    		idEstadoPubloMagico: puebloMagico.idEstadoPubloMagico,
+	    		idMunicipio: puebloMagico.midMunicipio
+	    	});
+	    	
+	    	console.log(data);
+			var config = 
+			{
+	            headers : 
+	            {
+	                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	            }
+	        }
+			
+			$http.post(CONFIG.urlWebService + '/puebloMagicoEdit', data, config)
+	        .success(function (data, status, headers, config) {
+	            return data;
+	        })
+	        .error(function (data, status, header, config) {
+	            return "Data: " + data +
+	                "<hr />status: " + status +
+	                "<hr />headers: " + header +
+	                "<hr />config: " + config;
+	        });
+        }, 
      
 	   deletePuebloMagico: function(id)
 	   {
-            return $http.delete( CONFIG.urlWebService + '/puebloMagico', id)
+            return $http.delete( CONFIG.urlWebService + '/puebloMagico/' + id)
             .then(
                 function(response)
                 {
@@ -136,12 +187,43 @@ App.factory('PuebloMagicoService', ['$http', '$q', 'CONFIG',  function($http, $q
                 }, 
                 function(errResponse)
                 {
-                    console.error('Error while deleting user');
+                    console.error('Error while delete pm');
                     return $q.reject(errResponse);
                 }
             );
-        }
+        },
+        
+	       insertCalificacionPuebloMagico: function( calificacion )
+		    {
+		    	var data = $.param({
+		    		idPuebloMagico: calificacion.idPuebloMagico,   		
+		    		idUsuario: calificacion.idUsuario,
+		    		calificacion: calificacion.calificacion,
+		    		comentario: calificacion.comentario,
+		    		idRegistroVisita: calificacion.idregistroVisita
+		    	});
+		    	
+		    	console.log(data);
+				var config = 
+				{
+		            headers : 
+		            {
+		                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+		            }
+		        }
+				
+				return $http.post(CONFIG.urlWebService + '/puebloMagico/calificacion', data, config)
+		        .success(function (data, status, headers, config) {
+		            return data;
+		        })
+		        .error(function (data, status, header, config) {
+		            return "Data: " + data +
+		                "<hr />status: " + status +
+		                "<hr />headers: " + header +
+		                "<hr />config: " + config;
+		        });
+	        }
 	         
-	    }; 
-	 
-	}]);
+    }; 
+ 
+}]);

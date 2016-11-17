@@ -11,37 +11,37 @@ import javax.persistence.Embeddable;
 public class StHasFormapagoId implements java.io.Serializable
 {
 
-	private int stIdServicio;
-	private int fpIdformaPago;
+	private Integer stIdServicio;
+	private Integer fpIdformaPago;
 
 	public StHasFormapagoId()
 	{
 	}
 
-	public StHasFormapagoId(int stIdServicio, int fpIdformaPago)
+	public StHasFormapagoId(Integer stIdServicio, Integer fpIdformaPago)
 	{
 		this.stIdServicio = stIdServicio;
 		this.fpIdformaPago = fpIdformaPago;
 	}
 
 	@Column(name = "sT_idServicio", nullable = false)
-	public int getStIdServicio( )
+	public Integer getStIdServicio( )
 	{
 		return this.stIdServicio;
 	}
 
-	public void setStIdServicio( int stIdServicio )
+	public void setStIdServicio( Integer stIdServicio )
 	{
 		this.stIdServicio = stIdServicio;
 	}
 
 	@Column(name = "fP_idformaPago", nullable = false)
-	public int getFpIdformaPago( )
+	public Integer getFpIdformaPago( )
 	{
 		return this.fpIdformaPago;
 	}
 
-	public void setFpIdformaPago( int fpIdformaPago )
+	public void setFpIdformaPago( Integer fpIdformaPago )
 	{
 		this.fpIdformaPago = fpIdformaPago;
 	}

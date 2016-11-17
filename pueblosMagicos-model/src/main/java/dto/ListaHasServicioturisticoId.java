@@ -11,14 +11,14 @@ import javax.persistence.Embeddable;
 public class ListaHasServicioturisticoId implements java.io.Serializable
 {
 
-	private int servicioTuristicoIdServicio;
-	private int turistaIdUsuario;
+	private Integer servicioTuristicoIdServicio;
+	private Integer turistaIdUsuario;
 
 	public ListaHasServicioturisticoId()
 	{
 	}
 
-	public ListaHasServicioturisticoId(int servicioTuristicoIdServicio, int turistaIdUsuario)
+	public ListaHasServicioturisticoId(Integer servicioTuristicoIdServicio, Integer turistaIdUsuario)
 	{
 		this.servicioTuristicoIdServicio = servicioTuristicoIdServicio;
 		this.turistaIdUsuario = turistaIdUsuario;
@@ -27,23 +27,23 @@ public class ListaHasServicioturisticoId implements java.io.Serializable
 	
 
 	@Column(name = "servicioTuristico_idServicio", nullable = false)
-	public int getServicioTuristicoIdServicio( )
+	public Integer getServicioTuristicoIdServicio( )
 	{
 		return this.servicioTuristicoIdServicio;
 	}
 
-	public void setServicioTuristicoIdServicio( int servicioTuristicoIdServicio )
+	public void setServicioTuristicoIdServicio( Integer servicioTuristicoIdServicio )
 	{
 		this.servicioTuristicoIdServicio = servicioTuristicoIdServicio;
 	}
 
 	@Column(name = "Turista_idUsuario", nullable = false)
-	public int getTuristaIdUsuario( )
+	public Integer getTuristaIdUsuario( )
 	{
 		return this.turistaIdUsuario;
 	}
 
-	public void setTuristaIdUsuario( int turistaIdUsuario )
+	public void setTuristaIdUsuario( Integer turistaIdUsuario )
 	{
 		this.turistaIdUsuario = turistaIdUsuario;
 	}

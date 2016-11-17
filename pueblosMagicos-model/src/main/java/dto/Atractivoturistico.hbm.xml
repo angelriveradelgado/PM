@@ -23,16 +23,16 @@
         <property name="TIdUsuario" type="java.lang.Integer">
             <column name="t_idUsuario" />
         </property>
-        <property name="taIdtipoAtractivo" type="int">
-            <column name="tA_idtipoAtractivo" not-null="true" />
+        <property name="taIdtipoAtractivo" type="java.lang.Integer">
+            <column name="tA_idtipoAtractivo" />
         </property>
         <property name="AIdUsuario" type="java.lang.Integer">
             <column name="a_idUsuario" />
         </property>
-        <property name="AIdAsentamiento" type="int">
+        <property name="AIdAsentamiento" type="java.lang.Integer">
             <column name="a_idAsentamiento" />
         </property>
-        <property name="erIdEstadoRegistro" type="int">
+        <property name="erIdEstadoRegistro" type="java.lang.Integer">
             <column name="eR_idEstadoRegistro" not-null="true" />
         </property>
         <property name="promedio" type="java.lang.Float">

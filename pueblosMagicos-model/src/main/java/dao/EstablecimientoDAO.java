@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -36,6 +37,7 @@ public class EstablecimientoDAO {
 		boolean conf = false; 
 		try {
 			tx = session.beginTransaction();
+			System.out.println("val " + transientInstance.getVIdUsuario());
 			session.save(transientInstance);
 			tx.commit();
 			conf = true;
@@ -48,7 +50,7 @@ public class EstablecimientoDAO {
 		return conf;
 	}
 	
-	public Establecimiento read(int id) {
+	public Establecimiento read(Integer id) {
 		log.debug("reading Establecimiento instance");
 		Establecimiento u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +71,13 @@ public class EstablecimientoDAO {
 	public List<Establecimiento> readAll() {
 		List<Establecimiento> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Establecimiento.class).list();
+		try
+		{
+			result = session.createCriteria(Establecimiento.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -105,6 +113,7 @@ public class EstablecimientoDAO {
 			conf = true;
 			log.debug("persist successful");
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			if (tx!=null) 
 				tx.rollback();
 		}
@@ -138,28 +147,98 @@ public class EstablecimientoDAO {
 	public Establecimiento findByNombreEstablecimiento(String n) {
 		log.debug("finding Establecimiento instance by example");
 		Session session = sessionFactory.openSession();
+		List<Establecimiento> results = null;
+		Establecimiento result = null;
 		try {
-			List<Establecimiento> results = session.createCriteria(Establecimiento.class).add( Restrictions.like("nombreEstablecimiento", n) ).list();
-			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
+			results = session.createCriteria(Establecimiento.class).add( Restrictions.like("nombreEstablecimiento", n) ).list();
+			result = results.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		session.close();
+		return result;
+	
 	}
+	
 	
 	public List<Establecimiento> findByIdPST(Integer id) {
 		log.debug("finding Establecimiento instance by example");
 		Session session = sessionFactory.openSession();
-		try {
-			List<Establecimiento> results = session.createCriteria(Establecimiento.class).add( Restrictions.like("PST_idUsuario", id) ).list();
+		List<Establecimiento> results = null;
+		try 
+		{
+			results = session.createCriteria(Establecimiento.class).add( Restrictions.like("pstIdUsuario", id) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		session.close();
+		return results;
 	}
 	
+	public List<Establecimiento> findByIdEstablecimiento(Integer id, Integer first, Integer numRegistros) {
+		log.debug("finding Establecimiento instance by example");
+		Session session = sessionFactory.openSession();
+		List<Establecimiento> results = null;
+		try 
+		{
+			results = session.createCriteria(Establecimiento.class)
+					.add( Restrictions.like("erIdEstadoRegistro", id) ).setMaxResults(numRegistros).setFirstResult(first).list();
+			log.debug("find by example successful, result size: " + results.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		session.close();
+		return results;
+	}
+	
+	public String getDireccion(Integer idEstablecimiento)
+	{
+		String direccion = null;
+		Session session = sessionFactory.openSession();
+		try
+		{
+			
+			
+			Query query = session.createSQLQuery("select ta.nombre "
+					+ "from tipoasentamiento ta, asentamiento a, establecimiento e "
+					+ "where ta.idtipoAsentamiento=a.tA_idtipoAsentamiento "
+					+ "and a.idAsentamiento=e.a_idAsentamiento "
+					+ "and e.idEstablecimiento=:id")
+					.setParameter("id", idEstablecimiento); 
+			direccion = (String) query.uniqueResult();
+			
+			query = session.createSQLQuery("select a.nombreAsentamiento "
+					+ "from asentamiento a, establecimiento e "
+					+ "where a.idAsentamiento=e.a_idAsentamiento "
+					+ "and e.idEstablecimiento=:id")
+					.setParameter("id", idEstablecimiento); 
+			direccion = direccion + " " + (String) query.uniqueResult();
+			
+			query = session.createSQLQuery("select m.nombreMunicipio "
+					+ "from asentamiento a, establecimiento e, municipio m "
+					+ "where m.idMunicipio=a.m_idMunicipio "
+					+ "and a.idAsentamiento=e.a_idAsentamiento "
+					+ "and  e.idEstablecimiento=:id")
+					.setParameter("id", idEstablecimiento); 
+			direccion = direccion + ", " + (String) query.uniqueResult();
+			
+			query = session.createSQLQuery("select e.nombreEstado "
+					+ "from asentamiento a, establecimiento es, municipio m, estado e "
+					+ "where e.idEstado=e_idEstado "
+					+ "and m.idMunicipio=a.m_idMunicipio "
+					+ "and a.idAsentamiento=es.a_idAsentamiento "
+					+ "and es.idEstablecimiento=:id")
+					.setParameter("id", idEstablecimiento); 
+			direccion = direccion + ", " + (String) query.uniqueResult();
+			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return direccion;
+	}
 	
 }

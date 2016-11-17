@@ -5,9 +5,11 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -48,7 +50,7 @@ public class TiposervicioturisticoDAO {
 		return conf;
 	}
 	
-	public Tiposervicioturistico read(int id) {
+	public Tiposervicioturistico read(Integer id) {
 		log.debug("reading Tiposervicioturistico instance");
 		Tiposervicioturistico u = null;
 		Session session = sessionFactory.openSession();
@@ -69,7 +71,14 @@ public class TiposervicioturisticoDAO {
 	public List<Tiposervicioturistico> readAll() {
 		List<Tiposervicioturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Tiposervicioturistico.class).list();
+		try
+		{
+			result = session.createCriteria(Tiposervicioturistico.class).addOrder(Order.asc("nombre")).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 		session.close();
 		return result;
 	}
@@ -113,7 +122,7 @@ public class TiposervicioturisticoDAO {
 	}
 
 
-	public Tiposervicioturistico findById(java.lang.Integer id) {
+	public Tiposervicioturistico findById(Integer id) {
 		log.debug("getting Tiposervicioturistico instance with id: " + id);
 		Tiposervicioturistico u = null;
 		Session session = sessionFactory.openSession();
@@ -134,4 +143,30 @@ public class TiposervicioturisticoDAO {
 		session.close();
 		return u;
 	}
+	
+	public String getTipoPrincipal(Integer idTipoServicio)
+	{
+		String nombre = null;
+		Session session = sessionFactory.openSession();
+		try
+		{
+			Query query = session.createSQLQuery("select tipo from( "
+					+ "select t.idTipoServicioTuristico, t.nombre as tipo, @pv\\:=t.tST_idTipoServicioTuristico as parent "
+					+ "from (select * from tiposervicioturistico order by idTipoServicioTuristico desc ) t "
+					+ "join "
+					+ "(select @pv\\:=:id)tmp "
+					+ "where t.idTipoServicioTuristico=@pv) as a "
+					+ "order by idTipoServicioTuristico asc "
+					+ "limit 0,1")
+					.setParameter("id", idTipoServicio); 
+			nombre = (String) query.uniqueResult();
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return nombre;
+	}
+	
 }

@@ -9,6 +9,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DoubleType;
@@ -18,7 +20,10 @@ import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import dto.Atractivoturistico;
+import dto.Calificacionatractivoturistico;
+import dto.Evaluacionservicioturistico;
 import dto.FotoServicioTuristicoSimple;
+import dto.Servicioturistico;
 
 @Repository
 public class AtractivoturisticoDAO{
@@ -55,7 +60,7 @@ public class AtractivoturisticoDAO{
 		return conf;
 	}
 	
-	public Atractivoturistico read(int id) {
+	public Atractivoturistico read(Integer id) {
 		log.debug("reading Atractivoturistico instance");
 		Atractivoturistico u = null;
 		Session session = sessionFactory.openSession();
@@ -76,7 +81,13 @@ public class AtractivoturisticoDAO{
 	public List<Atractivoturistico> readAll() {
 		List<Atractivoturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Atractivoturistico.class).list();
+		try
+		{
+			result = session.createCriteria(Atractivoturistico.class).addOrder(Order.asc("nombre")).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -112,6 +123,7 @@ public class AtractivoturisticoDAO{
 			conf = true;
 			log.debug("persist successful");
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			if (tx!=null) 
 				tx.rollback();
 		}
@@ -144,18 +156,23 @@ public class AtractivoturisticoDAO{
 
 	public Atractivoturistico findByNombreAtractivoturistico(String n) {
 		log.debug("finding Atractivoturistico instance by example");
+		List<Atractivoturistico> results = null;
+		Atractivoturistico result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Atractivoturistico> results = session.createCriteria(Atractivoturistico.class).add( Restrictions.like("nombreAtractivoturistico", n) ).list();
+			results = session.createCriteria(Atractivoturistico.class).add( Restrictions.like("nombreAtractivoturistico", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			session.close();
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public List<Atractivoturistico> getAtractivoturisticoByLimit(int first, int numRegistros) 
+	public List<Atractivoturistico> getAtractivoturisticoByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Atractivoturistico> results = null;
@@ -165,112 +182,125 @@ public class AtractivoturisticoDAO{
 			crit = session.createCriteria(Atractivoturistico.class);
 			crit.setFirstResult(first);
 			crit.setMaxResults(numRegistros);
+			crit.addOrder(Order.asc("nombre"));
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 	
-	public List<Atractivoturistico> getAtractivoturisticoByPMByLimit(int id, int first, int numRegistros) 
+	public List<Atractivoturistico> getAtractivoturisticoByPMByLimit(Integer id, Integer first, Integer numRegistros) 
 	{
 		List<Atractivoturistico> result = null;
 		Session session = sessionFactory.openSession();
-		
-		Query query = session.createSQLQuery("select at.idAtractivoTuristico, at.nombre, at.descripcion, at.latitud, at.longitud, at.t_idUsuario as TIdUsuario, "
-				+ "at.tA_idtipoAtractivo as taIdtipoAtractivo, at.a_idUsuario as AIdUsuario, at.a_idAsentamiento as AIdAsentamiento, "
-				+ "at.eR_idEstadoRegistro as erIdEstadoRegistro, at.promedio "
-				+ "from atractivoTuristico at, asentamiento a, pueblomagico pm "
-				+ "where at.a_idAsentamiento=a.idAsentamiento "
-				+ "and a.m_idMunicipio=pm.m_idMunicipio "
-				+ "and pm.idPuebloMagico=:idPM limit :first, :numRegistros")
-		.addScalar("idAtractivoTuristico", new IntegerType())
-		.addScalar("nombre", new StringType())
-		.addScalar("descripcion", new StringType())
-		.addScalar("latitud", new DoubleType())
-		.addScalar("longitud", new DoubleType())
-		.addScalar("TIdUsuario", new IntegerType())
-		.addScalar("taIdtipoAtractivo", new IntegerType())
-		.addScalar("AIdUsuario", new IntegerType())
-		.addScalar("AIdAsentamiento", new IntegerType())
-		.addScalar("erIdEstadoRegistro", new IntegerType())		
-		.addScalar("promedio", new FloatType())		
-		.setResultTransformer(Transformers.aliasToBean(Atractivoturistico.class))
-		.setParameter("idPM", id)
-		.setParameter("first", first)
-		.setParameter("numRegistros", numRegistros);
-		
-		result = (List<Atractivoturistico>) query.list();
-		session.close();
-		return result;
-	}
-	
-	public List<Atractivoturistico> findByIdPuebloMagico(int id) 
-	{
-		List<Atractivoturistico> result = null;
-		Session session = sessionFactory.openSession();
-		
-		Query query = session.createSQLQuery("select at.idAtractivoTuristico, at.nombre, at.descripcion, at.latitud, at.longitud, at.t_idUsuario as TIdUsuario, "
-				+ "at.tA_idtipoAtractivo as taIdtipoAtractivo, at.a_idUsuario as AIdUsuario, at.a_idAsentamiento as AIdAsentamiento, "
-				+ "at.eR_idEstadoRegistro as erIdEstadoRegistro, at.promedio "
-				+ "from atractivoTuristico at, asentamiento a, pueblomagico pm "
-				+ "where at.a_idAsentamiento=a.idAsentamiento "
-				+ "and a.m_idMunicipio=pm.m_idMunicipio "
-				+ "and pm.idPuebloMagico=:idPM")
-		.addScalar("idAtractivoTuristico", new IntegerType())
-		.addScalar("nombre", new StringType())
-		.addScalar("descripcion", new StringType())
-		.addScalar("latitud", new DoubleType())
-		.addScalar("longitud", new DoubleType())
-		.addScalar("TIdUsuario", new IntegerType())
-		.addScalar("taIdtipoAtractivo", new IntegerType())
-		.addScalar("AIdUsuario", new IntegerType())
-		.addScalar("AIdAsentamiento", new IntegerType())
-		.addScalar("erIdEstadoRegistro", new IntegerType())		
-		.addScalar("promedio", new FloatType())		
-		.setResultTransformer(Transformers.aliasToBean(Atractivoturistico.class))
-		.setParameter("idPM", id);
-		
-		result = (List<Atractivoturistico>) query.list();
-		session.close();
-		return result;
-	}
-	
-	public String getNombrePuebloMagico(int idAtractivoTuristico)
-	{
-		String nombre = null;;
 		
 		try
 		{
-			Session session = sessionFactory.openSession();
+			Query query = session.createSQLQuery("select at.idAtractivoTuristico, at.nombre, at.descripcion, at.latitud, at.longitud, at.t_idUsuario as TIdUsuario, "
+					+ "at.tA_idtipoAtractivo as taIdtipoAtractivo, at.a_idUsuario as AIdUsuario, at.a_idAsentamiento as AIdAsentamiento, "
+					+ "at.eR_idEstadoRegistro as erIdEstadoRegistro, at.promedio "
+					+ "from atractivoturistico at, asentamiento a, pueblomagico pm "
+					+ "where at.a_idAsentamiento=a.idAsentamiento "
+					+ "and a.m_idMunicipio=pm.m_idMunicipio "
+					+ "and pm.idPuebloMagico=:idPM order by at.nombre asc limit :first, :numRegistros ")
+			.addScalar("idAtractivoTuristico", new IntegerType())
+			.addScalar("nombre", new StringType())
+			.addScalar("descripcion", new StringType())
+			.addScalar("latitud", new DoubleType())
+			.addScalar("longitud", new DoubleType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("taIdtipoAtractivo", new IntegerType())
+			.addScalar("AIdUsuario", new IntegerType())
+			.addScalar("AIdAsentamiento", new IntegerType())
+			.addScalar("erIdEstadoRegistro", new IntegerType())		
+			.addScalar("promedio", new FloatType())		
+			.setResultTransformer(Transformers.aliasToBean(Atractivoturistico.class))
+			.setParameter("idPM", id)
+			.setParameter("first", first)
+			.setParameter("numRegistros", numRegistros);
 			
-			Query query = session.createSQLQuery("select pm.nombre "
-					+ "from atractivoTuristico at, asentamiento a, pueblomagico pm "
+			result = (List<Atractivoturistico>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
+	
+	public List<Atractivoturistico> findByIdPuebloMagico(Integer id) 
+	{
+		List<Atractivoturistico> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query query = session.createSQLQuery("select at.idAtractivoTuristico, at.nombre, at.descripcion, at.latitud, at.longitud, at.t_idUsuario as TIdUsuario, "
+					+ "at.tA_idtipoAtractivo as taIdtipoAtractivo, at.a_idUsuario as AIdUsuario, at.a_idAsentamiento as AIdAsentamiento, "
+					+ "at.eR_idEstadoRegistro as erIdEstadoRegistro, at.promedio "
+					+ "from atractivoturistico at, asentamiento a, pueblomagico pm "
+					+ "where at.a_idAsentamiento=a.idAsentamiento "
+					+ "and a.m_idMunicipio=pm.m_idMunicipio "
+					+ "and pm.idPuebloMagico=:idPM order by at.nombre asc")
+			.addScalar("idAtractivoTuristico", new IntegerType())
+			.addScalar("nombre", new StringType())
+			.addScalar("descripcion", new StringType())
+			.addScalar("latitud", new DoubleType())
+			.addScalar("longitud", new DoubleType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("taIdtipoAtractivo", new IntegerType())
+			.addScalar("AIdUsuario", new IntegerType())
+			.addScalar("AIdAsentamiento", new IntegerType())
+			.addScalar("erIdEstadoRegistro", new IntegerType())		
+			.addScalar("promedio", new FloatType())		
+			.setResultTransformer(Transformers.aliasToBean(Atractivoturistico.class))
+			.setParameter("idPM", id);
+			
+			result = (List<Atractivoturistico>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
+	}
+	
+	public String getNombrePuebloMagico(Integer idAtractivoTuristico)
+	{
+		String nombre = null;
+		Session session = sessionFactory.openSession();
+		try
+		{	
+			
+			Query query = session.createSQLQuery("select distinct pm.nombre "
+					+ "from atractivoturistico at, asentamiento a, pueblomagico pm "
 					+ "where at.a_idAsentamiento=a.idAsentamiento "
 					+ "and a.m_idMunicipio=pm.m_idMunicipio "
 					+ "and at.idAtractivoTuristico=:id")
 					.setParameter("id", idAtractivoTuristico); 
 			nombre = (String) query.uniqueResult();
-			session.close();
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+		session.close();
 		return nombre;
 	}
 	
-	public String getDireccion(int idAtractivoTuristico)
+	public String getDireccion(Integer idAtractivoTuristico)
 	{
 		String direccion = null;
-				
+		Session session = sessionFactory.openSession();
 		try
 		{
-			Session session = sessionFactory.openSession();
+			
 			
 			Query query = session.createSQLQuery("select ta.nombre "
-					+ "from tipoasentamiento ta, asentamiento a, atractivoTuristico at "
+					+ "from tipoasentamiento ta, asentamiento a, atractivoturistico at "
 					+ "where ta.idtipoAsentamiento=a.tA_idtipoAsentamiento "
 					+ "and a.idAsentamiento=at.a_idAsentamiento "
 					+ "and at.idAtractivoTuristico=:id")
@@ -278,14 +308,14 @@ public class AtractivoturisticoDAO{
 			direccion = (String) query.uniqueResult();
 			
 			query = session.createSQLQuery("select a.nombreAsentamiento "
-					+ "from asentamiento a, atractivoTuristico at "
+					+ "from asentamiento a, atractivoturistico at "
 					+ "where a.idAsentamiento=at.a_idAsentamiento "
 					+ "and at.idAtractivoTuristico=:id")
 					.setParameter("id", idAtractivoTuristico); 
 			direccion = direccion + " " + (String) query.uniqueResult();
 			
 			query = session.createSQLQuery("select m.nombreMunicipio "
-					+ "from asentamiento a, atractivoTuristico at, municipio m "
+					+ "from asentamiento a, atractivoturistico at, municipio m "
 					+ "where m.idMunicipio=a.m_idMunicipio "
 					+ "and a.idAsentamiento=at.a_idAsentamiento "
 					+ "and at.idAtractivoTuristico=:id")
@@ -293,7 +323,7 @@ public class AtractivoturisticoDAO{
 			direccion = direccion + ", " + (String) query.uniqueResult();
 			
 			query = session.createSQLQuery("select e.nombreEstado "
-					+ "from asentamiento a, atractivoTuristico at, municipio m, estado e "
+					+ "from asentamiento a, atractivoturistico at, municipio m, estado e "
 					+ "where e.idEstado=e_idEstado "
 					+ "and m.idMunicipio=a.m_idMunicipio "
 					+ "and a.idAsentamiento=at.a_idAsentamiento "
@@ -301,15 +331,53 @@ public class AtractivoturisticoDAO{
 					.setParameter("id", idAtractivoTuristico); 
 			direccion = direccion + ", " + (String) query.uniqueResult();
 			
-			session.close();
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+		session.close();
 		return direccion;
 	}
 	
+	public void updatePromedio( int idAtractivoTuristico )
+	{
+		log.debug("updating promedio atractivo");
+		List<Integer> promedios = null;
+		Session session = sessionFactory.openSession();
+		try {
+			Criteria crit;
+			crit = session.createCriteria(Calificacionatractivoturistico.class)
+					.setProjection(Projections.property("calificacion")).
+					add(Restrictions.like("atIdatractivoTuristico", idAtractivoTuristico));
+			promedios = crit.list();		
+			
+			float suma = 0;
+//			for(int i = 0; i< promedios.size(); i++)
+//			{
+//				suma = suma + promedios.get(i).getCalificacion();
+//			}
+			
+			for(Integer c : promedios)
+			{
+				suma = suma + c;
+			}
+			
+			float promedio = suma / promedios.size();
+			
+			Atractivoturistico a = new Atractivoturistico();
+			a = this.read(idAtractivoTuristico);
+			a.setPromedio(promedio);
+			this.update(a);
+			
+			
+		} catch (RuntimeException re) 
+		{
+			log.error("update cal aT error", re);
+			re.printStackTrace();
+		}
+		session.close();
+	}
 	
 	
 }

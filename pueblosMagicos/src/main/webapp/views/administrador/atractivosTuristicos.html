@@ -1,0 +1,101 @@
+
+ <div class="container" ng-controller="GestionAtractivosTuristicosController as gestionAtractivosTuristicosController">
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li>
+						<a  href="#/gestion" ng-click="tab='inicio'">Inicio</a>
+					</li>
+				   <li>
+						<a  href="#/gestion/pueblosMagicos" ng-click="tab='pueblos'">Pueblos Mágicos</a>
+				   </li>
+				   <li class="active">
+						<a  href="#/gestion/atractivosTuristicos" ng-click="tab='atractivos'">Atractivos turísticos</a>
+				   </li>           
+				   <li>
+						<a  href="#/gestion/serviciosEmergencias" ng-click="tab='servicios'">Servicios de emergencias</a>
+				   </li>                
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9">
+             <label>Pueblo Mágico</label> 
+            <select class="form-control" ng-model="idPuebloMagico" ng-change="iniTabla()">
+				<option ng-repeat="puebloMagico in pueblosMagicos" value="{{puebloMagico.idPuebloMagico}}">{{puebloMagico.nombre}}</option>															
+			</select>
+			
+			<div class="gap"></div>
+			
+           	<table class="table table-bordered table-striped table-booking-history" ng-show="showTable">
+               	<thead>
+                     <tr>
+                        <th colspan="5" class="text-center">Atractivos turísticos
+                        	<a class="btn btn-link  fa fa-plus btn-lg" ng-href="#/gestion/{{idPuebloMagico}}/registroAtractivoTuristico"></a>
+                       	</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Ver más</th>
+                        <th class="text-center">Modificar</th>
+                        <th class="text-center">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody infinite-scroll='loadMore()' infinite-scroll-distance='2' infinite-scroll-disabled='end'>
+                    <tr ng-repeat="atractivo in atractivos">
+                        <td>{{atractivo.nombre}}</td>
+                        <td class="text-center">{{getRegistro(atractivo.erIdEstadoRegistro)}}</td>
+                        <td class="text-center">
+                            <div>    
+                                <form>
+                                	<a class="btn btn-link  fa  fa-search btn-lg" ng-href="#/gestion/atractivosTuristicos/detalles/{{atractivo.idAtractivoTuristico}}"></a>
+                                </form>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div>    
+                                <form>                                
+                                	<a class="btn btn-link  fa fa-pencil btn-lg" ng-href="#/gestion/editarAtractivoTuristico/{{atractivo.idAtractivoTuristico}}"></a>
+                               	</form>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div>    
+                                <form>
+                                	<a class="btn btn-link  fa fa-times btn-lg" data-toggle="modal" data-target="#confirm" ng-click="$parent.selectedItem = atractivo.idAtractivoTuristico"></a>
+                               	</form>
+                            </div>
+                        </td>
+                    </tr>   
+
+                </tbody>
+            </table>      	
+         </div>
+     </div>
+
+     <div class="gap"></div>
+     
+     <!-- Modal -->
+	  <div class="modal fade" id="confirm" role="dialog">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Confirmar operación</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>¿Está seguro de eliminar este elemento?</p>
+	        </div>
+	        <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal"  ng-click="eliminar(selectedItem)">Aceptar</button>
+	        </div>
+	      </div>
+	    </div>
+  	</div>
+     
+ </div>

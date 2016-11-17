@@ -6,10 +6,10 @@
     <class name="dto.ListaHasServicioturistico" table="lista_has_servicioturistico" catalog="pueblosMagicos">
         <composite-id name="id" class="dto.ListaHasServicioturisticoId">
            
-            <key-property name="servicioTuristicoIdServicio" type="int">
+            <key-property name="servicioTuristicoIdServicio" type="java.lang.Integer">
                 <column name="servicioTuristico_idServicio" />
             </key-property>
-            <key-property name="turistaIdUsuario" type="int">
+            <key-property name="turistaIdUsuario" type="java.lang.Integer">
                 <column name="Turista_idUsuario" />
             </key-property>
         </composite-id>

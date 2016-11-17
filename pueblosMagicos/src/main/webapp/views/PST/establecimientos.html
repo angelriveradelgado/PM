@@ -1,0 +1,126 @@
+
+	         		<div ng-show="showEst=='tabla'" ng-init="showEst='tabla'">
+	         		
+	           			<table class="table table-bordered table-striped table-booking-history">
+	                       	<thead>
+	                             <tr>
+	                                <th colspan="5" class="text-center">Establecimientos
+	                                	<button ng-click="showEst='insert'" class="btn btn-link  fa fa-plus btn-lg"></button>
+                                	</th>
+	                            </tr>
+	                            <tr>
+	                                <th class="text-center">Nombre</th>
+	                                <th class="text-center">Registro</th>
+	                                <th class="text-center">Ver más</th>
+	                                <th class="text-center">Modificar</th>
+	                                <th class="text-center">Eliminar</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr ng-repeat="establecimiento in establecimientos">
+	                                <td>{{establecimiento.nombreComercial}}</td>
+	                                <td class="text-center">{{getRegistro(establecimiento.erIdEstadoRegistro)}}</td>
+	                                <td class="text-center">
+	                                    <div>    
+	                                        <form>
+	                                        	<button ng-click="showEstablecimiento(establecimiento);$parent.showEst='read'" class="btn btn-link  fa  fa-search btn-lg"></button>
+	                                        </form>
+	                                    </div>
+	                                </td>
+	                                <td class="text-center">
+	                                    <div>    
+	                                        <form>
+	                                        	<button ng-click="$parent.showEst='edit'" class="btn btn-link  fa fa-pencil btn-lg">
+                                        	</button></form>
+	                                    </div>
+	                                </td>
+	                                <td class="text-center">
+	                                    <div>    
+	                                        <form>
+	                                        	<button ng-click="eliminarEstablecimiento()" class="btn btn-link  fa fa-times btn-lg"></button>
+                                        	</form>
+	                                    </div>
+	                                </td>
+	                            </tr>   
+	
+	                        </tbody>
+	                    </table>
+                    </div>
+                    
+                    
+<!--                     Registro -->
+                    <div ng-show="showEst=='insert'" >
+						<div ng-controller="EstablecimientoRegistroController as establecimientoRegistroController">
+							<div class="form-group">
+								<label>*Nombre comercial</label>
+								 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.nombreComercial"
+	                      			maxlength="80" required/>
+							</div>
+							<div class="form-group">
+								<label>*RFC</label>
+								 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.rfc"
+	                      			maxlength="15" required/>
+							</div>
+							<div class="form-group">
+								<label>*Tipo de la vialidad</label>
+								<select class="form-control" ng-model="establecimiento.tvIdTipoVialidad">
+									<option ng-repeat="tipoVialidad in tiposVialidad" value="{{tipoVialidad.idTipoVialidad}}">{{tipoVialidad.nombre}}</option>															
+								</select>
+							</div>
+							<div class="form-group">
+								<label>*Nombre de la vialidad</label>
+								 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.nombreVialidad"
+	                      			maxlength="80" required/>
+							</div>
+							<div class="form-group">
+								<label>*Número exterior</label>
+								 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.numeroExterior"
+	                      			maxlength="80" required/>
+							</div>
+							<div class="form-group">
+								<label>*Número interior</label>
+								 <input class="form-control" placeholder="" type="text" ng-model="establecimiento.numeroInterior"
+	                      			maxlength="80" required/>
+							</div>
+							<div class="form-group">
+								<label>*Estado</label>
+								<select class="form-control" ng-model="idEstado" ng-change="getMunicipios(idEstado)">
+									<option ng-repeat="estado in estados" value="{{estado.idEstado}}">{{estado.nombreEstado}}</option>															
+								</select>
+							</div>
+							<div class="form-group">
+								<label>*Municipio</label>
+								<select class="form-control" ng-model="idMunicipio" ng-change="getAsentamientos(idMunicipio)">
+									<option ng-repeat="municipio in municipios" value="{{municipio.idMunicipio}}">{{municipio.nombreMunicipio}}</option>															
+								</select>
+							</div>
+							<div class="form-group" ng-model="idMunicipio">
+								<label>*Asentamiento</label>
+								<select class="form-control" ng-model="establecimiento.AIdAsentamiento">
+									<option ng-repeat="asentamiento in asentamientos" value="{{asentamiento.idAsentamiento}}">{{asentamiento.nombreAsentamiento}}</option>															
+								</select>
+							</div>
+							<div class="form-group">
+								<label>*Seleccione la ubicación de su establecimiento</label>
+								<div id="mapRegEst" style="height: 300px"></div>
+							</div>
+						
+						<button ng-click="submit();$parent.showEst='tabla'">Registrar</button>
+						<button ng-click="$parent.showEst='tabla'">Cancelar</button>
+						</div>
+					</div>
+					
+					
+<!-- 					Mostrar continido -->
+					<div ng-show="showEst=='read'">
+						<p>{{activeEstablecimiento.nombreComercial}}</p>
+						<button ng-click="showEst='tabla'">Aceptar</button>
+					</div>
+					
+					
+<!-- 					Editar establecimiento -->
+					<div ng-show="showEst=='edit'">
+						<p>edit</p>
+						<button ng-click="showEst='tabla'">Modificar</button>
+						<button ng-click="showEst='tabla'">Cancelar</button>
+					</div>

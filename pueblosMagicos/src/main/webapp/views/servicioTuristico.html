@@ -1,33 +1,738 @@
+<!-- GOOGLE FONTS -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'>
+<!-- /GOOGLE FONTS -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/icomoon.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/mystyles.css">
+<script src="js/modernizr.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/slimmenu.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap-timepicker.js"></script>
+<script src="js/nicescroll.js"></script>
+<script src="js/dropit.js"></script>
+<script src="js/ionrangeslider.js"></script>
+<script src="js/icheck.js"></script>
+<script src="js/fotorama.js"></script>
+<script src="js/typeahead.js"></script>
+<script src="js/card-payment.js"></script>
+<script src="js/magnific.js"></script>
+<script src="js/owl-carousel.js"></script>
+<script src="js/fitvids.js"></script>
+<script src="js/tweet.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/gridrotator.js"></script>
+<script src="js/custom.js"></script>
 
- <div class="container" ng-controller="PuebloMagicoController as puebloMagicoController">
-     <div class="container">
-         <h1 class="page-title">{{nombrePuebloMagico}}</h1>
-     </div>
+<style>
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+    }
+</style>
 
-     <div class="row">
-         <div class="col-md-2">
-             <aside class="sidebar-left">
-                 <ul class="nav nav-pills nav-stacked nav-side mb30">
-                     <li ><a  href="informacion.html">Informaci�n</a>
-                     </li>
-                     <li class="active"><a href="serviciosTuristicos.html">Servicios tur�sticos</a>
-                     </li>
-                     <li ><a href="atractivosSimbolicos.html">Atractivos tur�sticos</a>
-                     </li>
-                     <li><a href="ServiciosEmergencias.html">Servicios de emergencias</a>
-                     </li>                            
-                 </ul>
-             </aside>
-         </div>
-         <div class="col-md-10">
-             <p>{{descripcion}}</p>
-             <div class="gap"></div>
-             <h4>Ubicaci�n</h4>
-             <div id="map" style="height: 400px"></div>
+<style>
+    .icon-amarillo {
+    color: #FFD700;
+}
+ .icon-mediano {
+    width: 45px;
+  height: 45px;
+  line-height: 45px;
+  font-size: 40px;
+}
+.icon-small {
+    width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 20px;
+}
+</style>
 
+<div class="container" ng-controller="ServicioTuristicoController as servicioTuristicoController">
+<!--     <ul class="breadcrumb"> -->
+<!--         <li><a href="index.html">Pueblos Mágicos</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">United States</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">New York (NY)</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">New York City</a> -->
+<!--         </li> -->
+<!--         <li><a href="#">New York Activities</a> -->
+<!--         </li> -->
+<!--         <li class="active">Central Park Trip</li> -->
+<!--     </ul> -->
+    <div class="booking-item-details">
+        <header class="booking-item-header">
+            <div class="row">
+                <div class="col-md-9">
+                    <h2 class="lh1em">{{servicioTuristico.nombre}}</h2>
+                    <p class="lh1em text-small"><i class="fa fa-map-marker"></i>{{servicioTuristico.direccion}}</p>
+                     <ul class="list list-inline text-small">
+                        
+                         <li><a target="_blank" href="{{servicioTuristico.sitioWeb}}"><i class="fa fa-home"></i>Sitio Web</a>
+                         </li>
+                         <li><i class="fa fa-phone"></i>Teléfono {{servicioTuristico.telefono}} ext.  {{servicioTuristico.extensionTelefono}}</li>
+                     </ul>
+                </div>
+                <div class="col-md-3">
+                    <p class="booking-item-header-price"><small>precio medio</small>  <span class="text-lg">${{servicioTuristico.precioMedio}}</span>
+                    </p>
+                </div>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="tabbable booking-details-tabbable">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li ng-class="{ active: tab=='fotos' }"><a href=""  ng-init="tab='fotos'" ng-click="tab='fotos';resizeMap()"><i class="fa fa-camera"></i>Fotos</a>
+                        </li>
+                        <li ng-class="{ active: tab=='mapa' }"><a href=""  ng-click="tab='mapa';resizeMap()"><i class="fa fa-map-marker"></i>Ubicación</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" >
+                        <div class=" tab-pane fade ng-class:{'in active':tab=='fotos'};" id="tab-1" >
+                            <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs" data-width="800px" data-hight="800px" data-ratio="800/800" >
+<!--                                 <img  src="img/icons/turismo.png"  /> -->
+                                <img ng-cloak ng-repeat="foto in fotos" ng-src="{{foto.idfotoServicioTuristico}}"   alt="Image Alternative text" title="Upper Lake in New York Central Park" />
+                            </div>
+                        </div>
+                        <div class=" tab-pane fade ng-class:{'in active':tab=='mapa'};" id="google-map-tab">
+                            <div id="map" style="width:100%; height:500px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="booking-item-meta">
+                    
+                    <div>
+				    	<span uib-rating ng-model="servicioTuristico.promedio" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-mediano'" state-off="'fa fa-star-o icon-mediano '" aria-labelledby="custom-icons-1"></span> 
+				    	<b>(<i>Promedio:</i> {{servicioTuristico.promedio}})</b>
+			    	</div>
+                </div>
+                <div class="gap gap-small">
+                    <h3>Descripción</h3>
+                    <p>{{servicioTuristico.descripcion}}</p>
+                    <h3>Aforo</h3>
+                    <p>{{servicioTuristico.aforo}} personas</p>
+                </div>
+                <a href="#" class="btn btn-primary btn-lg">Agregar</a>
+            </div>
+        </div>
+    </div>
+    <div class="gap"></div>
+    <h3 class="mb20">Evaluaciones</h3>
+    <div class="row row-wrap">
+        <div class="col-md-12">
+            <ul class="booking-item-reviews list" ng-repeat="evaluacion in evaluacionesServicioTuristico">
+                <li>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="booking-item-review-person">
+                                <a class="booking-item-review-person-avatar round" href="#">
+                                    <img src="" alt="Image Alternative text" title="Afro" />
+                                </a>
+                                <p class="booking-item-review-person-name"><a href="#">John Doe</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="booking-item-review-content" >
+                                
+                                <span uib-rating ng-model="evaluacion.promedio" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			
+                                <p>{{evaluacion.comentario.substring(0,180)}}
+                                	<span class="" ng-show="!masEvaluacion">{{evaluacion.comentario.substring(181,500)}}</span>
+                                </p>
+                                <div class=""  ng-show="!masEvaluacion">
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        	<div>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Aspecto del establecimiento</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.aspectoEstablecimiento" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Atención al cliente</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.atencionCliente" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Eficiencia del servicio</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.eficienciaServicio" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Higiene del establecimiento</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.higieneEstablecimiento" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Relación precio calidad</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.relacionPrecioCalidad" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+									    	</div>                                                                             
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+                                        	<div>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Accesibilidad</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.accesibilidad" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Comunicación</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.comunicacion" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Manejo de idiomas</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.manejoIdiomas" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Señalamiento interno</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.senalamientoInterno" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Señalamiento externo</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.senalamientoExterno" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+									    	</div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-show="servicioTuristico.tstIdtSt==66">
+                                        <div class="col-md-6">
+                                        	<div>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Equipamiento y material</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.equipamientoYMaterial" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Información de la actividad</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.informacionActividad" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Información de los riesgos</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.informacionRiesgos" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Condición del equipo</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.condicionEquipo" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Información de los requisitos</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.informacionRequisitos" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Seguro médico</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.servicioMedico" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+									    	</div>                                                                             
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+                                        	<div>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Seguro de vida</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.seguroVida" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Acuerdo de riesgos</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.acuerdoRiesgos" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Supervisión</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.supervision" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Asistencia</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.asistencia" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Reservación del lugar</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAventura.informacionReservaLugar" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+									    	</div>                                            
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-show="servicioTuristico.tstIdtSt==6">
+                                        <div class="col-md-6" >
+                                        	<div>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Instalaciones de la recepción</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.instalacionesRecepcion" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Servicio de portero</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.servicioPortero" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Servicio de maletero</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.servicioMaletero" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Registro de entrada</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.registroEntrada" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Iluminación de la habitación</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.iluminacionHabitacion" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+									    	</div>                                            
+                                        </div>
+                                        <div class="col-md-6">
+                                        	<div>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Confort de la cama</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.confortCama" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Limpieza del baño</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.limpiezaBano" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Mobiliario</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.mobiliario" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Equipamiento de aparatos electrónicos</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.equipamientoElectronicos" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+                                        		<ul  class="list-inline">
+                                        			<li class="col-md-5">
+                                        				<p>Servicio de lavado y planchado</p>
+                                        			</li>
+                                        			<li class="col-md-5">
+                                        				<span uib-rating ng-model="evaluacion.evaluacionAlojamiento.servicioLavadoPlanchado" max="5" read-only="true" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+                                        			</li>
+                                        		</ul>
+									    	</div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="booking-item-review-expand">
+                                	<a class="" ng-show="masEvaluacion" ng-click="masEvaluacion=false" ng-init="masEvaluacion=true">Mostrar más <i class="fa fa-angle-down"></i></a>
+                                	<a class="" ng-show="!masEvaluacion" ng-click="masEvaluacion=true">Mostrar menos <i class="fa fa-angle-up"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+               
+            </ul>
+            <p ng-show="evaluacionesServicioTuristico.length==0">No hay evaluaciones de este servicio turístico</p>
+            <a href ng-click="loadMoreEvaluaciones()" ng-show="!end">Ver más evaluaciones</a>
+           
+            <div class="gap gap-small"></div>
+            <div class="box bg-gray">
+                <h3>Evalúe este servicio turístico</h3>
+                <div>
+                    <ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Aspecto del establecimiento <br><small>El servicio ...</small></p>              					
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.aspectoEstablecimiento" max="5" on-hover="hoveringOver(value)" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+<!--                				<span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span> -->
+                   		
+               			</li>
+               			
+               		</ul>   
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Atención al cliente<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.atencionCliente" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>            		
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Eficiencia del servicio <br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.eficienciaServicio" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>               		
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Higiene del establecimiento<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.higieneEstablecimiento" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Relación precio calidad<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.relacionPrecioCalidad" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Accesibilidad<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.accesibilidad" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Comunicación<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.comunicacion" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Manejo de idiomas<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.manejoIdiomas" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Señalamiento interno<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.senalamientoInterno" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Señalamiento externo<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionGenerica.senalamientoExterno" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>               		
+               	</div>
+               	<div ng-show="servicioTuristico.tstIdtSt==66">
+                    <ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Equipamiento y material <br><small>El servicio ...</small></p>              					
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.equipamientoYMaterial" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               			
+               		</ul>   
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Información de la actividad<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.informacionActividad" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul> 
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Información de los riesgos<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.informacionRiesgos" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>            		
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Condición del equipo <br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.condicionEquipo" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>               		
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Información de los requisitos<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.informacionRequisitos" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Seguro médico<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.servicioMedico" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Seguro de vida<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.seguroVida" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Acuerdo de riesgos<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.acuerdoRiesgos" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Supervisión<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.supervision" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Asistencia<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.asistencia" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Reservación del lugar<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAventura.informacionReservaLugar" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>               		
+               	</div>
+               	<div ng-show="servicioTuristico.tstIdtSt==6">
+                    <ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Instalaciones de la recepción<br><small>El servicio ...</small></p>              					
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.instalacionesRecepcion" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               			
+               		</ul>   
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Servicio de portero<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.servicioPortero" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>            		
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Servicio de maletero<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.servicioMaletero" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>               		
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Registro de entrada<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.registroEntrada" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Iluminación de la habitación<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.iluminacionHabitacion" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Confort de la cama<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.confortCama" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Limpieza del baño<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.limpiezaBano" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Mobiliario<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.mobiliario" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Equipamiento de aparatos electrónicos<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.equipamientoElectronicos" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>
+               		<ul  class="list-inline">
+                    	<li class="col-md-5">
+              				<p>Servicio de lavado y planchado<br><small>El servicio ...</small></p>
+              			</li>
+               			<li class="col-md-5">
+               				<span uib-rating ng-model="evaluacionAlojamiento.servicioLavadoPlanchado" max="5" read-only="false" state-on="'fa fa-star icon-amarillo icon-small'" state-off="'fa fa-star-o icon-small '" aria-labelledby="custom-icons-1"></span> 
+               			</li>
+               		</ul>               		
+               	</div>
+               	
+                <div class="form-group">
+                    <label>Comentario</label>
+                    <textarea class="form-control" rows="6" ng-model="evaluacionGenerica.comentario"></textarea>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Evaluar" ng-click="evaluar()" />
+                
+                <div class="gap gap-small"></div>
+                <div class="alert alert-danger" ng-show="errorCalificar=='error'" >
+                  	<button class="close" type="button" ng-click="errorCalificar='ok'">
+                  		<span aria-hidden="true">&times;</span>
+                    </button>
+	                <p class="">{{mensajeErrorCalificar}}</p>
+              	</div>
+              	<div class="alert alert-success" ng-show="insertarCalificacion=='ok'" >
+                  	<button class="close" type="button" ng-click="insertarCalificacion='cerrar'">
+                  		<span aria-hidden="true">&times;</span>
+                    </button>
+	                <p class="">{{mensajeCalInsertada}}</p>
+              	</div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="gap gap-small"></div>
+</div>
 
-         </div>
-     </div>
-
-     <div class="gap"></div>
- </div>

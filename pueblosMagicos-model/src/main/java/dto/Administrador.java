@@ -14,13 +14,13 @@ import javax.persistence.Table;
 public class Administrador implements java.io.Serializable
 {
 
-	private int UIdUsuario;
+	private Integer UIdUsuario;
 
 	public Administrador()
 	{
 	}
 
-	public Administrador(int UIdUsuario)
+	public Administrador(Integer UIdUsuario)
 	{
 		this.UIdUsuario = UIdUsuario;
 	}
@@ -28,12 +28,12 @@ public class Administrador implements java.io.Serializable
 	@Id
 
 	@Column(name = "u_idUsuario", unique = true, nullable = false)
-	public int getUIdUsuario( )
+	public Integer getUIdUsuario( )
 	{
 		return this.UIdUsuario;
 	}
 
-	public void setUIdUsuario( int UIdUsuario )
+	public void setUIdUsuario( Integer UIdUsuario )
 	{
 		this.UIdUsuario = UIdUsuario;
 	}

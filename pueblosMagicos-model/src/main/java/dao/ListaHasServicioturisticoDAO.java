@@ -69,7 +69,13 @@ public class ListaHasServicioturisticoDAO {
 	public List<ListaHasServicioturistico> readAll() {
 		List<ListaHasServicioturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(ListaHasServicioturistico.class).list();
+		try
+		{
+			result = session.createCriteria(ListaHasServicioturistico.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -113,8 +119,7 @@ public class ListaHasServicioturisticoDAO {
 	}
 
 
-	public ListaHasServicioturistico findById(java.lang.Integer id) {
-		log.debug("getting ListaHasServicioturistico instance with id: " + id);
+	public ListaHasServicioturistico findById(Integer id) {
 		ListaHasServicioturistico u = null;
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
@@ -135,17 +140,19 @@ public class ListaHasServicioturisticoDAO {
 		return u;
 	}
 
-	public List<ListaHasServicioturisticoId> findByIdUsuario(int id) {
+	public List<ListaHasServicioturisticoId> findByIdUsuario(Integer id) {
 		log.debug("finding ListaHasServicioturistico instance by example");
+		List<ListaHasServicioturisticoId> results = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<ListaHasServicioturisticoId> results = session.createCriteria(ListaHasServicioturisticoId.class).add( Restrictions.like("Turista_idUsuario", id) ).list();
+			results = session.createCriteria(ListaHasServicioturisticoId.class).add( Restrictions.like("turistaIdUsuario", id) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return results;
 	}
 	
 	

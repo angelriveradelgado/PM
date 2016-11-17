@@ -20,7 +20,7 @@ public class FotoPuebloMagicoSimple implements java.io.Serializable
 	}
 
 
-	public FotoPuebloMagicoSimple(String urlfoto, String descripcion, int pmIdPuebloMagico)
+	public FotoPuebloMagicoSimple(String urlfoto, String descripcion, Integer pmIdPuebloMagico)
 	{
 		this.descripcion = descripcion;
 	}

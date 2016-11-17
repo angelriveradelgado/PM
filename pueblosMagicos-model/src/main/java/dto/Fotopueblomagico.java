@@ -19,18 +19,18 @@ public class Fotopueblomagico implements java.io.Serializable
 	private Integer idfotoPuebloMagico;
 	private String urlfoto;
 	private String descripcion;
-	private int pmIdPuebloMagico;
+	private Integer pmIdPuebloMagico;
 
 	public Fotopueblomagico()
 	{
 	}
 
-	public Fotopueblomagico(int pmIdPuebloMagico)
+	public Fotopueblomagico(Integer pmIdPuebloMagico)
 	{
 		this.pmIdPuebloMagico = pmIdPuebloMagico;
 	}
 
-	public Fotopueblomagico(String urlfoto, String descripcion, int pmIdPuebloMagico)
+	public Fotopueblomagico(String urlfoto, String descripcion, Integer pmIdPuebloMagico)
 	{
 		this.urlfoto = urlfoto;
 		this.descripcion = descripcion;
@@ -74,12 +74,12 @@ public class Fotopueblomagico implements java.io.Serializable
 	}
 
 	@Column(name = "pM_idPuebloMagico", nullable = false)
-	public int getPmIdPuebloMagico( )
+	public Integer getPmIdPuebloMagico( )
 	{
 		return this.pmIdPuebloMagico;
 	}
 
-	public void setPmIdPuebloMagico( int pmIdPuebloMagico )
+	public void setPmIdPuebloMagico( Integer pmIdPuebloMagico )
 	{
 		this.pmIdPuebloMagico = pmIdPuebloMagico;
 	}

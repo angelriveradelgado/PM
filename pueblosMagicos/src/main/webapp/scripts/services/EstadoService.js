@@ -21,6 +21,96 @@ App.factory('EstadoService', ['$http', '$q', 'CONFIG',  function($http, $q, CONF
                 }
             );
         },
+        
+        fetchEstados: function() 
+	    {
+            return $http.get( CONFIG.urlWebService + '/estados')
+            .then
+            (
+                function(response)
+                {
+                	console.log('fetchAllEstados ok ');
+                    return response.data;
+                },  
+                function(errResponse)
+                {
+                    console.error('Error while fetching estados');
+                    return $q.reject(errResponse);
+                }
+            );
+        },
+        
+        fetchEstadosWithPM: function() 
+	    {
+            return $http.get( CONFIG.urlWebService + '/estados/pm')
+            .then
+            (
+                function(response)
+                {
+                	console.log('fetchAllEstados ok ');
+                    return response.data;
+                },  
+                function(errResponse)
+                {
+                    console.error('Error while fetching estados');
+                    return $q.reject(errResponse);
+                }
+            );
+        },
+        
+        fetchMunicipiosByIdEstado: function(id) 
+	    {
+            return $http.get( CONFIG.urlWebService + '/estados/pm/municipios/idEstado/' + id)
+            .then
+            (
+                function(response)
+                {
+                	console.log('fetchMunicipios ok ');
+                    return response.data;
+                },  
+                function(errResponse)
+                {
+                    console.error('Error while fetching municipios');
+                    return $q.reject(errResponse);
+                }
+            );
+        },
+        
+        fetchMunicipiosByIdEstadoWithPM: function(id) 
+	    {
+            return $http.get( CONFIG.urlWebService + '/estados/pm/municipiosWithPM/idEstado/' + id)
+            .then
+            (
+                function(response)
+                {
+                	console.log('fetchMunicipios ok ');
+                    return response.data;
+                },  
+                function(errResponse)
+                {
+                    console.error('Error while fetching municipios');
+                    return $q.reject(errResponse);
+                }
+            );
+        },
+        
+        fetchAsentamientosByIdMunicipio: function(id) 
+	    {
+            return $http.get( CONFIG.urlWebService + '/estados/pm/asentamientos/idMunicipio/' + id)
+            .then
+            (
+                function(response)
+                {
+                	console.log('fetchMunicipios ok ');
+                    return response.data;
+                },  
+                function(errResponse)
+                {
+                    console.error('Error while fetching municipios');
+                    return $q.reject(errResponse);
+                }
+            );
+        },
 	     
 	    updateUsuarioTurista: function(usuario)
 	    {
@@ -47,7 +137,7 @@ App.factory('EstadoService', ['$http', '$q', 'CONFIG',  function($http, $q, CONF
 	            }
 	        }
 			
-			$http.put(CONFIG.urlWebService + '/turista', data, config)
+			$http.post(CONFIG.urlWebService + '/turistaEdit', data, config)
 	        .success(function (data, status, headers, config) {
 	            return data;
 	        })

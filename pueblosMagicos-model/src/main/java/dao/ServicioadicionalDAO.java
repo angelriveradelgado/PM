@@ -47,7 +47,7 @@ public class ServicioadicionalDAO {
 		return conf;
 	}
 	
-	public Servicioadicional read(int id) {
+	public Servicioadicional read(Integer id) {
 		log.debug("reading Servicioadicional instance");
 		Servicioadicional u = null;
 		Session session = sessionFactory.openSession();
@@ -68,7 +68,13 @@ public class ServicioadicionalDAO {
 	public List<Servicioadicional> readAll() {
 		List<Servicioadicional> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Servicioadicional.class).list();
+		try
+		{
+			result = session.createCriteria(Servicioadicional.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -112,7 +118,7 @@ public class ServicioadicionalDAO {
 	}
 
 
-	public Servicioadicional findById(java.lang.Integer id) {
+	public Servicioadicional findById(Integer id) {
 		log.debug("getting Servicioadicional instance with id: " + id);
 		Servicioadicional u = null;
 		Session session = sessionFactory.openSession();

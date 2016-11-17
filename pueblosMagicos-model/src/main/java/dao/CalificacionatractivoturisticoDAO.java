@@ -56,7 +56,7 @@ public class CalificacionatractivoturisticoDAO {
 		return conf;
 	}
 	
-	public Calificacionatractivoturistico read(int id) {
+	public Calificacionatractivoturistico read(Integer id) {
 		log.debug("reading Calificacionatractivoturistico instance");
 		Calificacionatractivoturistico u = null;
 		Session session = sessionFactory.openSession();
@@ -77,7 +77,13 @@ public class CalificacionatractivoturisticoDAO {
 	public List<Calificacionatractivoturistico> readAll() {
 		List<Calificacionatractivoturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Calificacionatractivoturistico.class).list();
+		try
+		{
+			result = session.createCriteria(Calificacionatractivoturistico.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -145,31 +151,55 @@ public class CalificacionatractivoturisticoDAO {
 
 	public Calificacionatractivoturistico findByNombreCalificacionatractivoturistico(String n) {
 		log.debug("finding Calificacionatractivoturistico instance by example");
+		List<Calificacionatractivoturistico> results = null;
+		Calificacionatractivoturistico result =  null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Calificacionatractivoturistico> results = session.createCriteria(Calificacionatractivoturistico.class).add( Restrictions.like("nombreCalificacionatractivoturistico", n) ).list();
+			results = session.createCriteria(Calificacionatractivoturistico.class).add( Restrictions.like("nombreCalificacionatractivoturistico", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result =  results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public List<Calificacionatractivoturistico> findByIdAtractivoTuristico(int idAT) {
+	public List<Calificacionatractivoturistico> findByIdAtractivoTuristico(Integer idAT) {
 		log.debug("finding Calificacionatractivoturistico instance by example");
+		List<Calificacionatractivoturistico> results = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Calificacionatractivoturistico> results = session.createCriteria(Calificacionatractivoturistico.class).add( Restrictions.like("aT_idartactivoTuristico", idAT) ).list();
+			results = session.createCriteria(Calificacionatractivoturistico.class).add( Restrictions.like("atIdatractivoTuristico", idAT) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return results;
 	}
 	
-	public List<Calificacionatractivoturistico> getCalificacionatractivoturisticoByLimit(int first, int numRegistros) 
+	public List<Calificacionatractivoturistico> findByIdUsuarioByIdAtractivoTuristico(Integer idUsuario, Integer idAT) {
+		log.debug("finding Calificacionatractivoturistico instance by example");
+		List<Calificacionatractivoturistico> results = null;
+		Session session = sessionFactory.openSession();
+		try {
+			results = session.createCriteria(Calificacionatractivoturistico.class)
+					.add( Restrictions.like("atIdatractivoTuristico", idAT) )
+					.add( Restrictions.like("TIdusuario", idUsuario) )
+					.list();
+			log.debug("find by example successful, result size: " + results.size());
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			re.printStackTrace();
+		}
+		session.close();
+		return results;
+	}
+	
+	public List<Calificacionatractivoturistico> getCalificacionatractivoturisticoByLimit(Integer idAT, Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Calificacionatractivoturistico> results = null;
@@ -179,27 +209,29 @@ public class CalificacionatractivoturisticoDAO {
 			crit = session.createCriteria(Calificacionatractivoturistico.class);
 			crit.setFirstResult(first);
 			crit.setMaxResults(numRegistros);
+			crit.add( Restrictions.like("atIdatractivoTuristico", idAT));
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 	
-	public float getPromedio(int id) 
+	public Float getPromedio(Integer id) 
 	{
-		float result = 0;
+		Float result = (float) 0;
 		Session session = sessionFactory.openSession();
 		
 		try
 		{
-			Query q = session.createSQLQuery("select AVG(calificacion) from calificacionAtractivoTuristico "
+			Query q = session.createSQLQuery("select AVG(calificacion) from calificacionatractivoturistico "
 					+ "where aT_idatractivoTuristico=:id")
 					.setParameter("id", id);
 		
 			
-			result = (float)q.list().get(0);
+			result = (Float)q.list().get(0);
 		}catch(Exception e)
 		{
 			e.printStackTrace();

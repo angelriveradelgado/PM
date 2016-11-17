@@ -1,0 +1,213 @@
+<!-- GOOGLE FONTS -->
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'>
+<!-- /GOOGLE FONTS -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+<link rel="stylesheet" href="css/icomoon.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/mystyles.css">
+<script src="js/modernizr.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/slimmenu.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap-timepicker.js"></script>
+<script src="js/nicescroll.js"></script>
+<script src="js/dropit.js"></script>
+<script src="js/ionrangeslider.js"></script>
+<script src="js/icheck.js"></script>
+<script src="js/fotorama.js"></script>
+<script src="js/typeahead.js"></script>
+<script src="js/card-payment.js"></script>
+<script src="js/magnific.js"></script>
+<script src="js/owl-carousel.js"></script>
+<script src="js/fitvids.js"></script>
+<script src="js/tweet.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/gridrotator.js"></script>
+<script src="js/custom.js"></script>
+
+        
+ <div class="container" ng-controller="ServiciosTuristicosController as serviciosTuristicosController">
+ 	<h1 class="page-title">{{nombrePuebloMagico}}</h1>
+  
+    <div class="col-md-2">
+         <aside class="sidebar-left">
+              <ul class="nav nav-pills nav-stacked nav-side mb30">
+                 <li ><a href="#/pueblo/{{nombrePuebloMagico}}">Información</a>
+                 </li>
+                 <li class="active"><a href="#/pueblo/{{nombrePuebloMagico}}/serviciosTuristicos">Servicios turísticos</a>
+                 </li>
+                 <li ><a href="#/pueblo/{{nombrePuebloMagico}}/atractivosTuristicos">Atractivos turísticos</a>
+                 </li>
+                 <li ><a href="#/pueblo/{{nombrePuebloMagico}}/serviciosEmergencias">Servicios de emergencias</a>
+                 </li>                            
+             </ul>
+         </aside>
+     </div> 
+    
+    <div class="col-md-10">  
+    	<div class="nav-drop booking-sort">
+            <h5 class="booking-sort-title"><a href="#">Ordenar: Nombre<i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></a></h5>
+            <ul class="nav-drop-menu">
+                <li><a href="#">Precio (asc)</a>
+                </li>
+                <li><a href="#">Precio (desc)</a>
+                </li>
+                <li><a href="#">Calificación (asc)</a>
+                </li>
+                <li><a href="#">Calificación (desc)</a>
+                </li>
+            </ul>
+        </div>
+                            
+	    <ul class="booking-list" infinite-scroll='loadMore()' infinite-scroll-distance='2' infinite-scroll-disabled='end'>
+		     <li ng-repeat="servicio in serviciosTuristicos">
+		         <a class="booking-item" ng-href="#/servicioTuristico/{{servicio.idServicioTuristico}}">
+		             <div class="row" >
+		                 <div class="col-md-4">
+		                     <img height="170px" width="400px" ng-src="{{servicio.foto}}"  title="" />
+		                 </div>
+		                 <div class="col-md-5">
+		                     <div class="booking-item-rating">
+		                         <ul class="icon-group booking-item-rating-stars">
+		                             <li><i class="fa fa-star"></i>
+		                             </li>
+		                             <li><i class="fa fa-star"></i>
+		                             </li>
+		                             <li><i class="fa fa-star"></i>
+		                             </li>
+		                             <li><i class="fa fa-star"></i>
+		                             </li>
+		                             <li><i class="fa fa-star-o"></i>
+		                             </li>
+		                         </ul><span class="booking-item-rating-number"><b>{{servicio.promedio}}</b> de 5</span>
+		                     </div>
+		                     <h5 class="booking-item-title">{{servicio.nombre}}</h5>
+		                     <p class="booking-item-address"><i class="fa fa-map-marker"></i>{{servicio.direccion}}</p>
+		                     <p class="booking-item-description">{{servicio.descripcion.substring(0,300) + '...'}}</p>
+		                 </div>
+		                 <div class="col-md-3"><span class="booking-item-price">{{servicio.precioMedio}}</span> <span>/persona</span> <span class="btn btn-primary">Agregar</span>
+		                 </div>
+		             </div>
+		         </a>
+		     </li>		
+		 </ul>   
+		  
+     </div>
+     
+     
+     
+     
+     <div class="modal " id="modalSel" data-backdrop="static" ng-show="showModal" ng-init="showModal=true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title">Tipos de servicios turísticos</h4>
+	            </div>
+	            
+	            <div class="modal-body">
+	                <div class="row row-wrap">
+	                    <div class="col-md-4">
+	                        <div class="thumb">
+	                            <a class="hover-img" href="#" ng-click="tipoServicioSelect='todo';end=false" data-dismiss="modal">
+	                                <img src="img/categoriasServicio/todo-mini.png" alt="Image Alternative text" title="the journey home" />  
+	                                <h5 class="hover-title-center-bottom hover-hold">Todo</h5>
+	                            </a>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-4">
+	                        <div class="thumb">
+	                            <a class="hover-img" href="" ng-click="tipoServicioSelect='alojamiento';end=false" data-dismiss="modal">
+	                                <img src="img/categoriasServicio/hospedaje.png" alt="Image Alternative text" title="the journey home" />   
+	                                <h5 class="hover-title-center-bottom hover-hold">Alojamiento</h5>                                          
+	                            </a>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-4">
+	                        <div class="thumb">
+	                            <a class="hover-img" href="" ng-click="tipoServicioSelect='todo';end=false" data-dismiss="modal">
+	                                <img src="img/categoriasServicio/restauracion-mini.png" alt="Image Alternative text" title="the journey home" />  
+	                                <h5 class="hover-title-center-bottom hover-hold">Restauración</h5>
+	                            </a>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-4">
+	                        <div class="thumb">
+	                            <a class="hover-img" href="" ng-click="tipoServicioSelect='todo';end=false" data-dismiss="modal">
+	                                <img src="img/categoriasServicio/intermediacion-mini.png" alt="Image Alternative text" title="the journey home" />                                              
+	                                <h5 class="hover-title-center-bottom hover-hold">Intermediación</h5>
+	                            </a>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-4">
+	                        <div class="thumb">
+	                            <a class="hover-img" href="" ng-click="tipoServicioSelect='todo';end=false" data-dismiss="modal">
+	                                <img src="img/categoriasServicio/transporte-mini.jpg" alt="Image Alternative text" title="the journey home" />    
+	                                <h5 class="hover-title-center-bottom hover-hold">Transporte</h5>                                         
+	                            </a>
+	                        </div>
+	                    </div>
+	                    <div class="col-md-4">
+	                        <div class="thumb">
+	                            <a class="hover-img" href="#" ng-click="tipoServicioSelect='todo';end=false" data-dismiss="modal">
+	                                <img src="img/categoriasServicio/cultura.png" alt="Image Alternative text" title="the journey home"  />  
+	                                <h5 class="hover-title-center-bottom hover-hold">Cultura</h5>                                           
+	                            </a>
+	                        </div>
+	                    </div>                                
+	                </div>                            
+	            </div> 
+	
+<!-- 	            <div class="modal-footer"> -->
+<!-- 	                <button type="button" class="btn btn-block" data-dismiss="modal">Continuar</button> -->
+<!-- 	            </div> -->
+	        </div>
+	    </div>
+	</div>
+     
+     
+</div>
+
+
+
+<script type='text/javascript'>
+
+    $(document).ready(function () {
+
+        /* activate sidebar */
+        $('#sidebar').affix({
+            offset: {
+                top: 235
+            }
+        });
+
+        /* activate scrollspy menu */
+        var $body = $(document.body);
+        var navHeight = $('.navbar').outerHeight(true) + 10;
+
+        $body.scrollspy({
+            target: '#leftCol',
+            offset: navHeight
+        });
+
+        /* smooth scrolling sections */
+        $('a[href*=#]:not([href=#])').click(function () {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top - 50
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+        
+         $('#modalSel').modal('show');
+
+    });
+
+</script>

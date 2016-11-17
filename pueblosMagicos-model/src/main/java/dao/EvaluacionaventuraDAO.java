@@ -46,11 +46,12 @@ public class EvaluacionaventuraDAO{
 			Query query = session.createSQLQuery(
 			        "insert into evaluacionservicioturistico(comentario,t_idUsuario,aspectoEstablecimiento, "
 			        + "	atencionCliente,eficienciaServicio,higieneEstablecimiento,relacionPrecioCalidad, "
-			        + "	accesibilidad,comunicacion,manejoIdiomas,senalamientoInterno,senalamientoExterno,sT_idServicioTuristico,tE_idEvaluacion) "
+			        + "	accesibilidad,comunicacion,manejoIdiomas,senalamientoInterno,senalamientoExterno,"
+			        + "sT_idServicioTuristico,tE_idEvaluacion, promedio) "
 			        + "	values(:comentario,:idUsuario,:aspectoEstablecimiento, "
 			        + "	:atencionCliente,:eficienciaServicio,:higieneEstablecimiento,:relacionPrecioCalidad, "
-			        + "	:accesibilidad,:comunicacion,:manejoIdiomas,:senalamientoInterno,:senalamientoExterno,:idServicioTuristico"
-			        + "(select idEvaluacion from tipoevaluacion where nombre like '%AVENTURA%'))")
+			        + "	:accesibilidad,:comunicacion,:manejoIdiomas,:senalamientoInterno,:senalamientoExterno,:idServicioTuristico, "
+			        + "(select idEvaluacion from tipoevaluacion where nombre like '%AVENTURA%'), :promedio)")
 			        .setParameter("comentario", est.getComentario())
 			        .setParameter("idUsuario", est.getTIdUsuario())
 			        .setParameter("aspectoEstablecimiento", est.getAspectoEstablecimiento())
@@ -63,7 +64,8 @@ public class EvaluacionaventuraDAO{
 			        .setParameter("manejoIdiomas", est.getManejoIdiomas())
 			        .setParameter("senalamientoInterno", est.getSenalamientoInterno() )
 			        .setParameter("senalamientoExterno", est.getSenalamientoExterno())
-			        .setParameter("idServicioTuristico", est.getSTIdServicioTuristico());
+			        .setParameter("idServicioTuristico", est.getSTIdServicioTuristico())
+			        .setParameter("promedio", est.getPromedio());
 			
 			Query query1 = session.createSQLQuery(
 			        "insert into evaluacionaventura values(((select idEvaluacion from evaluacionservicioturistico order by idEvaluacion desc limit 1)), "
@@ -88,16 +90,15 @@ public class EvaluacionaventuraDAO{
 				tx.commit();
 				conf = true;
 			}
-			conf = false;
 		}catch (HibernateException e) {
 			if (tx!=null) 
 				tx.rollback();
 		}
-		
+		session.close();
 		return conf;
 	}
 	
-	public Evaluacionaventura read(int id) {
+	public Evaluacionaventura read(Integer id) {
 		log.debug("reading Evaluacionaventura instance");
 		Evaluacionaventura u = null;
 		Session session = sessionFactory.openSession();
@@ -118,7 +119,13 @@ public class EvaluacionaventuraDAO{
 	public List<Evaluacionaventura> readAll() {
 		List<Evaluacionaventura> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Evaluacionaventura.class).list();
+		try
+		{
+			result = session.createCriteria(Evaluacionaventura.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();	
+		}
 		session.close();
 		return result;
 	}
@@ -186,18 +193,23 @@ public class EvaluacionaventuraDAO{
 
 	public Evaluacionaventura findByNombreEvaluacionaventura(String n) {
 		log.debug("finding Evaluacionaventura instance by example");
+		List<Evaluacionaventura> results = null;
+		Evaluacionaventura result = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Evaluacionaventura> results = session.createCriteria(Evaluacionaventura.class).add( Restrictions.like("nombreEvaluacionaventura", n) ).list();
+			results = session.createCriteria(Evaluacionaventura.class).add( Restrictions.like("nombreEvaluacionaventura", n) ).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			
+			result = results.get(0);
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public List<Evaluacionaventura> getEvaluacionaventuraLimit(int first, int numRegistros) 
+	public List<Evaluacionaventura> getEvaluacionaventuraLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Evaluacionaventura> results = null;
@@ -210,8 +222,9 @@ public class EvaluacionaventuraDAO{
 			results = crit.list();			
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 	

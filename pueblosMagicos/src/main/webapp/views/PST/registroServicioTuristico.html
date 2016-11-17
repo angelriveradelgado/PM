@@ -1,0 +1,84 @@
+
+ <div class="container" >
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li >
+						<a  href="#/pst" ng-click="tab='establecimientos'">Inicio</a>
+					</li>
+				   <li >
+						<a  href="#/pst/establecimientos" ng-click="tab='establecimientos'">Establecimientos</a>
+				   </li>
+				   <li class="active">
+				   		<a href="#/pst/serviciosTuristicos" ng-click="tab='servicios'">Servicios turísticos</a>
+				   </li>                           
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9" ng-controller="ServicioPSTRegistroController as servicioPSTRegistroController">	
+			<form ng-submit="submit()">
+				<div class="form-group">
+					<label>*Nombre</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.nombre"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Aforo</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.aforo"
+	                   			maxlength="15" required/>
+				</div>
+				<div class="form-group">
+					<label>*Tipo de servicio turistico</label>
+					<select class="form-control" ng-model="servicioTuristico.tstIdtSt">
+						<option ng-repeat="tipoServicio in tiposServicio" value="{{tipoServicio.idtipoServicioTuristico}}">{{tipoServicio.nombre}}</option>															
+					</select>
+				</div>
+				<div class="form-group">
+					<label>*Precio mínimo</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.precioMinimo"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Precio máximo</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.precioMaximo"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Precio medio</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.precioMedio"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>Descripción</label>
+					<textarea class="form-control" rows="5" ng-model="servicioTuristico.descripcion"></textarea>
+				</div>
+				<div class="form-group">
+					<label>*Sitio Web</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.sitioWeb"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Número telefónico</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.telefono"
+	                   			maxlength="80" required/>
+				</div>
+				<div class="form-group">
+					<label>*Extensión Telefonónica</label>
+					 <input class="form-control" placeholder="" type="text" ng-model="servicioTuristico.extTelefono"
+	                   			maxlength="80" required/>
+				</div>
+								
+			
+				<input class="btn btn-primary" type="submit" value="Registrar"></input>
+				<a class="btn btn-primary" href="#/pst/serviciosTuristicos">Cancelar</a>
+			</form>
+		</div>
+        
+     </div>
+
+     <div class="gap"></div>
+ </div>

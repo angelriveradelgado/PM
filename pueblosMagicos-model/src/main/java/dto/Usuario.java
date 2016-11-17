@@ -24,19 +24,19 @@ public class Usuario implements java.io.Serializable
 	private String apellidoPaterno;
 	private String apellidoMaterno;
 	private String correo;
-	private int tipoUsuarioIdtipoUsuario;
+	private Integer tipoUsuarioIdtipoUsuario;
 
 	public Usuario()
 	{
 	}
 
-	public Usuario(int tipoUsuarioIdtipoUsuario)
+	public Usuario(Integer tipoUsuarioIdtipoUsuario)
 	{
 		this.tipoUsuarioIdtipoUsuario = tipoUsuarioIdtipoUsuario;
 	}
 
 	public Usuario(String nombreUsuario, String contrasena, String urlfotografia, String nombre, String apellidoPaterno,
-			String apellidoMaterno, String correo, int tipoUsuarioIdtipoUsuario)
+			String apellidoMaterno, String correo, Integer tipoUsuarioIdtipoUsuario)
 	{
 		this.nombreUsuario = nombreUsuario;
 		this.contrasena = contrasena;
@@ -140,12 +140,12 @@ public class Usuario implements java.io.Serializable
 	}
 
 	@Column(name = "tipoUsuario_idtipoUsuario", nullable = false)
-	public int getTipoUsuarioIdtipoUsuario( )
+	public Integer getTipoUsuarioIdtipoUsuario( )
 	{
 		return this.tipoUsuarioIdtipoUsuario;
 	}
 
-	public void setTipoUsuarioIdtipoUsuario( int tipoUsuarioIdtipoUsuario )
+	public void setTipoUsuarioIdtipoUsuario( Integer tipoUsuarioIdtipoUsuario )
 	{
 		this.tipoUsuarioIdtipoUsuario = tipoUsuarioIdtipoUsuario;
 	}

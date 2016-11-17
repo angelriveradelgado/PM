@@ -9,17 +9,20 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.BigDecimalType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.FloatType;
 import org.hibernate.type.IntegerType;
-import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dto.Atractivoturistico;
+import dto.Calificacionatractivoturistico;
+import dto.Calificacionpueblomagico;
 import dto.Pueblomagico;
 
 @Repository
@@ -67,7 +70,7 @@ public class PueblomagicoDAO {
 		return conf;
 	}
 	
-	public Pueblomagico read(int id) {
+	public Pueblomagico read(Integer id) {
 		log.debug("reading Pueblomagico instance");
 		Pueblomagico u = null;
 		Session session = sessionFactory.openSession();
@@ -85,10 +88,21 @@ public class PueblomagicoDAO {
 		return u;
 	}
 	
-	public List<Pueblomagico> readAll() {
+	public List<Pueblomagico> readAll() 
+	{
 		List<Pueblomagico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Pueblomagico.class).list();
+		Transaction tx = null;
+		try 
+		{
+			tx = session.beginTransaction();
+			result = session.createCriteria(Pueblomagico.class).addOrder(Order.asc("nombre")).list();
+			tx.commit();
+		} catch (HibernateException e) 
+		{
+			if (tx!=null) 
+				tx.rollback();
+		}
 		session.close();
 		return result;
 	}
@@ -134,7 +148,7 @@ public class PueblomagicoDAO {
 	}
 
 
-	public Pueblomagico findById(java.lang.Integer id) {
+	public Pueblomagico findById(Integer id) {
 		log.debug("getting Pueblomagico instance with id: " + id);
 		Pueblomagico u = null;
 		Session session = sessionFactory.openSession();
@@ -143,7 +157,8 @@ public class PueblomagicoDAO {
 			tx = session.getTransaction();
 			 u = (Pueblomagico) session.get(Pueblomagico.class, id);
 			tx.commit();
-			if (u == null) {
+			if (u == null) 
+			{
 				log.debug("get successful, no instance found");
 			} else {
 				log.debug("get successful, instance found");
@@ -159,19 +174,20 @@ public class PueblomagicoDAO {
 	public Pueblomagico findByNombrePueblomagico(String n) {
 		log.debug("finding Pueblomagico instance by example");
 		Session session = sessionFactory.openSession();
+		List<Pueblomagico> results = null;
+		Pueblomagico result = null;
 		try {
-			List<Pueblomagico> results = session.createCriteria(Pueblomagico.class).add( Restrictions.like("nombre", n) ).list();
-			log.debug("find by example successful, result size: " + results.size());
-			if(results.isEmpty())
-				return null;
-			return results.get(0);
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
+			results = session.createCriteria(Pueblomagico.class).add( Restrictions.like("nombre", n) ).list();		
+			result = results.get(0);
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 	
-	public List<Pueblomagico> getPueblomagicoByLimit(int first, int numRegistros) 
+	public List<Pueblomagico> getPueblomagicoByLimit(Integer first, Integer numRegistros) 
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Pueblomagico> results = null;
@@ -181,21 +197,24 @@ public class PueblomagicoDAO {
 			crit = session.createCriteria(Pueblomagico.class);
 			crit.setFirstResult(first);
 			crit.setMaxResults(numRegistros);
+			crit.addOrder(Order.asc("nombre"));
 			results = crit.list();			
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 	
 	
-	public List<Pueblomagico> findByIdEstado(int id) 
+	public List<Pueblomagico> findByIdEstado(Integer id) 
 	{
 		List<Pueblomagico> result = null;
 		Session session = sessionFactory.openSession();
-		
-		Query q = session.createSQLQuery("select pm.idPuebloMagico, pm.nombre, pm.latitud, pm.longitud, pm.descripcion, "
+		try 
+		{
+			Query q = session.createSQLQuery("select pm.idPuebloMagico, pm.nombre, pm.latitud, pm.longitud, pm.descripcion, "
 				+ " pm.epm_IdestadoPuebloMagico as epmIdestadoPuebloMagico, pm.m_idMunicipio as MIdMunicipio, pm.promedio"
 				+ " from pueblomagico pm, municipio m, estado e "
 				+ "where pm.m_idMunicipio=m.idMunicipio and m.e_idEstado=e.idEstado and e.idEstado=:idE")
@@ -209,10 +228,47 @@ public class PueblomagicoDAO {
 				.addScalar("promedio", new FloatType())		
 				.setResultTransformer(Transformers.aliasToBean(Pueblomagico.class))
 				.setParameter("idE", id);
+			result = q.list();
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 		
-		result = q.list();
 		session.close();
 		return result;
+	}
+	
+	public void updatePromedio( int idPuebloMagico )
+	{
+		log.debug("updating promedio atractivo");
+		List<Integer> promedios = null;
+		Session session = sessionFactory.openSession();
+		try {
+			Criteria crit;
+			crit = session.createCriteria(Calificacionpueblomagico.class)
+					.setProjection(Projections.property("calificacion")).
+					add(Restrictions.like("pmIdPuebloMagico", idPuebloMagico));
+			promedios = crit.list();		
+			
+			float suma = 0;
+			for(Integer c : promedios)
+			{
+				suma = suma + c;
+			}
+			float promedio = suma / promedios.size();
+			
+			Pueblomagico pm = new Pueblomagico();
+			pm = this.read(idPuebloMagico);
+			pm.setPromedio(promedio);
+			this.update(pm);
+			
+			
+		} catch (RuntimeException re) 
+		{
+			log.error("update cal aT error", re);
+			re.printStackTrace();
+		}
+		session.close();
 	}
 	
 //	public static void main(String args[])

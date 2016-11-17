@@ -1,0 +1,86 @@
+
+ <div class="container" ng-controller="ValidarEstablecimientoController as validarEstablecimientoController">
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li >
+						<a href="#/validacion" >Inicio</a>
+					</li>
+				   <li >
+						<a href="#/validacion/prestadores" >PST</a>
+				   </li>
+				   <li >
+						<a href="#/validacion/establecimientos" >Establecimientos</a>
+				   </li>           
+				   <li class="active">
+						<a href="#/validacion/serviciosTuristicos" >Servicios turísticos</a>
+				   </li>                
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9">
+         	<table class="table table-bordered table-striped table-booking-history">
+               	<thead>
+                     <tr>
+                        <th colspan="5" class="text-center">Solicitud</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Dato</th>
+                        <th class="text-center">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr >
+                        <td>nombre</td>
+                        <td>{{establecimiento.nombreComercial}}</td>                        
+                    </tr> 
+                    <tr >
+                        <td>RFC</td>
+                        <td>{{establecimiento.rfc}}</td>                        
+                    </tr>  
+                    <tr >
+                        <td>Nombre de la vialidad</td>
+                        <td>{{establecimiento.nombreVialidad}}</td>                        
+                    </tr> 
+                    <tr >
+                        <td>Número exterior</td>
+                        <td>{{establecimiento.numeroExterior}}</td>                        
+                    </tr> 
+                    <tr >
+                        <td>Número interior</td>
+                        <td>{{establecimiento.numeroInterior}}</td>                        
+                    </tr>                
+                </tbody>
+            </table>
+               
+            <div class="form-group">
+				<label>Observaciones</label>
+				<textarea class="form-control" rows="5" ng-model="observaciones"></textarea>
+			</div>
+               
+               
+            <div class="radio-inline">
+				<label> <input type="radio"  ng-model="establecimiento.erIdEstadoRegistro" value="1"/>Aprobado</label>
+			</div>
+			<div class="radio-inline">
+				<label> <input type="radio"  ng-model="establecimiento.erIdEstadoRegistro" value="3" />Denegado</label>
+			</div>
+			<div class="gap gap-small">
+			<a class="btn btn-primary" ng-click="validar()" >Aceptar</a>
+			<a class="btn btn-primary" href="#/pst/establecimientos">Cancelar</a>
+			<div class="gap gap-small">
+            <div class="alert alert-success" ng-show="showMensaje=='ok'" >
+                  	<button class="close" type="button" ng-click="showMensaje='cerrar'">
+                  		<span aria-hidden="true">&times;</span>
+                    </button>
+	                <p class="">{{mensaje}}</p>
+              	</div>
+         </div>
+     </div>
+
+     <div class="gap"></div>
+ </div>

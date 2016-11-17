@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Evaluacionalojamiento implements java.io.Serializable
 {
 
-	private int EIdevaluacion;
+	private Integer EIdevaluacion;
 	private Integer instalacionesRecepcion;
 	private Integer servicioPortero;
 	private Integer servicioMaletero;
@@ -30,12 +30,12 @@ public class Evaluacionalojamiento implements java.io.Serializable
 	{
 	}
 
-	public Evaluacionalojamiento(int EIdevaluacion)
+	public Evaluacionalojamiento(Integer EIdevaluacion)
 	{
 		this.EIdevaluacion = EIdevaluacion;
 	}
 
-	public Evaluacionalojamiento(int EIdevaluacion, Integer instalacionesRecepcion, Integer servicioPortero,
+	public Evaluacionalojamiento(Integer EIdevaluacion, Integer instalacionesRecepcion, Integer servicioPortero,
 			Integer servicioMaletero, Integer registroEntrada, Integer iluminacionHabitacion, Integer confortCama,
 			Integer limpiezaBano, Integer mobiliario, Integer equipamientoElectronicos, Integer servicioLavadoPlanchado)
 	{
@@ -55,12 +55,12 @@ public class Evaluacionalojamiento implements java.io.Serializable
 	@Id
 
 	@Column(name = "e_idevaluacion", unique = true, nullable = false)
-	public int getEIdevaluacion( )
+	public Integer getEIdevaluacion( )
 	{
 		return this.EIdevaluacion;
 	}
 
-	public void setEIdevaluacion( int EIdevaluacion )
+	public void setEIdevaluacion( Integer EIdevaluacion )
 	{
 		this.EIdevaluacion = EIdevaluacion;
 	}

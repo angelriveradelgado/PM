@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "fotoAtractivoTuristico", catalog = "pueblosMagicos")
+@Table(name = "fotoatractivoturistico", catalog = "pueblosMagicos")
 public class FotoAtractivoTuristicoSimple
 {
 	private Integer idfotoAtractivoTuristico;
@@ -20,7 +20,7 @@ public class FotoAtractivoTuristicoSimple
 	}
 
 
-	public FotoAtractivoTuristicoSimple(String urlfoto, String descripcion, int pmIdPuebloMagico)
+	public FotoAtractivoTuristicoSimple(String urlfoto, String descripcion, Integer pmIdPuebloMagico)
 	{
 		this.descripcion = descripcion;
 	}

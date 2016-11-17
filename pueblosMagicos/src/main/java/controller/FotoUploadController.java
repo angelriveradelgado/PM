@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import dao.AtractivoturisticoDAO;
 import dao.FotoatractivoturisticoDAO;
 import dao.FotopueblomagicoDAO;
+import dao.FotoservicioemergenciasDAO;
 import dao.FotoservicioturisticoDAO;
 import dao.PueblomagicoDAO;
 import dao.ServicioemergenciasDAO;
@@ -49,12 +50,14 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 @RestController
 @Component
 public class FotoUploadController
 {
-
+	private static final Log log = LogFactory.getLog(FotoUploadController.class);
 	@Autowired
 	private PueblomagicoDAO puebloMagicoDAO;
 	@Autowired
@@ -72,9 +75,12 @@ public class FotoUploadController
 	@Autowired
 	private FotoservicioturisticoDAO fotoservicioturisticoDAO;
 
+	@Autowired
+	private FotoservicioemergenciasDAO fotoservicioemergenciasDAO;
+
 	// WS que recibe una imagen y el id del pm e inserta la imagen
 	@RequestMapping(value = "/puebloMagico/{idPuebloMagico}/uploadFotoPuebloMagico", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
-	public ResponseEntity<?> uploadFotoPuebloMagico( @PathVariable("idPuebloMagico") int idPuebloMagico,
+	public ResponseEntity<?> uploadFotoPuebloMagico( @PathVariable("idPuebloMagico") Integer idPuebloMagico,
 			@FormParam("file") MultipartFile file,
 			@FormParam("descripcion") String descripcion)
 	{
@@ -139,14 +145,14 @@ public class FotoUploadController
 	}
 
 	// WS que recibe una imagen y el id del pm e inserta la imagen
-	@RequestMapping(value = "/puebloMagico/{idAtractivoTuristico}/uploadFotoAtractivoTuristico", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
-	public ResponseEntity<?> uploadFotoAtractivoTuristico( @PathVariable("idAtractivoTuristico") int idAtractivoTuristico,
+	@RequestMapping(value = "/atractivoTuristico/{idAtractivoTuristico}/uploadFotoAtractivoTuristico", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
+	public ResponseEntity<?> uploadFotoAtractivoTuristico( @PathVariable("idAtractivoTuristico") Integer idAtractivoTuristico,
 			@FormParam("file") MultipartFile file,
 			@FormParam("descripcion") String descripcion)
 	{
 		ResponseEntity<?> result = null;
 		Boolean respuesta = false;
-
+		log.debug("creating foto, id: " + idAtractivoTuristico);
 		if (file != null && !file.isEmpty())
 		{
 			try
@@ -202,10 +208,38 @@ public class FotoUploadController
 		return result;
 	}
 	
+	@RequestMapping(value = "/atractivoTuristico/eliminarFoto/{idfotoAtractivoTuristico}", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<?> eliminarFotoAtractivoTuristico( @PathVariable Integer idfotoAtractivoTuristico)
+	{
+		ResponseEntity<?> result = null;
+		Fotoatractivoturistico foto = new Fotoatractivoturistico();
+		Boolean respuesta = false;
+
+		if( idfotoAtractivoTuristico == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
+		try
+		{
+			foto.setIdfotoAtractivoTuristico(idfotoAtractivoTuristico);
+			foto.setAtIdAtractivoTuristico(0);
+			respuesta = fotoatractivoturisticoDAO.delete(foto);
+			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return result;
+	}
+	
 	
 	// WS que recibe una imagen y el id del pm e inserta la imagen
-	@RequestMapping(value = "/puebloMagico/{idServicioTuristico}/uploadFotoServicioTuristico", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
-	public ResponseEntity<?> uploadFotoServicioTuristico( @PathVariable("idServicioTuristico") int idServicioTuristico,
+	@RequestMapping(value = "/servicioTuristico/{idServicioTuristico}/uploadFotoServicioTuristico", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
+	public ResponseEntity<?> uploadFotoServicioTuristico( @PathVariable("idServicioTuristico") Integer idServicioTuristico,
 			@FormParam("file") MultipartFile file,
 			@FormParam("descripcion") String descripcion)
 	{
@@ -221,12 +255,15 @@ public class FotoUploadController
 				Fotoservicioturistico f = new Fotoservicioturistico();
 				Servicioturistico s = new Servicioturistico();
 				
-				s = servicioturisticoDAO.read(idServicioTuristico);
+				s = servicioturisticoDAO.findById(idServicioTuristico);
 
-				String nombrePuebloMagico = atractivoturisticoDAO.getNombrePuebloMagico(idServicioTuristico);
+				String nombrePuebloMagico = servicioturisticoDAO.getNombrePuebloMagico(idServicioTuristico);
+				System.out.println("nomPM " + nombrePuebloMagico); 
 				nombrePuebloMagico = replaceCharacters(nombrePuebloMagico);
+				System.out.println("nomPM " + nombrePuebloMagico); 
 				
 				String nombreServicioTuristico = s.getNombre();
+				System.out.println("nombreServicioTuristico  " + nombreServicioTuristico); 
 				nombreServicioTuristico = replaceCharacters(nombreServicioTuristico);
 
 				String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() + "/img/pueblosMagicos/" + nombrePuebloMagico + "/ServiciosTuristicos/" + nombreServicioTuristico;
@@ -238,7 +275,7 @@ public class FotoUploadController
 				}
 				
 				// Create the file on server
-				String nombreFoto = fotoatractivoturisticoDAO.getAutoIncrementValue() + "." + file.getOriginalFilename().split(Pattern.quote("."))[1];
+				String nombreFoto = fotoservicioturisticoDAO.getAutoIncrementValue() + "." + file.getOriginalFilename().split(Pattern.quote("."))[1];
 				File serverFile = new File(dir.getAbsolutePath() + File.separator + nombreFoto);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
@@ -258,6 +295,7 @@ public class FotoUploadController
 			{
 				result = new ResponseEntity<String>("Error interno You failed to upload",
 						HttpStatus.INTERNAL_SERVER_ERROR);
+				e.printStackTrace();
 			}
 		} else
 		{
@@ -266,10 +304,38 @@ public class FotoUploadController
 
 		return result;
 	}
+	
+	@RequestMapping(value = "/servicioTuristico/eliminarFoto/{idfotoServicioTuristico}", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<?> eliminarFotoServicioTuristico( @PathVariable Integer idfotoServicioTuristico)
+	{
+		ResponseEntity<?> result = null;
+		Fotoservicioturistico foto = new Fotoservicioturistico();
+		Boolean respuesta = false;
+
+		if( idfotoServicioTuristico == null )
+		{
+			result = new ResponseEntity<String>("Datos invalidos", HttpStatus.BAD_REQUEST);
+			return result;
+		}
+		
+		try
+		{
+			foto.setIdfotoServicioTuristico(idfotoServicioTuristico);
+			foto.setStIdServicio(0);
+			respuesta = fotoservicioturisticoDAO.delete(foto);
+			result = new ResponseEntity<Boolean>(respuesta, HttpStatus.OK);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			result = new ResponseEntity<String>("Error interno", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return result;
+	}
 
 	// WS que recibe una imagen y el id del pm e inserta la imagen
-	@RequestMapping(value = "/puebloMagico/{idServicioEmergencias}/uploadFotoServicioEmergencias", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
-	public ResponseEntity<?> uploadFotoServicioEmergencias( @PathVariable("idServicioEmergencias") int idServicioEmergencias,
+	@RequestMapping(value = "/servicioEmergencias/{idServicioEmergencias}/uploadFotoServicioEmergencias", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
+	public ResponseEntity<?> uploadFotoServicioEmergencias( @PathVariable("idServicioEmergencias") Integer idServicioEmergencias,
 			@FormParam("file") MultipartFile file,
 			@FormParam("descripcion") String descripcion)
 	{
@@ -302,7 +368,7 @@ public class FotoUploadController
 				}
 				
 				// Create the file on server
-				String nombreFoto = fotoatractivoturisticoDAO.getAutoIncrementValue() + "." + file.getOriginalFilename().split(Pattern.quote("."))[1];
+				String nombreFoto = fotoservicioemergenciasDAO.getAutoIncrementValue() + "." + file.getOriginalFilename().split(Pattern.quote("."))[1];
 				File serverFile = new File(dir.getAbsolutePath() + File.separator + nombreFoto);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
@@ -334,7 +400,7 @@ public class FotoUploadController
 	
 	// WS que recibe una imagen y el id del pm e inserta la imagen
 	@RequestMapping(value = "/puebloMagico/{idPuebloMagico}/uploadFotoUsuario", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
-	public ResponseEntity<?> uploadFotoUsuario( @PathVariable("idUsuario") int idUsuario,
+	public ResponseEntity<?> uploadFotoUsuario( @PathVariable("idUsuario") Integer idUsuario,
 			@FormParam("file") MultipartFile file)
 	{
 		ResponseEntity<?> result = null;

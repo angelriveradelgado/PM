@@ -1,0 +1,75 @@
+
+ <div class="container" >
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li >
+						<a  href="#/pst" ng-click="tab='establecimientos'">Inicio</a>
+					</li>
+				   <li class="active">
+						<a  href="#/pst/establecimientos" ng-click="tab='establecimientos'">Establecimientos</a>
+				   </li>
+				   <li >
+				   		<a href="#/pst/serviciosTuristicos" ng-click="tab='servicios'">Servicios turísticos</a>
+				   </li>                           
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9" ng-controller="EstablecimientoDetallesController as establecimientoDetallesController">
+           
+			<div class="form-group">
+				<label>*Nombre comercial</label>
+				<label>{{establecimiento.nombreComercial}}</label>
+			</div>
+			<div class="form-group">
+				<label>*RFC</label>
+				<label>{{establecimiento.rfc}}</label>
+			</div>
+			<div class="form-group">
+				<label>*Tipo de la vialidad</label>
+				<label>{{establecimiento.tvIdTipoVialidad}}</label>
+			</div>
+			<div class="form-group">
+				<label>*Nombre de la vialidad</label>
+				<label>{{establecimiento.nombreVialidad}}</label>
+			</div>
+			<div class="form-group">
+				<label>*Número exterior</label>
+				<label>{{establecimiento.numeroExterior}}</label>
+			</div>
+			<div class="form-group">
+				<label>*Número interior</label>
+				<label>{{establecimiento.numeroInterior}}</label>
+			</div>
+			<div class="form-group">
+				<label>*Estado</label>
+				<label>{{establecimiento.nombreComercial}}</label>
+			</div>
+			<div class="form-group">
+				<label>*Municipio</label>
+				<label>{{establecimiento.nombreComercial}}</label>
+			</div>
+			<div class="form-group" ng-model="idMunicipio">
+				<label>*Asentamiento</label>
+				<label>{{establecimiento.AIdAsentamiento}}</label>
+			</div>
+			<div class="form-group">
+				<label>*Ubicación</label>
+				<div id="map" style="height: 300px"></div>
+			</div>
+			
+			<div class="gap"></div>
+		
+		
+			<a class="btn btn-primary" href="#/pst/establecimientos">Aceptar</a> 
+                      
+                 	
+         </div>
+     </div>
+
+     <div class="gap"></div>
+ </div>

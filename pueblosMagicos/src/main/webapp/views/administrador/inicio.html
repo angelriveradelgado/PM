@@ -1,0 +1,31 @@
+
+ <div class="container" >
+     
+	<div class="gap"></div>
+     <div class="row">
+         <div class="col-md-3">
+             <aside class="sidebar-left">
+                 <ul class="nav nav-pills nav-stacked nav-side mb30">
+					<li class="active">
+						<a href="#/gestion" ng-click="tab='inicio'">Inicio</a>
+					</li>
+				   <li >
+						<a href="#/gestion/pueblosMagicos" ng-click="tab='pueblos'">Pueblos Mágicos</a>
+				   </li>
+				   <li >
+						<a href="#/gestion/atractivosTuristicos" ng-click="tab='atractivos'">Atractivos turísticos</a>
+				   </li>           
+				   <li >
+						<a href="#/gestion/serviciosEmergencias" ng-click="tab='servicios'">Servicios de emergencias</a>
+				   </li>                
+                 </ul>
+             </aside>
+         </div>
+         
+         <div class="col-md-9">
+             <h1 class="page-title">Bienvenido {{globals.currentUser.nombreUsuario}}</h1>         	
+         </div>
+     </div>
+
+     <div class="gap"></div>
+ </div>

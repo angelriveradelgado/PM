@@ -16,8 +16,15 @@
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/mystyles.css">
 <script src="js/modernizr.js"></script>
+<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+ 
 
-
+ 
+<style>
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+    }
+</style>
 
 </head>
 
@@ -25,7 +32,7 @@
 
 	<div class="global-wrap" ng-cloak>
 <!-- 		<header id="main-header" ng-controller="NavegationController as nController"> -->
-		<header id="main-header" >
+		<header id="main-header" data-ng-cloak>
 		
 			<div class="header-top">
 				<div class="container">
@@ -38,49 +45,59 @@
 						</div>
 						<div class="col-md-5 col-md-offset-0">
 							<form class="main-header-search">
-								<div class="input-group">
+<!-- 								<div class="input-group"> -->
 
-									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-											<span id="search_concept" translate="filtrar_por"></span> 
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li><a href="" transale="pueblos_magicos"></a></li>
-											<li><a href="" translate="atractivos_turisticos"></a></li>
-											<li><a href="" translate="servicios_turisticos"></a></li>
-											<li><a href="" translate="servicios_de_emergencias"></a></li>
-											<li class="divider"></li>
-											<li><a href="" translate="todos"></a></li>
-										</ul>
-									</div>
+<!-- 									<div class="input-group-btn search-panel"> -->
+<!-- 										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> -->
+<!-- 											<span id="search_concept" translate="filtrar_por"></span>  -->
+<!-- 											<span class="caret"></span> -->
+<!-- 										</button> -->
+<!-- 										<ul class="dropdown-menu" role="menu"> -->
+<!-- 											<li><a href="" transale="pueblos_magicos"></a></li> -->
+<!-- 											<li><a href="" translate="atractivos_turisticos"></a></li> -->
+<!-- 											<li><a href="" translate="servicios_turisticos"></a></li> -->
+<!-- 											<li><a href="" translate="servicios_de_emergencias"></a></li> -->
+<!-- 											<li class="divider"></li> -->
+<!-- 											<li><a href="" translate="todos"></a></li> -->
+<!-- 										</ul> -->
+<!-- 									</div> -->
 
-									<input type="hidden" name="search_param" value="all"
-										id="search_param"> <input type="text"
-										class="form-control" translate translate-attr-placeholder="buscar"> <span
-										class="input-group-btn">
-										<button class="btn btn-default" type="button">
-											<i class="fa fa-search input-icon"></i>
-										</button>
-									</span>
-								</div>
+<!-- 									<input type="hidden" name="search_param" value="all" -->
+<!-- 										id="search_param"> <input type="text" -->
+<!-- 										class="form-control" translate translate-attr-placeholder="buscar"> <span -->
+<!-- 										class="input-group-btn"> -->
+<!-- 										<button class="btn btn-default" type="button"> -->
+<!-- 											<i class="fa fa-search input-icon"></i> -->
+<!-- 										</button> -->
+<!-- 									</span> -->
+<!-- 								</div> -->
 							</form>
 						</div>
 						<div class="col-md-5">
 							<div class="top-user-area clearfix">
 								<ul class="top-user-area-list list list-horizontal list-border">
-									<li class="top-user-area-avatar" hidden="true">
+								
+									<li ng-show="globals.currentUser.tipoUsuarioIdtipoUsuario === 3" >
+										<a href="#/validacion" >Solicitudes</a>
+									</li>
+									<li ng-show="globals.currentUser.tipoUsuarioIdtipoUsuario === 2" >
+										<a href="#/pst" >Mis servicios</a>
+									</li>
+									<li ng-show="globals.currentUser.tipoUsuarioIdtipoUsuario === 4" >
+										<a href="#/gestion" >Gestión</a>
+									</li>
+									<li class="top-user-area-avatar" ng-show="globals.currentUser != null">
 										<a	
-											href="user-profile.html"> <img height="40" width="40"
+											href="#/perfil"> <img height="40" width="40"
 												class="origin round" src="img/lupe.jpg"
-												alt="Image Alternative text" title="AMaze" />Guadalupe
+												alt="Image Alternative text" title="AMaze" />{{globals.currentUser.nombre}}
 										</a>
 									</li>
-									<li ng-show="!authenticated">
+									<li ng-show="globals.currentUser == null">
 										<a href="#/login" translate="iniciar_sesion"></a>
 									</li>
-									<li ng-show="authenticated">
-										<a href="" ng-click="nController.logout()" translate="cerrar_sesion"></a>
+									<li ng-show="globals.currentUser != null" ng-controller="LogoutController as logoutController">
+										<a href ng-click="logout()" translate="cerrar_sesion"></a>
 									</li>
 									
 									<li class="top-user-area-lang nav-drop">
@@ -134,7 +151,7 @@
 						src="img/pueblos-magicos.png" alt="Image Alternative text"
 						title="Pueblos" />
 					</a>
-					<p class="mb20">Servicios turisticos, atractivos simbólicos,
+					<p class="mb20">Servicios turisticos, atractivos turísticos,
 						servicios de emergencias en Pueblos Mágicos de México!</p>
 
 				</div>
@@ -191,14 +208,19 @@
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-local/2.10.0/angular-translate-storage-local.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-url/2.10.0/angular-translate-loader-url.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.3.0/ng-infinite-scroll.js"></script>
-  
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script> -->
+   
+   	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.2.0.js"></script>     
+  	
   
   	<script src="scripts/app.js"></script>  	
   	<script src="scripts/controllers/language/LanguageController.js"></script>
   	<script src="scripts/controllers/maps/MapController.js"></script>
   	<script src="scripts/services/PuebloMagicoService.js"></script>
-  	<script src="scripts/controllers/login/Login.js"></script>
-  	<script src="scripts/controllers/puebloMagico/PueblosMagicosController.js"></script>  	
+  	<script src="scripts/controllers/puebloMagico/PueblosMagicosController.js"></script>  
+  	<script src="scripts/controllers/atractivoTuristico/AtractivoTuristicoController.js"></script> 	
   	<script src="scripts/services/EstadoService.js"></script>
   	<script src="scripts/inf.js"></script>  
   	<script src="scripts/controllers/puebloMagico/PuebloMagicoController.js"></script>  
@@ -208,6 +230,51 @@
   	<script src="scripts/controllers/registro/RegistroPSTController.js"></script>  
   	<script src="scripts/controllers/atractivoTuristico/AtractivosTuristicosController.js"></script>  
   	<script src="scripts/services/AtractivoTuristicoService.js"></script>  
+  	<script src="scripts/controllers/login/LoginController.js"></script>  
+  	<script src="scripts/controllers/logout/LogoutController.js"></script>  
+  	<script src="scripts/services/AuthenticationService.js"></script>  
+  	 
+  	<script src="scripts/controllers/establecimiento/EstablecimientoController.js"></script>  
+  	<script src="scripts/controllers/establecimiento/EstablecimientoDetallesController.js"></script>  
+  	<script src="scripts/controllers/establecimiento/EstablecimientoEditController.js"></script>  
+  	<script src="scripts/controllers/establecimiento/EstablecimientoRegistroController.js"></script> 
+  	<script src="scripts/services/EstablecimientoService.js"></script>  
+  	
+  	<script src="scripts/services/ServicioTuristicoService.js"></script>
+  	<script src="scripts/controllers/servicioTuristico/ServicioPSTDetallesController.js"></script> 
+  	<script src="scripts/controllers/servicioTuristico/ServicioPSTEditController.js"></script> 
+  	<script src="scripts/controllers/servicioTuristico/ServicioPSTRegistroController.js"></script> 
+  	<script src="scripts/controllers/servicioTuristico/ServiciosPSTController.js"></script> 
+  	
+  	<script src="scripts/controllers/servicioTuristico/ServiciosTuristicosController.js"></script> 
+  	<script src="scripts/controllers/servicioTuristico/ServicioTuristicoController.js"></script> 
+  	
+  	<script src="scripts/controllers/puebloMagico/GestionPueblosMagicos.js"></script> 
+  	<script src="scripts/controllers/puebloMagico/PuebloMagicoRegistroController.js"></script>  	
+  	<script src="scripts/controllers/atractivoTuristico/GestionAtractivosTuristicosController.js"></script>
+  	<script src="scripts/controllers/atractivoTuristico/AtractivoTuristicoRegistroController.js"></script>
+  	<script src="scripts/controllers/atractivoTuristico/GestionEditarAtractivoController.js"></script>
+  	
+  	
+  	<script src="scripts/services/TuristaService.js"></script>
+  	
+  	
+  	<script src="scripts/services/PSTService.js"></script>
+  	<script src="scripts/controllers/pst/validacionPST.js"></script>
+  	<script src="scripts/controllers/pst/validarPSTController.js"></script>
+  	<script src="scripts/controllers/establecimiento/ValidacionEstablecimientosController.js"></script>
+  	<script src="scripts/controllers/establecimiento/validarEstablecimientoController.js"></script>
+  	<script src="scripts/controllers/servicioTuristico/ValidacionServiciosTuristicosController.js"></script>
+  	<script src="scripts/controllers/servicioTuristico/ValidarServicioTuristicoController.js"></script>
+  	
+  	
+  	<script src="scripts/services/MailService.js"></script>
+  	
+  	
+  	
+  	<script src="scripts/directives/fileModel.js"></script> 
+  	<script src="scripts/services/FileUploadService.js"></script> 
+  	<script src="scripts/controllers/uploadFotoController.js"></script> 
   	
         	
 	<!--Función para el selector de la busqueda -->

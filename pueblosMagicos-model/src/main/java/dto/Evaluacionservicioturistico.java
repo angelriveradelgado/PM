@@ -18,8 +18,8 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 
 	private Integer idEvaluacion;
 	private String comentario;
-	private int TIdUsuario;
-	private int teIdEvaluacion;
+	private Integer TIdUsuario;
+	private Integer teIdEvaluacion;
 	private Integer aspectoEstablecimiento;
 	private Integer atencionCliente;
 	private Integer eficienciaServicio;
@@ -31,23 +31,23 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 	private Integer senalamientoInterno;
 	private Integer senalamientoExterno;
 	private Integer sTIdServicioTuristico;
-	private float promedio;
+	private Float promedio;
 
 	public Evaluacionservicioturistico()
 	{
 	}
 
-	public Evaluacionservicioturistico(int TIdUsuario, int teIdEvaluacion, int sTIdServicioTuristico)
+	public Evaluacionservicioturistico(Integer TIdUsuario, Integer teIdEvaluacion, Integer sTIdServicioTuristico)
 	{
 		this.TIdUsuario = TIdUsuario;
 		this.teIdEvaluacion = teIdEvaluacion;
 		this.sTIdServicioTuristico = sTIdServicioTuristico;
 	}
 
-	public Evaluacionservicioturistico(String comentario, int TIdUsuario, int teIdEvaluacion,
+	public Evaluacionservicioturistico(String comentario, Integer TIdUsuario, Integer teIdEvaluacion,
 			Integer aspectoEstablecimiento, Integer atencionCliente, Integer eficienciaServicio,
 			Integer higieneEstablecimiento, Integer relacionPrecioCalidad, Integer accesibilidad, Integer comunicacion,
-			Integer manejoIdiomas, Integer senalamientoInterno, Integer senalamientoExterno , int sTIdServicioTuristico, float promedio)
+			Integer manejoIdiomas, Integer senalamientoInterno, Integer senalamientoExterno , Integer sTIdServicioTuristico, Float promedio)
 	{
 		this.comentario = comentario;
 		this.TIdUsuario = TIdUsuario;
@@ -92,23 +92,23 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 	}
 
 	@Column(name = "t_idUsuario", nullable = false)
-	public int getTIdUsuario( )
+	public Integer getTIdUsuario( )
 	{
 		return this.TIdUsuario;
 	}
 
-	public void setTIdUsuario( int TIdUsuario )
+	public void setTIdUsuario( Integer TIdUsuario )
 	{
 		this.TIdUsuario = TIdUsuario;
 	}
 
 	@Column(name = "tE_idEvaluacion", nullable = false)
-	public int getTeIdEvaluacion( )
+	public Integer getTeIdEvaluacion( )
 	{
 		return this.teIdEvaluacion;
 	}
 
-	public void setTeIdEvaluacion( int teIdEvaluacion )
+	public void setTeIdEvaluacion( Integer teIdEvaluacion )
 	{
 		this.teIdEvaluacion = teIdEvaluacion;
 	}
@@ -224,23 +224,23 @@ public class Evaluacionservicioturistico implements java.io.Serializable
 	}
 
 	@Column(name = "sT_idServicioTuristico", nullable = false)
-	public int getSTIdServicioTuristico( )
+	public Integer getSTIdServicioTuristico( )
 	{
 		return this.sTIdServicioTuristico;
 	}
 
-	public void setSTIdServicioTuristico( int sTIdServicioTuristico )
+	public void setSTIdServicioTuristico( Integer sTIdServicioTuristico )
 	{
 		this.sTIdServicioTuristico = sTIdServicioTuristico;
 	}
 	
 	@Column(name = "promedio")
-	public float getPromedio( )
+	public Float getPromedio( )
 	{
 		return this.promedio;
 	}
 
-	public void setPromedio( float promedio )
+	public void setPromedio( Float promedio )
 	{
 		this.promedio = promedio;
 	}

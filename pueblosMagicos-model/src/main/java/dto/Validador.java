@@ -14,13 +14,13 @@ import javax.persistence.Table;
 public class Validador implements java.io.Serializable
 {
 
-	private int idUsuario;
+	private Integer idUsuario;
 
 	public Validador()
 	{
 	}
 
-	public Validador(int idUsuario)
+	public Validador(Integer idUsuario)
 	{
 		this.idUsuario = idUsuario;
 	}
@@ -28,12 +28,12 @@ public class Validador implements java.io.Serializable
 	@Id
 
 	@Column(name = "idUsuario", unique = true, nullable = false)
-	public int getIdUsuario( )
+	public Integer getIdUsuario( )
 	{
 		return this.idUsuario;
 	}
 
-	public void setIdUsuario( int idUsuario )
+	public void setIdUsuario( Integer idUsuario )
 	{
 		this.idUsuario = idUsuario;
 	}

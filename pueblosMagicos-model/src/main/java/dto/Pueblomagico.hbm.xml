@@ -20,7 +20,7 @@
         <property name="descripcion" type="string">
             <column name="descripcion" length="65535" />
         </property>
-        <property name="MIdMunicipio" type="int">
+        <property name="MIdMunicipio" type="java.lang.Integer">
             <column name="m_idMunicipio" not-null="true" />
         </property>
         <property name="epmIdestadoPuebloMagico" type="java.lang.Integer">

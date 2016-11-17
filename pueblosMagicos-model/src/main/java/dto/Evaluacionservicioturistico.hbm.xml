@@ -11,10 +11,10 @@
         <property name="comentario" type="string">
             <column name="comentario" length="65535" />
         </property>
-        <property name="TIdUsuario" type="int">
+        <property name="TIdUsuario" type="java.lang.Integer">
             <column name="t_idUsuario" not-null="true" />
         </property>
-        <property name="teIdEvaluacion" type="int">
+        <property name="teIdEvaluacion" type="java.lang.Integer">
             <column name="tE_idEvaluacion" not-null="true" />
         </property>
         <property name="aspectoEstablecimiento" type="java.lang.Integer">
@@ -47,7 +47,7 @@
         <property name="senalamientoExterno" type="java.lang.Integer">
             <column name="senalamientoExterno" />
         </property>
-        <property name="sTIdServicioTuristico" type="int">
+        <property name="sTIdServicioTuristico" type="java.lang.Integer">
             <column name="sT_idServicioTuristico" not-null="true" />
         </property>
         <property name="promedio" type="java.lang.Float">

@@ -4,7 +4,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -66,7 +65,7 @@ public class UsuarioDAO {
 		return conf;
 	}
 
-	public Usuario read(int id) {
+	public Usuario read(Integer id) {
 		log.debug("reading Usuario instance");
 		Usuario u = null;
 		Session session = sessionFactory.openSession();
@@ -87,7 +86,13 @@ public class UsuarioDAO {
 	public List<Usuario> readAll() {
 		List<Usuario> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Usuario.class).list();
+		try
+		{
+			result = session.createCriteria(Usuario.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -154,16 +159,23 @@ public class UsuarioDAO {
 
 	public Usuario findByNombreUsuario(String n) {
 		log.debug("finding Usuario instance by example");
+		Usuario u = null;
 		Session session = sessionFactory.openSession();
+		
 		try {
+			
 			List<Usuario> results = session.createCriteria(Usuario.class).add(Restrictions.like("nombreUsuario", n))
 					.list();
+			
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
+			u =  results.get(0);
+			
+			
+		} catch (Exception e ) {
+			e.printStackTrace();
 		}
+		session.close();
+		return u;
 	}
 
 	/*

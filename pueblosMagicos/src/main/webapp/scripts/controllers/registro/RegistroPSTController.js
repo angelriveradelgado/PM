@@ -34,7 +34,7 @@ App.controller('RegistroPSTController', ['$scope', '$routeParams', '$http', 'Usu
 			console.log('despues');
 			$scope.msgContrasena="";
 			//redirigir a pantalla de confirmacion
-			//$window.location.href = CONFIG.urlWebService +'/#/';
+			$window.location.href = CONFIG.urlWebService +'/#/';
 		}else
 		{
 			$scope.msgContrasena="Las contraseñas no coinciden";

@@ -19,8 +19,6 @@ import org.springframework.stereotype.Repository;
 
 import dto.Calificacionpueblomagico;
 import dto.Evaluacionservicioturistico;
-import dto.Pueblomagico;
-import dto.Servicioturistico;
 
 @Repository
 public class EvaluacionservicioturisticoDAO
@@ -63,7 +61,7 @@ public class EvaluacionservicioturisticoDAO
 		return conf;
 	}
 
-	public Evaluacionservicioturistico read( int id )
+	public Evaluacionservicioturistico read( Integer id )
 	{
 		log.debug("reading Evaluacionservicioturistico instance");
 		Evaluacionservicioturistico u = null;
@@ -88,7 +86,13 @@ public class EvaluacionservicioturisticoDAO
 	{
 		List<Evaluacionservicioturistico> result = null;
 		Session session = sessionFactory.openSession();
-		result = session.createCriteria(Evaluacionservicioturistico.class).list();
+		try
+		{
+			result = session.createCriteria(Evaluacionservicioturistico.class).list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
@@ -167,38 +171,119 @@ public class EvaluacionservicioturisticoDAO
 	public Evaluacionservicioturistico findByNombreEvaluacionservicioturistico( String n )
 	{
 		log.debug("finding Evaluacionservicioturistico instance by example");
+		List<Evaluacionservicioturistico> results = null;
+		Evaluacionservicioturistico result = null;
 		Session session = sessionFactory.openSession();
 		try
 		{
-			List<Evaluacionservicioturistico> results = session.createCriteria(Evaluacionservicioturistico.class)
+			results = session.createCriteria(Evaluacionservicioturistico.class)
 					.add(Restrictions.like("nombreEvaluacionservicioturistico", n)).list();
 			log.debug("find by example successful, result size: " + results.size());
-			return results.get(0);
+			result = results.get(0);
 		} catch (RuntimeException re)
 		{
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
+		return result;
 	}
 
-	public List<Evaluacionservicioturistico> findByIdServicioTuristico( int idST )
+	public List<Evaluacionservicioturistico> findByIdServicioTuristico( Integer id )
 	{
-		log.debug("finding Calificacionatractivoturistico instance by example");
+		List<Evaluacionservicioturistico> result = null;
 		Session session = sessionFactory.openSession();
+		
 		try
 		{
-			List<Evaluacionservicioturistico> results = session.createCriteria(Evaluacionservicioturistico.class)
-					.add(Restrictions.like("sT_idServicioTuristico", idST)).list();
-			log.debug("find by example successful, result size: " + results.size());
-			return results;
-		} catch (RuntimeException re)
+			Query query = session.createSQLQuery("select e.idEvaluacion, e.comentario, "
+					+ "e.t_idUsuario as TIdUsuario, e.aspectoEstablecimiento, "
+					+ "e.atencionCliente, e.eficienciaServicio,"
+					+ "e.higieneEstablecimiento, e.relacionPrecioCalidad, "
+					+ "e.accesibilidad, e.comunicacion, e.manejoIdiomas,"
+					+ "e.senalamientoInterno, e.senalamientoExterno, "
+					+ "e.sT_idServicioTuristico as sTIdServicioTuristico, e.tE_idEvaluacion as teIdEvaluacion, "
+					+ "e.promedio "
+					+ "from evaluacionservicioturistico e, servicioturistico s	"
+					+ "where s.idServicioTuristico=e.sT_idServicioTuristico "
+					+ "and s.idServicioTuristico=:id ")
+			.addScalar("idEvaluacion", new IntegerType())
+			.addScalar("comentario", new StringType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("teIdEvaluacion", new IntegerType())
+			.addScalar("aspectoEstablecimiento", new IntegerType())
+			.addScalar("atencionCliente", new IntegerType())
+			.addScalar("eficienciaServicio", new IntegerType())
+			.addScalar("higieneEstablecimiento", new IntegerType())
+			.addScalar("relacionPrecioCalidad", new IntegerType())
+			.addScalar("accesibilidad", new IntegerType())
+			.addScalar("comunicacion", new IntegerType())
+			.addScalar("manejoIdiomas", new IntegerType())
+			.addScalar("senalamientoInterno", new IntegerType())
+			.addScalar("senalamientoExterno", new IntegerType())
+			.addScalar("sTIdServicioTuristico", new IntegerType())
+			.addScalar("promedio", new FloatType())
+			.setResultTransformer(Transformers.aliasToBean(Evaluacionservicioturistico.class))
+			.setParameter("id", id);
+			
+			result = (List<Evaluacionservicioturistico>) query.list();
+		}catch(Exception e)
 		{
-			log.error("find by example failed", re);
-			throw re;
+			e.printStackTrace();
 		}
+		session.close();
+		return result;
+	
+	}
+	
+	public List<Evaluacionservicioturistico> findByIdUsuarioByIdServicioTuristico(Integer idUsuario, Integer idST) 
+	{
+		List<Evaluacionservicioturistico> result = null;
+		Session session = sessionFactory.openSession();
+		
+		try
+		{
+			Query query = session.createSQLQuery("select e.idEvaluacion, e.comentario, "
+					+ "e.t_idUsuario as TIdUsuario, e.aspectoEstablecimiento, "
+					+ "e.atencionCliente, e.eficienciaServicio,"
+					+ "e.higieneEstablecimiento, e.relacionPrecioCalidad, "
+					+ "e.accesibilidad, e.comunicacion, e.manejoIdiomas,"
+					+ "e.senalamientoInterno, e.senalamientoExterno, "
+					+ "e.sT_idServicioTuristico as sTIdServicioTuristico, e.tE_idEvaluacion as teIdEvaluacion, "
+					+ "e.promedio "
+					+ "from evaluacionservicioturistico e	"
+					+ "where e.sT_idServicioTuristico=:idST "
+					+ "and e.t_idUsuario=:idUsuario ")
+			.addScalar("idEvaluacion", new IntegerType())
+			.addScalar("comentario", new StringType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("teIdEvaluacion", new IntegerType())
+			.addScalar("aspectoEstablecimiento", new IntegerType())
+			.addScalar("atencionCliente", new IntegerType())
+			.addScalar("eficienciaServicio", new IntegerType())
+			.addScalar("higieneEstablecimiento", new IntegerType())
+			.addScalar("relacionPrecioCalidad", new IntegerType())
+			.addScalar("accesibilidad", new IntegerType())
+			.addScalar("comunicacion", new IntegerType())
+			.addScalar("manejoIdiomas", new IntegerType())
+			.addScalar("senalamientoInterno", new IntegerType())
+			.addScalar("senalamientoExterno", new IntegerType())
+			.addScalar("sTIdServicioTuristico", new IntegerType())
+			.addScalar("promedio", new FloatType())
+			.setResultTransformer(Transformers.aliasToBean(Evaluacionservicioturistico.class))
+			.setParameter("idST", idST)
+			.setParameter("idUsuario", idUsuario);
+			
+			result = (List<Evaluacionservicioturistico>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		session.close();
+		return result;
 	}
 
-	public List<Evaluacionservicioturistico> getEvaluacionservicioturisticoByLimit( int first, int numRegistros )
+	public List<Evaluacionservicioturistico> getEvaluacionservicioturisticoByLimit( Integer first, Integer numRegistros )
 	{
 		log.debug("finding Pueblomagico instance by example");
 		List<Evaluacionservicioturistico> results = null;
@@ -213,48 +298,57 @@ public class EvaluacionservicioturisticoDAO
 		} catch (RuntimeException re)
 		{
 			log.error("find by example failed", re);
-			throw re;
+			re.printStackTrace();
 		}
+		session.close();
 		return results;
 	}
 	
-	public List<Evaluacionservicioturistico> getEvaluacionservicioturisticoByIdServicioAndByLimit( int id, int first, int numRegistros  )
+	public List<Evaluacionservicioturistico> getEvaluacionservicioturisticoByIdServicioAndByLimit( Integer id, Integer first, Integer numRegistros  )
 	{
 		List<Evaluacionservicioturistico> result = null;
 		Session session = sessionFactory.openSession();
 		
-		Query query = session.createSQLQuery("select e.idEvaluacion, e.comentario, "
-				+ "e.t_idUsuario as TIdUsuario, e.aspectoEstablecimiento, "
-				+ "e.atencionCliente, e.eficienciaServicio,"
-				+ "e.higieneEstablecimiento, e.relacionPrecioCalidad, "
-				+ "e.accesibilidad, e.comunicacion, e.manejoIdiomas,"
-				+ "e.senalamientoInterno, e.senalamientoExterno, "
-				+ "e.sT_idServicioTuristico as sTIdServicioTuristico, e.tE_idEvaluacion as teIdEvaluacion, "
-				+ "e.promedio "
-				+ "from evaluacionServicioTuristico e, servicioTuristico s	"
-				+ "where s.idServicioTuristico=e.sT_idServicioTuristico "
-				+ "and s.idServicioTuristico=:id "
-				+ "limit first, numRegistros")
-		.addScalar("idEvaluacion", new IntegerType())
-		.addScalar("comentario", new StringType())
-		.addScalar("TIdUsuario", new IntegerType())
-		.addScalar("teIdEvaluacion", new IntegerType())
-		.addScalar("aspectoEstablecimiento", new IntegerType())
-		.addScalar("atencionCliente", new IntegerType())
-		.addScalar("eficienciaServicio", new IntegerType())
-		.addScalar("higieneEstablecimiento", new IntegerType())
-		.addScalar("relacionPrecioCalidad", new IntegerType())
-		.addScalar("accesibilidad", new IntegerType())
-		.addScalar("comunicacion", new IntegerType())
-		.addScalar("manejoIdiomas", new IntegerType())
-		.addScalar("senalamientoInterno", new IntegerType())
-		.addScalar("senalamientoExterno", new IntegerType())
-		.addScalar("sTIdServicioTuristico", new IntegerType())
-		.addScalar("promedio", new FloatType())
-		.setResultTransformer(Transformers.aliasToBean(Evaluacionservicioturistico.class))
-		.setParameter("id", id);
-		
-		result = (List<Evaluacionservicioturistico>) query.list();
+		try
+		{
+			Query query = session.createSQLQuery("select e.idEvaluacion, e.comentario, "
+					+ "e.t_idUsuario as TIdUsuario, e.aspectoEstablecimiento, "
+					+ "e.atencionCliente, e.eficienciaServicio,"
+					+ "e.higieneEstablecimiento, e.relacionPrecioCalidad, "
+					+ "e.accesibilidad, e.comunicacion, e.manejoIdiomas,"
+					+ "e.senalamientoInterno, e.senalamientoExterno, "
+					+ "e.sT_idServicioTuristico as sTIdServicioTuristico, e.tE_idEvaluacion as teIdEvaluacion, "
+					+ "e.promedio "
+					+ "from evaluacionservicioturistico e, servicioturistico s	"
+					+ "where s.idServicioTuristico=e.sT_idServicioTuristico "
+					+ "and s.idServicioTuristico=:id "
+					+ "limit :first, :numRegistros")
+			.addScalar("idEvaluacion", new IntegerType())
+			.addScalar("comentario", new StringType())
+			.addScalar("TIdUsuario", new IntegerType())
+			.addScalar("teIdEvaluacion", new IntegerType())
+			.addScalar("aspectoEstablecimiento", new IntegerType())
+			.addScalar("atencionCliente", new IntegerType())
+			.addScalar("eficienciaServicio", new IntegerType())
+			.addScalar("higieneEstablecimiento", new IntegerType())
+			.addScalar("relacionPrecioCalidad", new IntegerType())
+			.addScalar("accesibilidad", new IntegerType())
+			.addScalar("comunicacion", new IntegerType())
+			.addScalar("manejoIdiomas", new IntegerType())
+			.addScalar("senalamientoInterno", new IntegerType())
+			.addScalar("senalamientoExterno", new IntegerType())
+			.addScalar("sTIdServicioTuristico", new IntegerType())
+			.addScalar("promedio", new FloatType())
+			.setResultTransformer(Transformers.aliasToBean(Evaluacionservicioturistico.class))
+			.setParameter("id", id)
+			.setParameter("first", first)
+			.setParameter("numRegistros", numRegistros);
+			
+			result = (List<Evaluacionservicioturistico>) query.list();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		session.close();
 		return result;
 	}
